@@ -1,0 +1,53 @@
+#!/bin/bash -e
+
+if [ "$EUID" -ne 0 ]; then
+  echo "This script must be run as root" 1>&2
+  exit 1
+fi
+
+export DEBIAN_FRONTEND=noninteractive
+
+apt-get update -y
+apt-get install -y \
+ bison \
+ build-essential \
+ cmake \
+ curl \
+ doxygen \
+ flex \
+ libboost-container-dev \
+ libboost-filesystem-dev \
+ libboost-serialization-dev \
+ libboost-stacktrace-dev \
+ libboost-system-dev \
+ libboost-thread-dev \
+ libgflags-dev \
+ libgoogle-glog-dev \
+ libicu-dev \
+ libjemalloc-dev \
+ libleveldb-dev \
+ libmsgpack-dev \
+ libmpdec-dev \
+ libnuma-dev \
+ libpq-dev \
+ libprotobuf-dev \
+ librocksdb-dev \
+ libssl-dev \
+ libtbb-dev \
+ lsb-release \
+ openjdk-11-jdk \
+ pkg-config \
+ protobuf-compiler \
+ ninja-build \
+ uuid-dev
+
+curl -OL https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb"
+
+apt-get install -y ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
+apt-get update -y
+apt-get install -y libparquet-dev=9.0.0-1 libparquet-glib-dev=9.0.0-1 libarrow-dev=9.0.0-1 libarrow-glib-dev=9.0.0-1 gir1.2-parquet-1.0=9.0.0-1 gir1.2-arrow-1.0=9.0.0-1
+
+rm -f ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
+
+echo "$(basename $0) successful."
+
