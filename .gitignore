@@ -1,0 +1,16 @@
+# CMake
+build/
+build-*/
+
+# MS Office
+~*
+
+# Mac
+.DS_Store
+
+# VSCode
+/.vscode
+
+# Tsurugi
+/.install
+BUILDINFO.md
