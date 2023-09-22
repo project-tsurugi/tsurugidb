@@ -3,7 +3,7 @@
 echo -e "\n[Install Tsurugi SQL Console]"
 
 cd ${TG_TSUBAKURO_DIR}
-./gradlew clean PublishMavenJavaPublicationToMavenLocal
+./gradlew clean PublishMavenJavaPublicationToMavenLocal -PskipBuildNative
 
 cd ${TG_TANZAWA_DIR}
 ./gradlew clean tanzawa-cli:assemble -PmavenLocal
