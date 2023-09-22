@@ -6,7 +6,7 @@ BUILD_TIMESTAMP=$(TZ=JST-9 date +"%Y%m%d%H%M")
 if [[ ${GITHUB_REF} =~ ^refs/tags/* ]]; then
   TSURUGI_VERSION=${GITHUB_REF_NAME}
 else
-  TSURUGIDB_SHORT_SHA=$(git -C ${_BASE_DIR} log --pretty="format:%h" -1 HEAD)
+  TSURUGIDB_SHORT_SHA=$(git -C ${TG_INSTALL_BASE_DIR} log --pretty="format:%h" -1 HEAD)
   TSURUGI_VERSION="snapshot-${BUILD_TIMESTAMP}-${TSURUGIDB_SHORT_SHA}"
 fi
 
