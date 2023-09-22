@@ -2,9 +2,6 @@
 
 _BASE_DIR=$1
 
-TSURUGIDB_SHORT_SHA=$(git -C ${_BASE_DIR} log --pretty="format:%h" -1 HEAD)
-export TSURUGIDB_SHORT_SHA
-
 _TATEYAMA_BOOTSTRAP_DIR="${_BASE_DIR}/tateyama-bootstrap"
 _JOGASAKI_DIR="${_BASE_DIR}/jogasaki"
 _OGAWAYAMA_DIR="${_BASE_DIR}/ogawayama"
