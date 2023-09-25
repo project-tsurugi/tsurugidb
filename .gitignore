@@ -12,5 +12,7 @@ build-*/
 /.vscode
 
 # Tsurugi
+tsurugidb-*.tar.gz
+/.build
 /.install
 BUILDINFO.md

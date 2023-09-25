@@ -29,6 +29,14 @@ done
 if [ "${_INSTALL_PREFIX}" = "" ]; then
   _INSTALL_PREFIX="/usr/lib"
 fi
+if [[ ! "$_INSTALL_PREFIX" = /* ]]; then
+  echo "[ERROR] --prefix=path must be an absolute path." 1>&2
+  exit 1
+fi
+if [ ! -d "${_INSTALL_PREFIX}" ]; then
+  echo "[ERROR] --prefix=${_INSTALL_PREFIX} is not exist" 1>&2
+  exit 1
+fi
 
 if [ "${_BUILD_TYPE}" = "" ]; then
   _BUILD_TYPE="RelWithDebInfo"
