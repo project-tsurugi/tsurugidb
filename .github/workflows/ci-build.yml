@@ -1,0 +1,33 @@
+name: tsurugidb-CI
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  Build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04]
+    runs-on: [self-hosted, docker]
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/oltp-sandbox:${{ matrix.os }}
+      credentials:
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GHCR_PAT }}
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.GHA_PAT }}
+
