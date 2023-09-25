@@ -17,6 +17,7 @@ jobs:
         password: ${{ secrets.GHCR_PAT }}
       volumes:
         - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+        - ${{ vars.gradle_cache_dir }}:/root/.gradle
     defaults:
       run:
         shell: bash
@@ -31,3 +32,22 @@ jobs:
           submodules: recursive
           token: ${{ secrets.GHA_PAT }}
 
+      - name: Install
+        run: |
+          git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+
+          mkdir build-install-test
+          ./install.sh --prefix="$(pwd)/build-install-test"
+        env:
+          TG_COMMON_CMAKE_BUILD_OPTIONS: '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
+
+      - name: Generate_Install_Archive
+        run: |
+          ./dist/install/generate-install-archive.sh
+
+      - name: Upload_Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: install-archive
+          path: tsurugidb-*.tar.gz
+          retention-days: 1
