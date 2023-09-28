@@ -1,0 +1,768 @@
+name: tsurugidb-CI-Test-Modules
+
+on:
+  workflow_dispatch:
+    inputs:
+      targets:
+        type: string
+        description: 'Target submodule names enclosed in @ (ex. "@shirakami @jogasaki@"). "@all@" runs test of all submodules.'
+  workflow_call:
+    inputs:
+      targets:
+        type: string
+        description: 'Target submodule names enclosed in @ (ex. "@shirakami @jogasaki@"). "@all@" runs test of all submodules.'
+
+jobs:
+  Extract_Target:
+    runs-on: [self-hosted, docker]
+    timeout-minutes: 10
+    container:
+      image: ghcr.io/project-tsurugi/oltp-sandbox:ubuntu-22.04
+      credentials:
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GHCR_PAT }}
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    outputs:
+      target: ${{ steps.Get_Test_Target.outputs.target }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GHA_PAT }}
+          path: build/temp
+          fetch-depth: 0
+
+      - id: Get_Test_Target
+        name: Get_Test_Target
+        run: |
+          set -x
+          _TARGETS=${{ inputs.targets }}
+          if [ "$_TARGETS" == "" ]; then
+            _TARGETS=$(build/temp/.github/workflows/scripts/get-diff-downstream.sh build/temp)
+          fi
+          echo "target=$_TARGETS" >> $GITHUB_OUTPUT
+
+  Takatori:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@takatori@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: CMake_Build
+        working-directory: takatori
+        run: |
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: takatori
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'takatori/build/**/*_gtest_result.xml'
+
+  Shakujo:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@shakujo@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: CMake_Build
+        working-directory: shakujo
+        run: |
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: shakujo
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'shakujo/build/**/*_gtest_result.xml'
+
+  Yugawara:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@yugawara@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Install_Dependencies
+        uses: ./yugawara/.github/actions/install-dependencies
+        with:
+          token: ${{ secrets.GHA_PAT }}
+          checkout: false
+          base_dir: '.'
+
+      - name: CMake_Build
+        working-directory: yugawara
+        run: |
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: yugawara
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'yugawara/build/**/*_gtest_result.xml'
+
+  Mizugaki:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@mizugaki@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Install_Dependencies
+        uses: ./mizugaki/.github/actions/install-dependencies
+        with:
+          token: ${{ secrets.GHA_PAT }}
+          checkout: false
+          base_dir: '.'
+
+      - name: CMake_Build
+        working-directory: mizugaki
+        run: |
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/.local -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: mizugaki
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'mizugaki/build/**/*_gtest_result.xml'
+
+  Limestone:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@limestone@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: CMake_Build
+        working-directory: limestone
+        run: |
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DRECOVERY_SORTER_KVSLIB=ROCKSDB -DRECOVERY_SORTER_PUT_ONLY=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: limestone
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'limestone/build/**/*_gtest_result.xml'
+
+  Yakushima:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@yakushima@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: CMake_Build
+        working-directory: yakushima
+        run: |
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DFORCE_INSTALL_RPATH=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/.local -DPERFORMANCE_TOOLS=OFF ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: yakushima
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose --timeout 100 -j 100
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'yakushima/build/**/*_gtest_result.xml'
+
+  Shirakami:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@shirakami@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Install_Dependencies
+        uses: ./shirakami/.github/actions/install-dependencies
+        with:
+          token: ${{ secrets.GHA_PAT }}
+          checkout: false
+          base_dir: '.'
+
+      - name: CMake_Build
+        working-directory: shirakami
+        run: |
+          mkdir -p build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_PWAL=OFF ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: shirakami
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose --timeout 200 -j 20
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'shirakami/build/**/*_gtest_result.xml'
+
+  Sharksfin:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@sharksfin@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Install_Dependencies
+        uses: ./sharksfin/.github/actions/install-dependencies
+        with:
+          token: ${{ secrets.GHA_PAT }}
+          checkout: false
+          base_dir: '.'
+
+      - name: CMake_Build
+        working-directory: sharksfin
+        run: |
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: sharksfin
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose --timeout 100 -j 20
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'sharksfin/build/**/*_gtest_result.xml'
+
+  Tateyama:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@tateyama@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Install_Dependencies
+        uses: ./tateyama/.github/actions/install-dependencies
+        with:
+          token: ${{ secrets.GHA_PAT }}
+          checkout: false
+          base_dir: '.'
+
+      - name: CMake_Build
+        working-directory: tateyama
+        run: |
+          rm -rf build
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DSHARKSFIN_IMPLEMENTATION=shirakami -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: tateyama
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'tateyama/build/**/*_gtest_result.xml'
+
+  Jogasaki:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@jogasaki@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Install_Dependencies
+        uses: ./jogasaki/.github/actions/install-dependencies
+        with:
+          token: ${{ secrets.GHA_PAT }}
+          sharksfin-implementation: shirakami
+          checkout: false
+          base_dir: '.'
+
+      - name: CMake_Build
+        working-directory: jogasaki
+        run: |
+          rm -rf build
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DSHARKSFIN_IMPLEMENTATION=shirakami -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: jogasaki
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose --timeout 120 -j 20
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'jogasaki/build/**/*_gtest_result.xml'
+
+  Ogawayama:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@ogawayama@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Install_Dependencies
+        uses: ./ogawayama/.github/actions/install-dependencies
+        with:
+          token: ${{ secrets.GHA_PAT }}
+          sharksfin-implementation: shirakami
+          checkout: false
+          base_dir: '.'
+
+      - name: CMake_Build
+        working-directory: ogawayama
+        run: |
+          rm -rf build
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DSHARKSFIN_IMPLEMENTATION=shirakami -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: ogawayama
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_odr_violation=0
+        run: |
+          export LD_LIBRARY_PATH=${GITHUB_WORKSPACE}/.local/lib
+          cd build
+          ctest --verbose
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'ogawayama/build/**/*_gtest_result.xml'
+
+  Tateyama_Bootstrap:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@tateyama-bootstrap@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Install_Dependencies
+        uses: ./tateyama-bootstrap/.github/actions/install-dependencies
+        with:
+          token: ${{ secrets.GHA_PAT }}
+          sharksfin-implementation: shirakami
+          checkout: false
+          base_dir: '.'
+
+      - name: CMake_Install
+        working-directory: tateyama-bootstrap
+        run: |
+          rm -rf build
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DSHARKSFIN_IMPLEMENTATION=shirakami -DOGAWAYAMA=ON -DFORCE_INSTALL_RPATH=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/.local ..
+          cmake --build . --target install --clean-first
+
+      - name: CTest
+        working-directory: tateyama-bootstrap
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          export PATH=$PATH:${GITHUB_WORKSPACE}/.local/bin
+          cd build
+          ctest --verbose
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'tateyama-bootstrap/build/**/*_gtest_result.xml'
+
+  Tsubakuro:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@tsubakuro@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF8
+
+    steps:
+      - name: Setup_Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Apt_Install
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y git build-essential cmake libboost-system-dev
+
+      - name: Check
+        working-directory: tsubakuro
+        run: |
+          ./gradlew -i check
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          junit_input: 'tsubakuro/**/build/test-results/**/TEST-*.xml'
+          junit_test_src_dir: 'tsubakuro/src/test/java'
+
+  Tanzawa:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@tanzawa@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      JAVA_TOOL_OPTIONS: -Dfile.encoding=UTF8
+
+    steps:
+      - name: Setup_Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GHA_PAT }}
+
+      - name: Check
+        working-directory: tanzawa
+        run: |
+          ./gradlew -i check
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          junit_input: 'tanzawa/**/build/test-results/**/TEST-*.xml'
+          junit_test_src_dir: 'tanzawa/src/test/java'

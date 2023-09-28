@@ -51,3 +51,9 @@ jobs:
           name: install-archive
           path: tsurugidb-*.tar.gz
           retention-days: 1
+
+  Test:
+    uses: ./.github/workflows/ci-test-modules.yml
+    secrets: inherit
+    permissions:
+      checks: write
