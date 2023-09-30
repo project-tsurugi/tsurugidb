@@ -107,6 +107,12 @@ fi
 
 ${_SCRIPTS_DIR}/install-server.sh
 
+if [ -f "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" ]; then
+  cp -a "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" "${TG_INSTALL_DIR}/lib"
+else
+  ${_SCRIPTS_DIR}/generate-tsurugi-info.sh > "${TG_INSTALL_DIR}/lib/tsurugi-info.json"
+fi
+
 if [[ ! ${TG_SKIP_INSTALL} == *"tanzawa"* ]]; then
   ${_SCRIPTS_DIR}/install-tanzawa-cli.sh
 fi

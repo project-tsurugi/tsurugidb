@@ -17,6 +17,8 @@ git submodule foreach --recursive git clean -ffdx
 mkdir .install
 
 ./dist/install/generate-buildinfo.sh > .install/BUILDINFO.md
+./dist/install/generate-tsurugi-info.sh > .install/tsurugi-info.json
+
 cp -a .install/BUILDINFO.md .
 echo "$(git -C ${TG_TSUBAKURO_DIR} log --pretty="format:%H" -1 HEAD)" > .install/TSUBAKURO_VERSION
 TSURUGI_VERSION=$(grep -oP '(?<=^TSURUGI_VERSION:).*' ${TG_INSTALL_BASE_DIR}/BUILDINFO.md)
