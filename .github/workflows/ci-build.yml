@@ -42,15 +42,17 @@ jobs:
           TG_COMMON_CMAKE_BUILD_OPTIONS: '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
 
       - name: Generate_Install_Archive
+        if: ${{ matrix.os == 'ubuntu-22.04' }}
         run: |
           ./dist/install/generate-install-archive.sh
 
       - name: Upload_Artifact
+        if: ${{ matrix.os == 'ubuntu-22.04' }}
         uses: actions/upload-artifact@v3
         with:
           name: install-archive
           path: tsurugidb-*.tar.gz
-          retention-days: 1
+          retention-days: 30
 
   Test:
     uses: ./.github/workflows/ci-test-modules.yml
