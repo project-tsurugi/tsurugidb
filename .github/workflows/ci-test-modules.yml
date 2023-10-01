@@ -173,7 +173,7 @@ jobs:
         with:
           token: ${{ secrets.GHA_PAT }}
           checkout: false
-          base_dir: '.'
+          path: '.'
 
       - name: CMake_Build
         working-directory: yugawara
@@ -228,7 +228,7 @@ jobs:
         with:
           token: ${{ secrets.GHA_PAT }}
           checkout: false
-          base_dir: '.'
+          path: '.'
 
       - name: CMake_Build
         working-directory: mizugaki
@@ -379,7 +379,7 @@ jobs:
         with:
           token: ${{ secrets.GHA_PAT }}
           checkout: false
-          base_dir: '.'
+          path: '.'
 
       - name: CMake_Build
         working-directory: shirakami
@@ -434,7 +434,7 @@ jobs:
         with:
           token: ${{ secrets.GHA_PAT }}
           checkout: false
-          base_dir: '.'
+          path: '.'
 
       - name: CMake_Build
         working-directory: sharksfin
@@ -489,7 +489,7 @@ jobs:
         with:
           token: ${{ secrets.GHA_PAT }}
           checkout: false
-          base_dir: '.'
+          path: '.'
 
       - name: CMake_Build
         working-directory: tateyama
@@ -546,7 +546,7 @@ jobs:
           token: ${{ secrets.GHA_PAT }}
           sharksfin-implementation: shirakami
           checkout: false
-          base_dir: '.'
+          path: '.'
 
       - name: CMake_Build
         working-directory: jogasaki
@@ -603,7 +603,7 @@ jobs:
           token: ${{ secrets.GHA_PAT }}
           sharksfin-implementation: shirakami
           checkout: false
-          base_dir: '.'
+          path: '.'
 
       - name: CMake_Build
         working-directory: ogawayama
@@ -661,7 +661,7 @@ jobs:
           token: ${{ secrets.GHA_PAT }}
           sharksfin-implementation: shirakami
           checkout: false
-          base_dir: '.'
+          path: '.'
 
       - name: CMake_Install
         working-directory: tateyama-bootstrap
