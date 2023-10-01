@@ -31,7 +31,7 @@ cmake -G Ninja -DCMAKE_BUILD_TYPE=${TG_CMAKE_BUILD_TYPE} -DCMAKE_CXX_FLAGS_RELWI
 cmake --build . --target install --parallel ${TG_CMAKE_BUILD_PARALLEL} -- ${TG_COMMON_BUILD_TOOL_OPTIONS}
 
 echo -e "\n[Install hopscotch-map]"
-cd "${TG_YUGAWARA_DIR}/third_party/hopscotch-map"
+cd "${TG_INSTALL_BASE_DIR}/third_party/hopscotch-map"
 if [ "clean" = "${TG_CLEAN_BUILD}" ]; then
   rm -fr ../../build-hopscotch-map
 fi
@@ -111,7 +111,7 @@ cmake -G Ninja -DCMAKE_BUILD_TYPE=${TG_CMAKE_BUILD_TYPE} -DCMAKE_CXX_FLAGS_RELWI
 cmake --build . --target install --parallel ${TG_CMAKE_BUILD_PARALLEL} -- ${TG_COMMON_BUILD_TOOL_OPTIONS}
 
 echo -e "\n[Install moodycamel::ConcurrentQueue]"
-cd "${TG_TATEYAMA_DIR}/third_party/concurrentqueue"
+cd "${TG_INSTALL_BASE_DIR}/third_party/concurrentqueue"
 if [ "clean" = "${TG_CLEAN_BUILD}" ]; then
   rm -fr ../../build-concurrentqueue
 fi
