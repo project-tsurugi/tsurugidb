@@ -49,3 +49,9 @@
 [submodule "harinoki"]
 	path = harinoki
 	url = git@github.com:project-tsurugi/harinoki.git
+[submodule "third_party/hopscotch-map"]
+	path = third_party/hopscotch-map
+	url = https://github.com/Tessil/hopscotch-map.git
+[submodule "third_party/concurrentqueue"]
+	path = third_party/concurrentqueue
+	url = https://github.com/cameron314/concurrentqueue.git
