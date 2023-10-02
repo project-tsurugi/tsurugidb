@@ -75,6 +75,7 @@ jobs:
       - name: CMake_Build
         working-directory: takatori
         run: |
+          rm -fr build
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
@@ -123,6 +124,7 @@ jobs:
       - name: CMake_Build
         working-directory: shakujo
         run: |
+          rm -fr build
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
@@ -178,6 +180,7 @@ jobs:
       - name: CMake_Build
         working-directory: yugawara
         run: |
+          rm -fr build
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local ..
@@ -233,6 +236,7 @@ jobs:
       - name: CMake_Build
         working-directory: mizugaki
         run: |
+          rm -fr build
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/.local -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local ..
@@ -281,6 +285,7 @@ jobs:
       - name: CMake_Build
         working-directory: limestone
         run: |
+          rm -fr build
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DRECOVERY_SORTER_KVSLIB=ROCKSDB -DRECOVERY_SORTER_PUT_ONLY=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
@@ -329,6 +334,7 @@ jobs:
       - name: CMake_Build
         working-directory: yakushima
         run: |
+          rm -fr build
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DFORCE_INSTALL_RPATH=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/.local -DPERFORMANCE_TOOLS=OFF ..
@@ -384,6 +390,7 @@ jobs:
       - name: CMake_Build
         working-directory: shirakami
         run: |
+          rm -fr build
           mkdir -p build
           cd build
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_PWAL=OFF ..
@@ -439,6 +446,7 @@ jobs:
       - name: CMake_Build
         working-directory: sharksfin
         run: |
+          rm -fr build
           mkdir build
           cd build
           cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local ..
@@ -721,7 +729,7 @@ jobs:
       - name: Check
         working-directory: tsubakuro
         run: |
-          ./gradlew -i check
+          ./gradlew -i clean check
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v1
@@ -758,7 +766,7 @@ jobs:
       - name: Check
         working-directory: tanzawa
         run: |
-          ./gradlew -i check
+          ./gradlew -i clean heck
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v1
