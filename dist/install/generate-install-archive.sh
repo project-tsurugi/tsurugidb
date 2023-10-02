@@ -21,7 +21,9 @@ mkdir .install
 
 cp -a .install/BUILDINFO.md .
 echo "$(git -C ${TG_TSUBAKURO_DIR} log --pretty="format:%H" -1 HEAD)" > .install/TSUBAKURO_VERSION
-TSURUGI_VERSION=$(grep -oP '(?<=^TSURUGI_VERSION:).*' ${TG_INSTALL_BASE_DIR}/BUILDINFO.md)
+if [ "${TSURUGI_VERSION}" = "" ]; then
+  TSURUGI_VERSION=$(grep -oP '(?<=^TSURUGI_VERSION:).*' ${TG_INSTALL_BASE_DIR}/BUILDINFO.md)
+fi
 
 BUILD_WORK_DIR="$TG_INSTALL_BASE_DIR/.build"
 ARCHIVE_FILE_NAME="tsurugidb-${TSURUGI_VERSION}.tar.gz"

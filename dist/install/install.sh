@@ -52,9 +52,10 @@ if [ -f "${TG_INSTALL_BASE_DIR}/.install/BUILDINFO.md" ]; then
 else
   ${_SCRIPTS_DIR}/generate-buildinfo.sh > ${TG_INSTALL_BASE_DIR}/BUILDINFO.md
 fi
-
-TSURUGI_VERSION=$(grep -oP '(?<=^TSURUGI_VERSION:).*' ${TG_INSTALL_BASE_DIR}/BUILDINFO.md)
-export TSURUGI_VERSION
+if [ "${TSURUGI_VERSION}" = "" ]; then
+  TSURUGI_VERSION=$(grep -oP '(?<=^TSURUGI_VERSION:).*' ${TG_INSTALL_BASE_DIR}/BUILDINFO.md)
+  export TSURUGI_VERSION
+fi
 export TG_INSTALL_DIR=${_INSTALL_PREFIX}/tsurugi-${TSURUGI_VERSION}
 
 export TSURUGI_BASE=${TG_INSTALL_DIR}/var
