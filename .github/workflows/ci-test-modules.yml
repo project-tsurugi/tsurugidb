@@ -719,6 +719,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          submodules: true
           token: ${{ secrets.GHA_PAT }}
 
       - name: Apt_Install
@@ -761,6 +762,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          submodules: true
           token: ${{ secrets.GHA_PAT }}
 
       - name: Check
