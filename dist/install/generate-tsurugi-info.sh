@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-_BUILD_TIMESTAMP=$(TZ=JST-9 date +"%Y%m%d%H%M")
+_BUILD_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%MZ")
 
 if [ -n "${GITHUB_WORKSPACE}" ]; then
   git config --global --add safe.directory "$GITHUB_WORKSPACE"
@@ -17,7 +17,7 @@ if [ "${TSURUGI_VERSION}" = "" ]; then
     _TSURUGI_TAG=$(git tag -l --contains ${_TSURUGIDB_SHA} | tail -1)
   fi
   if [ "${_TSURUGI_TAG}" = "" ]; then
-    TSURUGI_VERSION="snapshot-${_BUILD_TIMESTAMP}-${_TSURUGIDB_SHORT_SHA}"
+    TSURUGI_VERSION="snapshot-${_BUILD_TIMESTAMP//[TZ:-]/}-${_TSURUGIDB_SHORT_SHA}"
   else
     TSURUGI_VERSION="${_TSURUGI_TAG}"
   fi

@@ -1,14 +1,14 @@
 #!/bin/bash -e
 
 PROJECT_URL=https://github.com/project-tsurugi
-BUILD_TIMESTAMP=$(TZ=JST-9 date +"%Y%m%d%H%M")
+BUILD_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%MZ")
 
 if [ "${TSURUGI_VERSION}" = "" ]; then
   if [[ ${GITHUB_REF} =~ ^refs/tags/* ]]; then
     TSURUGI_VERSION=${GITHUB_REF_NAME}
   else
     TSURUGIDB_SHORT_SHA=$(git -C ${TG_INSTALL_BASE_DIR} log --pretty="format:%h" -1 HEAD)
-    TSURUGI_VERSION="snapshot-${BUILD_TIMESTAMP}-${TSURUGIDB_SHORT_SHA}"
+    TSURUGI_VERSION="snapshot-${BUILD_TIMESTAMP//[TZ:-]/}-${TSURUGIDB_SHORT_SHA}"
   fi
 fi
 
