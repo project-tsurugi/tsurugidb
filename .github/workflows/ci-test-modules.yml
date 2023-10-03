@@ -69,6 +69,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          token: ${{ secrets.GHA_PAT }}
           submodules: recursive
 
       - name: CMake_Build
@@ -117,6 +118,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          token: ${{ secrets.GHA_PAT }}
           submodules: recursive
 
       - name: CMake_Build
@@ -165,6 +167,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          token: ${{ secrets.GHA_PAT }}
           submodules: recursive
 
       - name: Install_Dependencies
@@ -219,6 +222,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
+          token: ${{ secrets.GHA_PAT }}
           submodules: recursive
 
       - name: Install_Dependencies
