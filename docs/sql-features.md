@@ -42,7 +42,7 @@ note:
 ### Index definition
 
 ```txt
-CREATE INDEX [<options>] [<index-name>] ON <table-name> (<index-element> [, <index-element> [, ...]])
+CREATE INDEX [<options>] <index-name> ON <table-name> (<index-element> [, <index-element> [, ...]])
 
 <index-options>:
   IF NOT EXISTS
@@ -121,6 +121,7 @@ This version does not support sub-queries.
 * `SUM([DISTINCT|ALL] <expression>)`
 * `MAX(<expression>)`
 * `MIN(<expression>)`
+* `AVG(<expression>)`
 
 ### Cast conversions
 
@@ -148,16 +149,12 @@ If the above conversion rules are not enough, you can put an explicit cast expre
 * `REAL`
 * `DOUBLE PRECISION` (`DOUBLE`)
 * `DECIMAL(p, s)`
-  * `p` - number of digits (precision, `0~38` or `*` to use the max precision)
+  * `p` - number of digits (precision, `1~38` or `*` to use the max precision)
   * `s` - number of decimal places (scale, `0~p`)
 * `CHAR(s)`
   * `s` - number of **octets** in UTF-8
 * `VARCHAR(s)`
   * `s` - number of **octets** in UTF-8, or `*` to ensure maximum capacity
-* `BINARY(s)`
-  * `s` - number of octets
-* `VARBINARY(s)`
-  * `s` - number of octets, or `*` to ensure maximum capacity
 * `DATE`
 * `TIME`
 * `TIME WITH TIME ZONE`
