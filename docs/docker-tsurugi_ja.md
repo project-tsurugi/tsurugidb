@@ -20,7 +20,6 @@ Tsurugi DockerイメージはGitHub Container Registry上で公開していま�
 
 - https://github.com/project-tsurugi/tsurugidb/pkgs/container/tsurugidb
 
-
 ## Tsurugi Dockerコンテナの利用方法
 
 以下、Tsurugi Dockerコンテナの実行例です。
@@ -28,31 +27,26 @@ Tsurugi DockerイメージはGitHub Container Registry上で公開していま�
 
 #### Dockerコンテナの起動
 
-* `docker container run` でDockerコンテナを起動
+`docker container run` でDockerコンテナを起動します。
+TsurugiサーバのデフォルトTCPポート `12345` をホスト側にポート `12345` として公開します。
 
-```
+```sh
 $ docker container run -d -p 12345:12345 --name tsurugi ghcr.io/project-tsurugi/tsurugidb
 ```
 
-* オプション
-  * `-d`: フォアグラウンドモードでは起動した後ターミナルが操作不能になるため、デタッチドモードを指定してください。
-  * `-p 12345:12345`: TsurugiサーバのデフォルトTCPポート `12345` をホスト側にポート `12345` として公開します。
-  * `--name tsurugi`: コンテナ名に `tsurugi`を指定
-
 #### Dockerコンテナの状態確認
 
-* `docker container ls` でDockerコンテナの状態を確認
+`docker container ls` でDockerコンテナの状態を確認します。
 
 ```sh
 $ docker container ls -a
-$ sudo docker container ls -a
 CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS                    PORTS                                           NAMES
 4b9d9866c8f0   ghcr.io/project-tsurugi/tsurugidb   "docker-entrypoint.sh"   13 seconds ago   Up 8 seconds              0.0.0.0:12345->12345/tcp, :::12345->12345/tcp   tsurugi
 ```
 
 #### Tsurugiサーバのログを確認
 
-* `docker container logs` でDockerコンテナの状態を表示、 `-f` オプションで追跡
+`docker container logs` でDockerコンテナの状態を表示します。
 
 ```sh
 $ docker container logs -f tsurugi
@@ -64,9 +58,9 @@ TSURUGI_VERSION:1.X.X
 
 #### Dockerコンテナを停止とクリーンアップ
 
-* `docker container stop` でDockerコンテナを停止
+`docker container stop` でDockerコンテナを停止します。
 
-```
+```sh
 $ docker container stop tsurugi
 tsurugi
 ```
@@ -81,7 +75,7 @@ Tsurugiサーバに対してクライアントから接続する方法は主に�
 
 Dockerコンテナの内部から接続（つまりローカル接続）する場合は、IPC接続経由で接続してください。IPC接続は共有メモリを介した高速が通信環境を提供します。
 
-Dockerコンテナ上には標準のクライアントとして Tsurugi CLI (`tgsql` コマンド) が同梱されています。
+Dockerコンテナ上には標準のクライアントとして Tsurugi SQLコンソール (`tgsql` コマンド) が同梱されています。`tgsql` コマンドを使ってSQLの実行などが可能です。
 
 ```sh
 $ docker container exec -it tsurugi bash
@@ -98,7 +92,6 @@ tgsql>
 ```
 
 その他のクライアントアプリケーションをIPC接続経由で実行する場合は、Dockerコンテナ上にアプリケーションの実行環境一式を配置する必要があります。
-
 
 ### コンテナの外部から接続
 
