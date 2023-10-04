@@ -19,7 +19,7 @@ This includes the below significant limitations as below:
 
 * Default commit setting does not guarantee the committed data are durable, they will be saved to disks a short time after (about tens to hundreds of milliseconds)
 
-  This is for performance reason: several workloads involving large numbers of small transactions slowed down dramatically.
+  * You can change this setting ([tsurugi.ini](dist/install/conf/tsurugi.ini)) by `commit_response` in `[sql]` section. The current setting is `AVAILABLE` (committed data is visible for other transactions), and we planed it to be `STORED` (committed data has been saved on the local disk).
 
 * Available SQL features are very limited, please see [available feature list](docs/sql-features.md).
 * User control does not work, including authentications and authorizations.
