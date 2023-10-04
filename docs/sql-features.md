@@ -76,7 +76,6 @@ note:
   * `CROSS JOIN`
   * `LEFT OUTER JOIN`
   * `RIGHT OUTER JOIN`
-  * `CROSS JOIN`
 * `WHERE <condition>`
 * `ORDER BY <column-list>`
 * `GROUP BY <column-list>`
