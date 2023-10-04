@@ -381,7 +381,6 @@ jobs:
       - name: Install_Dependencies
         uses: ./shirakami/.github/actions/install-dependencies
         with:
-          token: ${{ secrets.GHA_PAT }}
           checkout: false
           path: '.'
 
