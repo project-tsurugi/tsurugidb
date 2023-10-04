@@ -18,9 +18,6 @@ Please open `Assets` of each release on the release page and download `tsurugidb
 
 **Note: The `Source code (zip)` or `Source code (tar.gz)` in `Assets` are automatically generated links by GitHub, and these archives does not contain files needed for installation.**
 
-ダウンロードしたインストールアーカイブを任意のディレクトリで解凍します。
-このディレクトリは作業用ディレクトリであり、インストールディレクトリはインストール手順の中で別途指定します。
-
 Please unzip the downloaded installation archive into any directory.
 This is a working directory; the installation directory will be specified at another time during the installation procedure.
 
