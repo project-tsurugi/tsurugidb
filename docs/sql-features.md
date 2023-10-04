@@ -52,8 +52,10 @@ CREATE INDEX <index-name> ON <table-name> (<index-element> [, <index-element> [,
 * `SELECT ...`
 * `INSERT INTO <table> VALUES ...`
 * `INSERT OR REPLACE INTO <table> VALUES ...`
-  * This will puts a row to the table even if the target row is already exists
+  * This will put a row to the table even if the target row already exists (i.e. primary key conflicts)
   * Limitation: the target table must not have any secondary indices
+* `INSERT IF NOT EXISTS INTO <table> VALUES ...`
+  * This will put a row only if the target row doesn't exists. Unlike INSERT INTO statement, no error occurs even if target row exists.
 * `UPDATE <table> SET ... WHERE ...`
 * `DELETE FROM <table> WHERE ...`
 
