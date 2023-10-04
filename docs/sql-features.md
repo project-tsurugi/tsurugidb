@@ -219,6 +219,6 @@ This version does not support temporal value literals (e.g. `TIMESTAMP '2000-01-
   * `EXISTS`
   * `IN` with sub-queries
 * Types
-  * `TINYINT`/`SMALLINT`
-  * `BOOLEAN`
   * `BINARY`
+  * `BOOLEAN`
+  * `TINYINT`/`SMALLINT`
