@@ -25,7 +25,7 @@ Tsurugi DockerイメージはGitHub Container Registry上で公開していま�
 以下、Tsurugi Dockerコンテナの実行例です。
 ここで紹介する方法以外 ( docker-compose 上で利用するなど ) で利用しても問題ありません。
 
-#### Dockerコンテナの起動
+### Dockerコンテナの起動
 
 `docker container run` でDockerコンテナを起動します。
 TsurugiサーバのデフォルトTCPポート `12345` をホスト側にポート `12345` として公開します。
@@ -34,7 +34,7 @@ TsurugiサーバのデフォルトTCPポート `12345` をホスト側にポー�
 $ docker container run -d -p 12345:12345 --name tsurugi ghcr.io/project-tsurugi/tsurugidb
 ```
 
-#### Dockerコンテナの状態確認
+### Dockerコンテナの状態確認
 
 `docker container ls` でDockerコンテナの状態を確認します。
 
@@ -44,9 +44,9 @@ CONTAINER ID   IMAGE                               COMMAND                  CREA
 4b9d9866c8f0   ghcr.io/project-tsurugi/tsurugidb   "docker-entrypoint.sh"   13 seconds ago   Up 8 seconds              0.0.0.0:12345->12345/tcp, :::12345->12345/tcp   tsurugi
 ```
 
-#### Tsurugiサーバのログを確認
+### Tsurugiサーバのログを確認
 
-`docker container logs` でDockerコンテナの状態を表示します。
+`docker container logs` でTsurugiサーバのログを表示します。
 
 ```sh
 $ docker container logs -f tsurugi
@@ -56,7 +56,7 @@ TSURUGI_VERSION:1.X.X
 ...
 ```
 
-#### Dockerコンテナを停止とクリーンアップ
+### Dockerコンテナの停止とクリーンアップ
 
 `docker container stop` でDockerコンテナを停止します。
 
@@ -65,15 +65,16 @@ $ docker container stop tsurugi
 tsurugi
 ```
 
-#### Dockerコンテナへの接続
+## Dockerコンテナへの接続
 
 Tsurugiサーバに対してクライアントから接続する方法は主に以下の2つの形式があります。
-* コンテナの内部から接続する
-* コンテナの外部から接続する
+
+- コンテナの内部から接続する
+- コンテナの外部から接続する
 
 ### コンテナの内部から接続
 
-Dockerコンテナの内部から接続（つまりローカル接続）する場合は、IPC接続経由で接続してください。IPC接続は共有メモリを介した高速が通信環境を提供します。
+Dockerコンテナの内部から接続（つまりローカル接続）する場合は、IPC接続経由で接続してください。IPC接続は共有メモリを介した高速な通信環境を提供します。
 
 Dockerコンテナ上には標準のクライアントとして Tsurugi SQLコンソール (`tgsql` コマンド) が同梱されています。`tgsql` コマンドを使ってSQLの実行などが可能です。
 
@@ -102,17 +103,17 @@ Dockerイメージをコンテナとして実行する際に、Tsurugiサーバ�
 
 外部のJavaクライアント(TsubakuroやIceaxeのAPIを利用するアプリケーション)からは、接続セッションを構築するAPIで指定するエンドポイントにDockerコンテナのホストとポートを指定して接続してください。
 
-### Tsurugi Dockerコンテナの様々な実行方法
+## Tsurugi Dockerコンテナの様々な実行方法
 
-#### Tsurugiのログレベル指定
+### Tsurugiのログレベル指定
 
-環境変数 GLOG_xx 経由でログ設定を指定して起動します。
+環境変数 `GLOG_xx`` 経由でログ設定を指定して起動します。
 
 ```sh
 $ docker container run -d -p 12345:12345 --name tsurugi -e GLOG_v=30 ghcr.io/project-tsurugi/tsurugidb
 ```
 
-#### 設定ファイルを指定
+### 設定ファイルを指定
 
 TsurugiサーバはDockerコンテナ上の `/usr/lib/tsurugi` 配下にインストールされています。
 構成ファイルを指定して起動する場合、ホスト環境に用意した構成ファイルのディレクトリをボリュームマウントして起動します。
