@@ -112,7 +112,7 @@ This version does not support sub-queries.
 
 * `COUNT(*)`
 * `COUNT([DISTINCT|ALL] <expression>)`
-* `SUM([DISTINCT|ALL] <expression>)`
+* `SUM(<expression>)`
 * `MAX(<expression>)`
 * `MIN(<expression>)`
 * `AVG(<expression>)`
