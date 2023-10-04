@@ -603,7 +603,6 @@ jobs:
       - name: Install_Dependencies
         uses: ./ogawayama/.github/actions/install-dependencies
         with:
-          token: ${{ secrets.GHA_PAT }}
           sharksfin-implementation: shirakami
           checkout: false
           path: '.'
@@ -661,7 +660,6 @@ jobs:
       - name: Install_Dependencies
         uses: ./tateyama-bootstrap/.github/actions/install-dependencies
         with:
-          token: ${{ secrets.GHA_PAT }}
           sharksfin-implementation: shirakami
           checkout: false
           path: '.'
