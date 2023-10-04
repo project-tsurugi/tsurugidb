@@ -1,6 +1,7 @@
 # Available SQL features in Tsurugi
 
 In the latest release, Tsurugi SQL features are very limited.
+The planned features are listed [here](#planned-features).
 
 ## Definitions (DDL)
 
@@ -181,3 +182,40 @@ Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast
 note:
 
 This version does not support temporal value literals (e.g. `TIMESTAMP '2000-01-01'`). You can specify such values using placeholders from Tsubakuro or Iceaxe.
+
+## Planned features
+
+### Highest
+
+* Statements
+  * `INSERT INTO ... SELECT ...`
+* Queries
+  * `LIMIT` clause
+  * `HAVING` clause
+* Expressions
+  * `BETWEEN`
+  * `IN`
+  * `CURRENT_DATE`
+  * `CURRENT_TIME`
+  * `CURRENT_TIMESTAMP`
+
+### High
+
+* Queries
+  * `UNION ALL`
+* Expressions
+  * temporal value literals
+  * `NULLIF`
+  * `COALESCE`
+  * `CASE ... WHEN ...`
+* Cast/assignment conversions
+  * more conversion rules
+
+### Normal
+
+* Queries
+  * Sub-queries
+* Expressions
+  * `LIKE`
+  * `EXISTS`
+  * `IN` with sub-queries
