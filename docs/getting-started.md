@@ -18,7 +18,7 @@ Please open `Assets` of each release on the release page and download `tsurugidb
 
 **Note: The `Source code (zip)` or `Source code (tar.gz)` in `Assets` are automatically generated links by GitHub, and these archives does not contain files needed for installation.**
 
-Please unzip the downloaded installation archive into any directory.
+Please extract the downloaded installation archive into any directory.
 This is a working directory; the installation directory will be specified at another time during the installation procedure.
 
 ```sh
@@ -27,7 +27,7 @@ tar xf tsurugidb-<version>.tar.gz
 
 ### Installing libraries for runtime environment (apt package)
 
-You can install the libraries required to install and run Tsurugi using `apt-install.sh`. This is included in the directory where you unzipped the installation package.
+You can install the libraries required to install and run Tsurugi using `apt-install.sh`. This is included in the directory where you extracted the installation package.
 
 ```sh
 sudo ./apt-install.sh
