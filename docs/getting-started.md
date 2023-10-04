@@ -88,11 +88,11 @@ This section introduces commands that provide fundamental Tsurugi capabilities s
 
 The subsequent commands are located in the `bin` directory of the intall directory.
 
-### `tgctl` : Tsurugiサーバ管理コマンド
+### `tgctl` : Tsurugi server administration command
 
-`tgctl` コマンドはTsurugiの起動・停止・状態確認などを行う管理コマンドです。
+The `tgctl` command is an administration command to start, stop, and check the status of the Tsurugi server.
 
-`tgctl start` でTsurugiサーバを起動します。
+`tgctl start` starts Tsurugi server.
 
 ```sh
 $ $TSURUGI_HOME/bin/tgctl start
@@ -100,14 +100,14 @@ $ $TSURUGI_HOME/bin/tgctl start
 successfully launched tsurugidb
 ```
 
-`tgctl status` でTsurugiサーバを状態を確認できます。
+You can check the status of the Tsurugi server with `tgctl status`.
 
 ```sh
 $ $TSURUGI_HOME/bin/tgctl status
 Tsurugi OLTP database is RUNNING
 ```
 
-`tgctl shutdown` でTsurugiサーバを停止します。
+`tgctl shutdown` will stop the Tsurugi server.
 
 ```sh
 $ $TSURUGI_HOME/bin/tgctl shutdown
@@ -115,15 +115,15 @@ $ $TSURUGI_HOME/bin/tgctl shutdown
 successfully shutdown tsurugidb
 ```
 
-### `tgsql` Tsurugi SQLコンソール
+### `tgsql` Tsurugi SQL console
 
-`tgsql` コマンドはTsurugiに対してクエリーを発行するためのCLIツールです。
-`tgsql` では以下のいずれかの接続プロトコルを使って接続することができます。
+The `tgsql` command is a CLI tool for submitting queries to Tsurugi.
+Using this, you can connect to Tsurugi using one of the following connection protocols.
 
-- IPC接続: 比較的高速であるが、Tsurugiサーバと同一のマシンからのみ接続可能。
-- TCP接続: 比較的低速であるが、Tsurugiサーバと異なるマシンからでも接続可能。
+- IPC connections: relatively fast, but only from the same computer as the Tsurugi server.
+- TCP connections: relatively slow, but can be connected to from a remote computer.
 
-以下ではIPC接続を使った使用例を説明します。
+An example of using an IPC connection is described below:
 
 ```sh
 $ $TSURUGI_HOME/bin/tgctl start
@@ -137,7 +137,7 @@ tgsql>
 
 ```
 
-`tgsql>` プロンプトが表示されるので、ここに任意のクエリーを入力できます。
+`tgsql>` prompt will appear, and you can enter any query here:
 
 ```sh
 tgsql> BEGIN;
@@ -162,9 +162,9 @@ tgsql> \quit
 [main] INFO com.tsurugidb.console.core.ScriptRunner - repl execution was successfully completed
 ```
 
-### Tsurugiサーバの設定
+### Tsurugi Server Configuration
 
-Tsurugiサーバの設定はTsurugiインストールディレクトリ配下の `var/etc/tsurugi.ini` に配置している「構成ファイル」によって定義されています。
+The Tsurugi server configuration is described in the "configuration file" located in `var/etc/tsurugi.ini` under the Tsurugi installation directory.
 
 ```sh
 $ cat $TSURUGI_HOME/var/etc/tsurugi.ini
@@ -181,64 +181,65 @@ $ cat $TSURUGI_HOME/var/etc/tsurugi.ini
     ...
 ```
 
-設定を編集したらTsurugiサーバを再起動して設定を反映してください。
-設定項目については以下を参照してください。
+After editing the settings, you will need to restart the Tsurugi server for the settings to take effect.
+Please refer to the following for each setting item.
 
-- 構成ファイルのパラメーター
+- Configuration file parameters
   - https://github.com/project-tsurugi/tateyama/blob/master/docs/config_parameters.md
 
-## Tsurugiが提供する外部インターフェース群
+## External interfaces for Tsurugi
 
-TsurugiはプログラミングAPI、RESTインターフェース、他のデータベース連携といった様々な外部インターフェース機構を提供しています。
+Tsurugi provides various external interface mechanisms such as programming APIs, REST interfaces, and other database integration.
 
-### `Iceaxe` アプリケーション開発用Java API
+### `Iceaxe` Java API for application development
 
-[Iceaxe](https://github.com/project-tsurugi/iceaxe)はTsurugiを利用するクライアントアプリケーションを開発するためのJava APIです。
-Tsurugi固有の機能を利用しやすくすることに志向しており、JDBCインターフェースとは異なるAPI体系を持ちます。
+[Iceaxe](https://github.com/project-tsurugi/iceaxe) is a Java API for developing client applications using Tsurugi.
+It is designed to facilitate the use of Tsurugi-specific functions with an API structure that is different from the JDBC interface.
 
 - Iceaxe:
   - https://github.com/project-tsurugi/iceaxe
 - Iceaxe Exmaples:
   - https://github.com/project-tsurugi/iceaxe/tree/master/modules/iceaxe-examples/src/main/java/com/tsurugidb/iceaxe/example
 
-Iceaxeを利用して開発した、ベンチマーク用のバッチアプリケーションを合わせて公開しています。
+We have also published batch applications developed with Iceaxe for benchmarking purposes:
 
 - Cost Accounting Benchmark:
   - https://github.com/project-tsurugi/cost-accounting-benchmark
 - Phone Bill Benchmark
   - https://github.com/project-tsurugi/phone-bill-benchmark
 
-### `Tsubakuro` 低レベルJava API
+### `Tsubakuro` low-level Java API
 
-[Tsubakuro](https://github.com/project-tsurugi/tsubakuro)はTsurugiの機能を最大限に引き出すための低レベルなJava APIです。
-そのほとんどが非同期APIとして提供されており、便利なAPIではないですがTsurugiの性能を極限まで引き出す必要があるレイヤ開発などに有用です。
+[Tsubakuro](https://github.com/project-tsurugi/tsubakuro) is a low-level Java API to maximize Tsurugi's capabilities.
+Most of them are provided as asynchronous APIs, which are not convenient APIs but useful for development that needs to maximize Tsurugi's performance.
 
 - Tsubakuro:
   - https://github.com/project-tsurugi/tsubakuro
 - Tsubakuro Exmaples:
   - https://github.com/project-tsurugi/tsubakuro-examples
 
-### `Belayer` 運用管理インターフェース
+### `Belayer` Operations Management Interface
 
-[Belayer](https://github.com/project-tsurugi/belayer-webapi)はRESTインターフェースを通じてバックアップ、リストア、データダンプ、データロードといった運用機能を提供します。
-プロプライエタリのアドオンモジュールとしてGUI、コマンドラインツールなども提供しています。
+[Belayer](https://github.com/project-tsurugi/belayer-webapi) provides administrative functions through a REST interface, such as backup, restore, data dump, and data load.
+We also provide GUI, command line tools, etc. as proprietary add-on modules.
 
 - Belayer:
   - https://github.com/project-tsurugi/belayer-webapi
 - Belayer Web API:
   - https://github.com/project-tsurugi/belayer-webapi/blob/master/docs/belayer_if_webapi-ja.md
 
-### `Tsurugi_FDW` PostgreSQL連携インターフェース
+### `Tsurugi_FDW` PostgreSQL Collaboration Interface
 
-[Tsurugi_FDW](https://github.com/project-tsurugi/tsurugi_fdw)は[PostgreSQL](https://www.postgresql.org/)の外部データラッパー機能を利用して、psqlなどのPostgreSQLが提供するインターフェースを経由してTsurugiに対するデータベース操作機能を提供します。
+[Tsurugi_FDW](https://github.com/project-tsurugi/tsurugi_fdw) works with [PostgreSQL](https://www.postgresql.org/) by using PostgreSQL's foreign data wrapper functions.
+This enables database operations on Tsurugi via utilities and interfaces provided by PostgreSQL, such as `psql`.
 
 - Tsurugi_FDW:
   - https://github.com/project-tsurugi/tsurugi_fdw
 
-### `Tanzawa` Tsurugi SQLコンソール
+### `Tanzawa` Tsurugi SQL Console
 
-前述した `tgsql` コマンドを提供するモジュールです。
-Tsurugiのインストーラーに同梱されている他に単体でのリリースアーカイブを提供しており、これをTsurugiのサーバとは別のマシンにインストールしてTCP接続経由でTsurugiを操作することも可能です。
+This module provides the `tgsql` command mentioned above.
+It is bundled with Tsurugi installer and also provided as a stand-alone release archive. You can also install this on another computer and operate Tsurugi via a TCP connection.
 
 - Tanzawa:
   - https://github.com/project-tsurugi/tanzawa
