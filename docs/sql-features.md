@@ -133,18 +133,6 @@ This version does not support sub-queries.
     * `CHAR`/`VARCHAR` -> `DOUBLE`
     * `CHAR`/`VARCHAR` -> `DECIMAL`
 
-### Assignment conversions
-
-Assignment conversion is a mechanism that automatically converts values to suitable column type values, when storing it into a table, etc.
-
-* supported conversions:
-  * TBD
-
-----
-note:
-
-If the above conversion rules are not enough, you can put an explicit cast expression (`(CAST x AS <type>)`) to store values to the destination column.
-
 ## Types
 
 * `INT`
