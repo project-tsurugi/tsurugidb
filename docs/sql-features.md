@@ -15,10 +15,7 @@ The planned features are listed [here](#planned-features).
 ### Table definition
 
 ```txt
-CREATE TABLE [<table-options>] <table-name> (<table-element> [, <table-element> [, ...]])
-
-<table-options>:
-  IF NOT EXISTS
+CREATE TABLE <table-name> (<table-element> [, <table-element> [, ...]])
 
 <table-element>:
   <column-name> <type> [<column-constraints>]
@@ -42,10 +39,7 @@ note:
 ### Index definition
 
 ```txt
-CREATE INDEX [<options>] <index-name> ON <table-name> (<index-element> [, <index-element> [, ...]])
-
-<index-options>:
-  IF NOT EXISTS
+CREATE INDEX <index-name> ON <table-name> (<index-element> [, <index-element> [, ...]])
 
 <index-element>:
   <column-name>
