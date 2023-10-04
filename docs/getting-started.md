@@ -1,45 +1,47 @@
 # Tsurugi Getting Stared
 
-## インストール環境
+## Installation Environment
 
-現時点では、Tsurugiは以下のOS環境でのみ動作を確認しています。
+Currently, Tsurugi has been tested only in the following OS environment.
 
 - Ubuntu-22.04
 
-## インストール手順
+## Installation Instructions
 
-### インストールアーカイブ
+### Installation archive
 
-TsurugiのインストールアーカイブはGitHub Releasesで公開されています。
+Tsurugi installation archives are available at GitHub Releases.
 
 - https://github.com/project-tsurugi/tsurugidb/releases
 
-リリースページの各リリースの `Assets` を開き、 `tsurugidb-<version>.tar.gz` をダウンロードしてください。
+Please open `Assets` of each release on the release page and download `tsurugidb-<version>.tar.gz`.
 
-**注意: Assetsに含まれる `Source code (zip)` , `Source code (tar.gz)` はGitHubが自動生成するリンクで、ここから取得できるアーカイブにはインストールに必要なファイルが含まれていないので使用しないでください**
+**Note: The `Source code (zip)` or `Source code (tar.gz)` in `Assets` are automatically generated links by GitHub, and these archives does not contain files needed for installation.**
 
 ダウンロードしたインストールアーカイブを任意のディレクトリで解凍します。
 このディレクトリは作業用ディレクトリであり、インストールディレクトリはインストール手順の中で別途指定します。
+
+Please unzip the downloaded installation archive into any directory.
+This is a working directory; the installation directory will be specified at another time during the installation procedure.
 
 ```sh
 tar xf tsurugidb-<version>.tar.gz
 ```
 
-### 実行環境用ライブラリ（aptパッケージ）のインストール
+### Installing libraries for runtime environment (apt package)
 
-インストールパッケージを解凍したディレクトリ直下に含まれる `apt-install.sh` を使ってTsurugiのインストールおよび実行に必要なライブラリをインストールします。
+You can install the libraries required to install and run Tsurugi using `apt-install.sh`. This is included in the directory where you unzipped the installation package.
 
 ```sh
 sudo ./apt-install.sh
 ```
 
-`apt-install.sh` は `apt-get update` や `apt-get install` を使って必要なパッケージをインストールするため、スーパーユーザや `sudo` コマンド経由で実行する必要があります。
-インストール環境への影響があるため、実行前にスクリプトの内容を確認の上で実行することを強く推奨します。
+`apt-install.sh` must be run as superuser or via the `sudo` command, in order to install the required packages using `apt-get update` or `apt-get install`.
 
-### Tsurugiのインストール
+### Installing Tsurugi
 
-ソースアーカイブに含まれるインストールスクリプト `install.sh` を実行して実行バイナリをビルドし、 `--prefix=<install_directory>` で指定したインストールディレクトリにインストールします。
-`--symbolic` はインストールパス上にシンボリックリンク `tsurugi` を作成します。
+You can create an executable Tsurugi binary by executing the installation script `install.sh` included in the source archive.
+If you specify `--prefix=<install_directory>`, the script will install to the specified installation directory, and `--symbolic` will create a symbolic link `tsurugi` on the installation path.
 
 ```sh
 $ mkdir $HOME/opt
@@ -51,37 +53,40 @@ Install Directory: $HOME/opt/tsurugi-1.x.x
 ------------------------------------
 ```
 
-`install.sh` を引数なしで実行する場合、標準のインストールパス `/usr/lib/tsurugi-<tsurugi-version>` 配下にインストールします。
-この場合、通常はスーパーユーザの権限での実行が必要となります。
+If you execute `install.sh` without any arguments, it will put Tsurugi under the default installation path `/usr/lib/tsurugi-<tsurugi-version>`.
+In this case, it is usually needed to run with superuser privileges.
 
 ```sh
 sudo ./install.sh
 ```
 
-#### その他のインストール・オプション
+#### Miscellaneous Installation Options
 
-- `--parallel=<jobs>` インストール時に実行されるビルド処理の最大並列ジョブ数を指定します。インストール時にメモリ不足などの問題が発生する場合、この値を低く設定することで問題を回避できる可能性があります。未指定の場合はインストール環境の(論理コア数 + 2)が設定されます。
+- `--parallel=<jobs>` Specifies the maximum number of parallel jobs for the build process to run during installation.
+
+  If you face problems such as insufficient memory during installation sequence, setting this to a low value may get around the problem. If it is not specified, the value is set to (number of logical cores + 2) of the installation environment.
 
   ```sh
   ./install.sh --parallel=8
   ```
 
-### 環境変数 `TSURUGI_HOME` の設定
+### Setting the `TSURUGI_HOME` environment variable
 
-Tsurugiのインストールが完了したら、環境変数 `TSURUGI_HOME` にTsurugiのインストールパスを設定してください。
-以下は `$HOME/tsurugi` にTsurugiをインストールした場合の設定例です。
+After the Tsurugi installation is complete, please set the environment variable `TSURUGI_HOME` to the Tsurugi installation path.
+The following is an example of installing Tsurugi into `$HOME/tsurugi`.
 
 ```sh
 export TSURUGI_HOME="$HOME/opt/tsurugi"
 ```
 
-環境変数 `TSURUGI_HOME` はTsurugiが提供するクライアントライブラリやツールが使用します。これらを使うユーザ環境については、実行時に `TSURUGI_HOME` が適用されるようシェル環境などを設定してください。
+The environment variable `TSURUGI_HOME` is used by client libraries and utilities provided by Tsurugi.
+If you use them, set `TSURUGI_HOME` to your shell environment and so on.
 
-## Tsurugiの基本機能
+## Fundamental features of Tsurugi
 
-Tsurugiサーバの起動/停止、Tsurugiサーバに対するSQL実行などの基本機能を提供するコマンドを紹介します。
+This section introduces commands that provide fundamental Tsurugi capabilities such as starting/stopping Tsurugi server, executing SQL against Tsurugi server, etc.
 
-以下に紹介するコマンドはイントールディレクトリの `bin` ディレクトリに配置されています。
+The subsequent commands are located in the `bin` directory of the intall directory.
 
 ### `tgctl` : Tsurugiサーバ管理コマンド
 
