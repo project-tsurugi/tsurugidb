@@ -16,7 +16,7 @@ The planned features are listed [here](#planned-features).
 note:
 
 Concurrent execution of DML and DDL statements are not fully supported. 
-DDL should be issued when there is no on-going DML processing for the target tables/indices. 
+DDL should be issued from single thread when there is no on-going DML processing for the target tables/indices. 
 
 ### Table definition
 
