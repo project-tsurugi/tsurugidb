@@ -169,8 +169,6 @@ Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast
 * integral numbers
 * floating point numbers
 * `'character string'`
-* `TRUE`
-* `FALSE`
 * `NULL`
 
 ----
