@@ -1,4 +1,4 @@
-# Tsurugi - next generation RDB for new era
+# Tsurugi - next generation RDB for the new era
 
 Tsurugi is an open-source relational database system designed for modern computer architectures that have hundreds of CPU cores and huge memory capacity.
 It focused for the following features:
