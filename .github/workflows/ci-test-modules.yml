@@ -766,7 +766,7 @@ jobs:
       - name: Check
         working-directory: tanzawa
         run: |
-          ./gradlew -i clean heck
+          ./gradlew -i clean check
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v1
