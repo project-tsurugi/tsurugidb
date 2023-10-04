@@ -142,9 +142,9 @@ If the above conversion rules are not enough, you can put an explicit cast expre
 * `BIGINT`
 * `REAL`
 * `DOUBLE PRECISION` (`DOUBLE`)
-* `DECIMAL(p, s)` ( `p` >= `s` )
+* `DECIMAL(p [, s])` ( `p` >= `s` )
   * `p` - number of digits (precision, `1~38` or `*` to use the max precision)
-  * `s` - number of decimal places (scale, `0~p`)
+  * `s` - number of decimal places (scale, `0~p` or zero when omitted)
 * `CHAR(s)`
   * `s` - number of **octets** in UTF-8
 * `VARCHAR(s)`
