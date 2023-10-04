@@ -47,6 +47,11 @@ CREATE INDEX <index-name> ON <table-name> (<index-element> [, <index-element> [,
   <column-name> DESC
 ```
 
+----
+note:
+
+Limitation: the target table must be empty when index is created on it.
+
 ## Statements (DML)
 
 * `SELECT ...`
