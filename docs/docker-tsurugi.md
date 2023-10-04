@@ -56,7 +56,7 @@ TSURUGI_VERSION:1.X.X
 ...
 ```
 
-### Stopping and cleaning up Docker containers
+### Stopping Docker containers
 
 Stop the Docker container with `docker container stop`.
 

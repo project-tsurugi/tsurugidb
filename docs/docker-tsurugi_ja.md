@@ -56,7 +56,7 @@ TSURUGI_VERSION:1.X.X
 ...
 ```
 
-### Dockerコンテナの停止とクリーンアップ
+### Dockerコンテナの停止
 
 `docker container stop` でDockerコンテナを停止します。
 
