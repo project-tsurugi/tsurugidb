@@ -88,6 +88,7 @@ This version does not support sub-queries.
 * `a - b`
 * `a * b`
 * `a / b`
+* `a % b`
 * `+a`
 * `-a`
 
@@ -108,6 +109,10 @@ This version does not support sub-queries.
 * `a IS NULL`
 * `a IS NOT NULL`
 
+### Character string expression
+
+* `a || b`
+
 ### Aggregation functions
 
 * `COUNT(*)`
@@ -122,7 +127,11 @@ This version does not support sub-queries.
 * `(CAST x AS <type>)`
   * see [Types](#types)
   * supported conversions:
-    * TBD
+    * `CHAR`/`VARCHAR` -> `INT`
+    * `CHAR`/`VARCHAR` -> `BIGINT`
+    * `CHAR`/`VARCHAR` -> `REAL`
+    * `CHAR`/`VARCHAR` -> `DOUBLE`
+    * `CHAR`/`VARCHAR` -> `DECIMAL`
 
 ### Assignment conversions
 
