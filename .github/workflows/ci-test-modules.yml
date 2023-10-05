@@ -17,10 +17,7 @@ jobs:
     runs-on: [self-hosted, docker]
     timeout-minutes: 10
     container:
-      image: ghcr.io/project-tsurugi/oltp-sandbox:ubuntu-22.04
-      credentials:
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GHCR_PAT }}
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
       volumes:
         - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
     defaults:
@@ -33,7 +30,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GHA_PAT }}
           path: build/temp
           fetch-depth: 0
 

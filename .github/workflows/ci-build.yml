@@ -11,10 +11,7 @@ jobs:
     runs-on: [self-hosted, docker]
     timeout-minutes: 30
     container:
-      image: ghcr.io/project-tsurugi/oltp-sandbox:${{ matrix.os }}
-      credentials:
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GHCR_PAT }}
+      image: ghcr.io/project-tsurugi/tsurugi-ci:${{ matrix.os }}
       volumes:
         - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
         - ${{ vars.gradle_cache_dir }}:/root/.gradle
@@ -30,7 +27,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: recursive
-          token: ${{ secrets.GHA_PAT }}
 
       - name: Install
         run: |
