@@ -26,7 +26,10 @@ This includes the below significant limitations as below:
 
 ## Getting started
 
-See [getting-started.md](docs/getting-started.md).
+* [Tsurugi Getting Started](docs/getting-started.md)
+  * [Tsurugi Getting Started (ja)](docs/docker-tsurugi_ja.md)
+* [Tsurugi Docker User Guide](docs/docker-tsurugi.md)
+  * [Tsurugi Dockerユーザガイド (ja)](docs/docker-tsurugi_ja.md)
 
 ## Sub projects
 
