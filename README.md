@@ -11,6 +11,8 @@ It focused for the following features:
 6. Developed as Open Source
 
 More: [about.md](about.md)
+More : Detailed Information is offered in the Handbook (only in Japanese)
+- https://nkbp.jp/lin-tsurugi
 
 ## Limitations
 
