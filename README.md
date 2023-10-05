@@ -10,9 +10,9 @@ It focused for the following features:
 5. Excellence in Batch Processing and Long Transactions
 6. Developed as Open Source
 
-More: [about.md](about.md)
-More : Detailed Information is offered in the Handbook (only in Japanese)
-- https://nkbp.jp/lin-tsurugi
+- More: [about.md](about.md)
+- More : Detailed Information is offered in the Handbook (only in Japanese)
+  - https://nkbp.jp/lin-tsurugi
 
 ## Limitations
 
