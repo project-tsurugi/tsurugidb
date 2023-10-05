@@ -50,12 +50,7 @@ Install Directory: $HOME/opt/tsurugi-1.x.x
 ------------------------------------
 ```
 
-If you execute `install.sh` without any arguments, it will put Tsurugi under the default installation path `/usr/lib/tsurugi-<tsurugi-version>`.
-In this case, it is usually needed to run with superuser privileges.
-
-```sh
-sudo ./install.sh
-```
+If you execute `install.sh` without any arguments, it will put Tsurugi under the default installation path `/usr/lib/tsurugi-<tsurugi-version>`. In this case, it is usually needed to run with superuser privileges.
 
 #### Miscellaneous Installation Options
 
@@ -131,7 +126,6 @@ $ $TSURUGI_HOME/bin/tgsql -c ipc:tsurugi
 [main] INFO com.tsurugidb.console.core.ScriptRunner - establishing connection: ipc:tsurugi
 [main] INFO com.tsurugidb.console.core.ScriptRunner - start repl
 tgsql>
-
 ```
 
 `tgsql>` prompt will appear, and you can enter any query here:

@@ -51,12 +51,7 @@ Install Directory: $HOME/opt/tsurugi-1.x.x
 ------------------------------------
 ```
 
-`install.sh` を引数なしで実行する場合、標準のインストールパス `/usr/lib/tsurugi-<tsurugi-version>` 配下にインストールします。
-この場合、通常はスーパーユーザの権限での実行が必要となります。
-
-```sh
-sudo ./install.sh
-```
+`install.sh` を引数なしで実行する場合、標準のインストールパス `/usr/lib/tsurugi-<tsurugi-version>` 配下にインストールします。この場合、通常はスーパーユーザの権限での実行が必要となります。
 
 #### その他のインストール・オプション
 
@@ -129,7 +124,6 @@ $ $TSURUGI_HOME/bin/tgsql -c ipc:tsurugi
 [main] INFO com.tsurugidb.console.core.ScriptRunner - establishing connection: ipc:tsurugi
 [main] INFO com.tsurugidb.console.core.ScriptRunner - start repl
 tgsql>
-
 ```
 
 `tgsql>` プロンプトが表示されるので、ここに任意のクエリーを入力できます。
