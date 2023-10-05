@@ -89,7 +89,7 @@ See [getting-started.md](docs/getting-started.md).
 * [tanzawa](https://github.com/project-tsurugi/tanzawa)
 
   SQL console (Java)
-  
+
 * [ogawayama](https://github.com/project-tsurugi/ogawayama)
 
   Communication library for PostgreSQL
@@ -112,9 +112,11 @@ See [getting-started.md](docs/getting-started.md).
 
 * [Tsurugi Community Site (ja)](https://www.tsurugidb.com/)
 
-## Bug reports
+## Contributing
 
 * Please report any issues to [repository for issue tracking](https://github.com/project-tsurugi/tsurugidb/issues)
+
+* This repository is a collection of submodules of each [Sub Project](#sub-projects). Therefore, please send Pull Reuqeset to the repository of [Sub project](#sub-projects), not to this repository.
 
 ## License
 
