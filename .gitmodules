@@ -1,54 +1,54 @@
 [submodule "takatori"]
 	path = takatori
-	url = git@github.com:project-tsurugi/takatori.git
+	url = https://github.com/project-tsurugi/takatori.git
 [submodule "yugawara"]
 	path = yugawara
-	url = git@github.com:project-tsurugi/yugawara.git
+	url = https://github.com/project-tsurugi/yugawara.git
 [submodule "shakujo"]
 	path = shakujo
-	url = git@github.com:project-tsurugi/shakujo.git
+	url = https://github.com/project-tsurugi/shakujo.git
 [submodule "mizugaki"]
 	path = mizugaki
-	url = git@github.com:project-tsurugi/mizugaki.git
+	url = https://github.com/project-tsurugi/mizugaki.git
 [submodule "limestone"]
 	path = limestone
-	url = git@github.com:project-tsurugi/limestone.git
+	url = https://github.com/project-tsurugi/limestone.git
 [submodule "yakushima"]
 	path = yakushima
-	url = git@github.com:project-tsurugi/yakushima.git
+	url = https://github.com/project-tsurugi/yakushima.git
 [submodule "shirakami"]
 	path = shirakami
-	url = git@github.com:project-tsurugi/shirakami.git
+	url = https://github.com/project-tsurugi/shirakami.git
 [submodule "sharksfin"]
 	path = sharksfin
-	url = git@github.com:project-tsurugi/sharksfin.git
+	url = https://github.com/project-tsurugi/sharksfin.git
 [submodule "tateyama"]
 	path = tateyama
-	url = git@github.com:project-tsurugi/tateyama.git
+	url = https://github.com/project-tsurugi/tateyama.git
 [submodule "jogasaki"]
 	path = jogasaki
-	url = git@github.com:project-tsurugi/jogasaki.git
+	url = https://github.com/project-tsurugi/jogasaki.git
 [submodule "metadata-manager"]
 	path = metadata-manager
-	url = git@github.com:project-tsurugi/metadata-manager.git
+	url = https://github.com/project-tsurugi/metadata-manager.git
 [submodule "message-manager"]
 	path = message-manager
-	url = git@github.com:project-tsurugi/message-manager.git
+	url = https://github.com/project-tsurugi/message-manager.git
 [submodule "ogawayama"]
 	path = ogawayama
-	url = git@github.com:project-tsurugi/ogawayama.git
+	url = https://github.com/project-tsurugi/ogawayama.git
 [submodule "tateyama-bootstrap"]
 	path = tateyama-bootstrap
-	url = git@github.com:project-tsurugi/tateyama-bootstrap.git
+	url = https://github.com/project-tsurugi/tateyama-bootstrap.git
 [submodule "tsubakuro"]
 	path = tsubakuro
-	url = git@github.com:project-tsurugi/tsubakuro.git
+	url = https://github.com/project-tsurugi/tsubakuro.git
 [submodule "tanzawa"]
 	path = tanzawa
-	url = git@github.com:project-tsurugi/tanzawa.git
+	url = https://github.com/project-tsurugi/tanzawa.git
 [submodule "harinoki"]
 	path = harinoki
-	url = git@github.com:project-tsurugi/harinoki.git
+	url = https://github.com/project-tsurugi/harinoki.git
 [submodule "third_party/hopscotch-map"]
 	path = third_party/hopscotch-map
 	url = https://github.com/Tessil/hopscotch-map.git
