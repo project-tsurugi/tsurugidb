@@ -1,4 +1,4 @@
-# Tsurugi Getting Stared
+# Tsurugi Getting Started
 
 ## インストール環境
 
