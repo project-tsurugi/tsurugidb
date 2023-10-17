@@ -18,11 +18,12 @@ do
   if [[ "$1" == "--symbolic" ]]; then
     _SYMBOLIC=ON
   fi
-
   if [[ "$1" =~ "--skip=" ]]; then
     _SKIP=${1#--skip=}
   fi
-
+  if [[ "$1" == "--verbose" ]]; then
+    _VERBOSE=ON
+  fi
   shift
 done
 
@@ -45,6 +46,7 @@ fi
 export TG_CMAKE_BUILD_TYPE=${_BUILD_TYPE}
 export TG_CMAKE_BUILD_PARALLEL=${_PARALLEL}
 export TG_SKIP_INSTALL=${_SKIP}
+export TG_VERBOSE_INSTALL=${_VERBOSE}
 
 source ${_SCRIPTS_DIR}/install-env.sh ${TG_INSTALL_BASE_DIR}
 if [ -f "${TG_INSTALL_BASE_DIR}/.install/BUILDINFO.md" ]; then
