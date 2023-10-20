@@ -1,6 +1,6 @@
 # Tsurugi Dockerユーザーガイド
 
-本書ではTsurugiのDockerイメージの利用方法について説明します。
+本文書ではTsurugiのDockerイメージの利用方法について説明します。
 
 ## Tsurugi Dockerイメージの概要
 
@@ -107,7 +107,7 @@ Dockerイメージをコンテナとして実行する際に、Tsurugiサーバ�
 
 ### Tsurugiのログレベル指定
 
-環境変数 `GLOG_xx`` 経由でログ設定を指定して起動します。
+環境変数 `GLOG_xx` 経由でログ設定を指定して起動します。
 
 ```sh
 $ docker container run -d -p 12345:12345 --name tsurugi -e GLOG_v=30 ghcr.io/project-tsurugi/tsurugidb
