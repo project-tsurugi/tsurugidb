@@ -64,7 +64,7 @@ Install Directory: $HOME/opt/tsurugi-1.x.x
 ### 環境変数 `TSURUGI_HOME` の設定
 
 Tsurugiのインストールが完了したら、環境変数 `TSURUGI_HOME` にTsurugiのインストールパスを設定してください。
-以下は `$HOME/tsurugi` にTsurugiをインストールした場合の設定例です。
+以下は `$HOME/opt/tsurugi` にTsurugiをインストールした場合の設定例です。
 
 ```sh
 export TSURUGI_HOME="$HOME/opt/tsurugi"
@@ -90,7 +90,7 @@ $ $TSURUGI_HOME/bin/tgctl start
 successfully launched tsurugidb
 ```
 
-`tgctl status` でTsurugiサーバを状態を確認できます。
+`tgctl status` でTsurugiサーバの状態を確認できます。
 
 ```sh
 $ $TSURUGI_HOME/bin/tgctl status
@@ -128,7 +128,7 @@ tgsql>
 
 `tgsql>` プロンプトが表示されるので、ここに任意のクエリーを入力できます。
 
-```sh
+```sql
 tgsql> BEGIN;
 transaction started. option=[
   type: OCC

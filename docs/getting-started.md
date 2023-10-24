@@ -65,7 +65,7 @@ If you execute `install.sh` without any arguments, it will put Tsurugi under the
 ### Setting the `TSURUGI_HOME` environment variable
 
 After the Tsurugi installation is complete, please set the environment variable `TSURUGI_HOME` to the Tsurugi installation path.
-The following is an example of installing Tsurugi into `$HOME/tsurugi`.
+The following is an example of installing Tsurugi into `$HOME/opt/tsurugi`.
 
 ```sh
 export TSURUGI_HOME="$HOME/opt/tsurugi"
@@ -78,7 +78,7 @@ If you use them, set `TSURUGI_HOME` to your shell environment and so on.
 
 This section introduces commands that provide fundamental Tsurugi capabilities such as starting/stopping Tsurugi server, executing SQL against Tsurugi server, etc.
 
-The subsequent commands are located in the `bin` directory of the intall directory.
+The subsequent commands are located in the `bin` directory of the install directory.
 
 ### `tgctl` : Tsurugi server administration command
 
@@ -113,7 +113,7 @@ The `tgsql` command is a CLI tool for submitting queries to Tsurugi.
 Using this, you can connect to Tsurugi using one of the following connection protocols.
 
 - IPC connections: relatively fast, but only from the same computer as the Tsurugi server.
-- TCP connections: relatively slow, but can be connected to from a remote computer.
+- TCP connections: relatively slow, but can be connected from a remote computer.
 
 An example of using an IPC connection is described below:
 
@@ -130,7 +130,7 @@ tgsql>
 
 `tgsql>` prompt will appear, and you can enter any query here:
 
-```sh
+```sql
 tgsql> BEGIN;
 transaction started. option=[
   type: OCC
@@ -172,7 +172,7 @@ $ cat $TSURUGI_HOME/var/etc/tsurugi.ini
     ...
 ```
 
-After editing the settings, you will need to restart the Tsurugi server for the settings to take effect.
+After editing the settings, you need to restart the Tsurugi server for the settings to take effect.
 Please refer to the following for each setting item.
 
 - Configuration file parameters
