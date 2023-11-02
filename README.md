@@ -121,6 +121,8 @@ This includes the below significant limitations as below:
 
 * Please report any issues to [repository for issue tracking](https://github.com/project-tsurugi/tsurugidb/issues)
 
+* For any other questions or feedback, please post to [tsurugidb discussions forum](https://github.com/project-tsurugi/tsurugidb/discussions)
+
 * This repository is a collection of submodules of each [Sub Project](#sub-projects). Therefore, please send Pull Reuqeset to the repository of [Sub project](#sub-projects), not to this repository.
 
 ## License
