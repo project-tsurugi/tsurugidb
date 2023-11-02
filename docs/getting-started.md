@@ -65,7 +65,7 @@ If you execute `install.sh` without any arguments, it will put Tsurugi under the
 ### Setting the `TSURUGI_HOME` environment variable
 
 After the Tsurugi installation is complete, please set the environment variable `TSURUGI_HOME` to the Tsurugi installation path.
-The following is an example of installing Tsurugi into `$HOME/opt/tsurugi`.
+If you installed with the previous example of running the installation script (`. /install.sh --prefix=$HOME/opt --symbolic`), set `TSURUGI_HOME` as follows.
 
 ```sh
 export TSURUGI_HOME="$HOME/opt/tsurugi"

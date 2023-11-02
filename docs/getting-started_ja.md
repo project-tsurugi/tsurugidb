@@ -64,7 +64,7 @@ Install Directory: $HOME/opt/tsurugi-1.x.x
 ### 環境変数 `TSURUGI_HOME` の設定
 
 Tsurugiのインストールが完了したら、環境変数 `TSURUGI_HOME` にTsurugiのインストールパスを設定してください。
-以下は `$HOME/opt/tsurugi` にTsurugiをインストールした場合の設定例です。
+前述のインストールスクリプト実行例(`./install.sh --prefix=$HOME/opt --symbolic`) でインストールした場合、以下のように `TSURUGI_HOME` を設定します。
 
 ```sh
 export TSURUGI_HOME="$HOME/opt/tsurugi"
