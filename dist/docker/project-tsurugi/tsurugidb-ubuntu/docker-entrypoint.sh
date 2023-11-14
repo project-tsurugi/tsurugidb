@@ -1,12 +1,14 @@
 #!/bin/bash
 
+export GLOG_logtostderr=1
+
 start() {
   cd ${TSURUGI_HOME} || exit
 
   echo 'starting tsurugi...'
   cat BUILDINFO.md
 
-  ./bin/tgctl start --logtostderr ${TG_OPTS}
+  ./bin/tgctl start ${TG_OPTS}
 
   if [ -n "${TSURUGI_JWT_SECRET_KEY}" ]; then
     echo 'starting authentication-server...'
