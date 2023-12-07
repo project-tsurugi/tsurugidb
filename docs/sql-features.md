@@ -7,10 +7,10 @@ The planned features are listed [here](#planned-features).
 
 * `CREATE TABLE <table> ...`
   * see [Table definition](#table-definition)
-* `DROP TABLE <table>`
+* `DROP TABLE [IF EXISTS] <table>`
 * `CREATE INDEX <index> ...`
   * see [Index definition](#index-definition)
-* `DROP INDEX <index>`
+* `DROP INDEX [IF EXISTS] <index>`
 
 ----
 note:
@@ -21,7 +21,10 @@ DDL should be issued from single thread when there is no on-going DML processing
 ### Table definition
 
 ```txt
-CREATE TABLE <table-name> (<table-element> [, <table-element> [, ...]])
+CREATE TABLE [<table-options>] <table-name> (<table-element> [, <table-element> [, ...]])
+
+<table-options>:
+  IF NOT EXISTS
 
 <table-element>:
   <column-name> <type> [<column-constraints>]
@@ -45,7 +48,10 @@ note:
 ### Index definition
 
 ```txt
-CREATE INDEX <index-name> ON <table-name> (<index-element> [, <index-element> [, ...]])
+CREATE INDEX [<index-options>] <index-name> ON <table-name> (<index-element> [, <index-element> [, ...]])
+
+<index-options>:
+  IF NOT EXISTS
 
 <index-element>:
   <column-name>
