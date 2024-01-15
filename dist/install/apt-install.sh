@@ -44,7 +44,7 @@ apt-get install -y -V \
 curl -OL https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb"
 apt-get install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
 apt-get update -y
-sudo apt install -y -V libarrow-dev=14.0.1-1 libarrow-glib-dev=14.0.1-1
+apt install -y -V libarrow-dev=14.0.1-1 libarrow-glib-dev=14.0.1-1
 rm -f ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
 
 echo "$(basename $0) successful."
