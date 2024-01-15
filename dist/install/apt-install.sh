@@ -42,12 +42,9 @@ apt-get install -y -V \
  uuid-dev
 
 curl -OL https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb"
-
 apt-get install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
 apt-get update -y
-apt-get install -y -V libparquet-dev=9.0.0-1 libparquet-glib-dev=9.0.0-1 libarrow-dev=9.0.0-1 libarrow-glib-dev=9.0.0-1 gir1.2-parquet-1.0=9.0.0-1 gir1.2-arrow-1.0=9.0.0-1
-
+sudo apt install -y -V libarrow-dev=14.0.1-1 libarrow-glib-dev=14.0.1-1
 rm -f ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
 
 echo "$(basename $0) successful."
-
