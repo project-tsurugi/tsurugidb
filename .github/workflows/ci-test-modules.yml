@@ -379,7 +379,7 @@ jobs:
           rm -fr build
           mkdir -p build
           cd build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_PWAL=OFF ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_PWAL=ON ..
           cmake --build . --target all --clean-first
 
       - name: CTest
@@ -389,7 +389,10 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose --timeout 200 -j 20
+          ctest --verbose --timeout 200 -j 20 -L CC
+          ctest --verbose --timeout 200 -j 20 -L LOGGING
+          SHIRAKAMI_ENABLE_WAITING_BYPASS=0 ctest --verbose --timeout 200 -j 20 -L WAITING_BYPASS
+          SHIRAKAMI_ENABLE_WAITING_BYPASS=1 ctest --verbose --timeout 200 -j 20 -L WAITING_BYPASS
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v1
