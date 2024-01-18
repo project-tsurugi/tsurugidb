@@ -5,12 +5,12 @@ on:
     inputs:
       targets:
         type: string
-        description: 'Target submodule names enclosed in @ (ex. "@shirakami @jogasaki@"). "@all@" runs test of all submodules.'
+        description: 'Target submodule names enclosed in @ (ex. "@shirakami@ @jogasaki@"). "@all@" runs test of all submodules.'
   workflow_call:
     inputs:
       targets:
         type: string
-        description: 'Target submodule names enclosed in @ (ex. "@shirakami @jogasaki@"). "@all@" runs test of all submodules.'
+        description: 'Target submodule names enclosed in @ (ex. "@shirakami@ @jogasaki@"). "@all@" runs test of all submodules.'
 
 jobs:
   Extract_Target:
