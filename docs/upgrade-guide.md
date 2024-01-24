@@ -39,3 +39,40 @@ This is a generic guide for upgrading across versions of Tsurugi.
 - Start Tsurugi Server (tsurugidb process) by run `tgctl start`.
 - Start tsurugi client applications or client tools (ex. Tsurugi SQL Console)
 - Check client applications execution and migrated data.
+
+## Trouble shooting
+
+### Issue: No response from the server <a name="no-response"></a>
+
+If there is no response from the server when a client connects, the possible causes are as follows:
+
+- There is a problem on the network path.
+- Incorrect version/edition combination of the client and server.
+
+Please ensure the client library version (Tsubakuro) aligns with the recommended by the Tsurugi server you have installed.
+
+### Issue: "SCD-00402: unsupported service message" <a name="service-not-registered"></a>
+
+If you encounter the error message "SCD-00402: unsupported service message: the destination service (ID=X) is not registered." while connecting from the client or executing requests, it may be attributed to an incorrect version/edition combination of the client and server.
+
+This error signifies that the service responsible for handling the client's request does not exist on the Tsurugi server. Each service wii be introduced through Tsurugi server version upgrades, and the available services may vary based on the Tsurugi server build settings.
+
+The "ID=X" segment of the error message contains the numeric service ID of the target service. Refer to the following list for existing services and their corresponding IDs:
+
+| service name           | numeric service ID | note |
+|:-----------------------|-------------------:|:-----|
+| Routing service        |                `0` | Dispatches messages from clients to each service
+| Endpoint               |                `1` | Establishes and maintains client sessions
+| Datastore service      |                `2` | Supports backup/restore operations
+| SQL service            |                `3` | Accepts SQL operations
+| PostgreSQL FDW service |                `4` | Communicates with PostgreSQL
+| Remote KVS service     |                `5` | Accepts KVS operations
+| Debug service          |                `6` | Debugging support
+
+Please match the service ID in the error message with the corresponding service ID in the list above to identify the specific service causing the issue.
+
+### Issue: "SCD-00501: inconsistent service message version" <a name="inconsistent-message"></a>
+
+If you encounter the error message "SCD-00501: inconsistent service message version: see https://github.com/project-tsurugi/tsurugidb/blob/master/docs/service-message-compatibilities.md (client: X, server: Y)" while executing requests from clients, it may be attributed to an incorrect version/edition combination of the client and server.
+
+Please see the document [Service Message Version (SMV) Compatibility](service-message-compatibilities.md).
