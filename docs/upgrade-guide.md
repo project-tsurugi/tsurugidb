@@ -53,7 +53,7 @@ Please ensure the client library version (Tsubakuro) aligns with the recommended
 
 ### Issue: "SCD-00102: handshake operation is required to establish sessions" <a name="handshake-required"></a>
 
-If you encounter the error message "SCD-00402: handshake operation is required to establish sessions (service ID=X)." while connecting from the client or executing requests, it may be attributed to an incorrect version/edition combination of the client and server.
+If you encounter the error message "SCD-00102: handshake operation is required to establish sessions (service ID=X)." while connecting from the client or executing requests, it may be attributed to an incorrect version/edition combination of the client and server.
 
 This error occurs when the client sends a request to the Tsurugi server before initiating a handshake to establish the connection.
 The Tsurugi server has required this request since `1.0.0-BETA3`, and the client library (Tsubakuro) has come to follow the manner since version `1.2.0`.
