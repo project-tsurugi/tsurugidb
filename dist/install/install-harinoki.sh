@@ -24,6 +24,9 @@ if "${MAKE_TSURUGI_BASE}"; then
   mkdir -p "${JETTY_BASE}/webapps"
   mkdir -p "${JETTY_BASE}/etc"
   mkdir -p "${JETTY_BASE}/logs"
+  if [ "$EUID" -eq 0 ]; then
+    chmod -R o+w "${JETTY_BASE}/logs"
+  fi
 
   java -jar $JETTY_HOME/start.jar --add-module=http,deploy,console-capture,jaas
 
