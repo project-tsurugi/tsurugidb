@@ -270,6 +270,12 @@ the tag name is too long.
 
 SQL service is designed to access the database with SQL.
 
+### `SQL-00100`
+
+symbolic name: `TARGET_ALREADY_EXISTS_EXCEPTION`.
+
+target already exists for newly creation request
+
 ### `SQL-01000`
 
 symbolic name: `SQL_SERVICE_EXCEPTION`.
@@ -335,12 +341,6 @@ non-scalar results from scalar subquery
 symbolic name: `TARGET_NOT_FOUND_EXCEPTION`.
 
 SQL operation target is not found
-
-### `SQL-00100`
-
-symbolic name: `TARGET_ALREADY_EXISTS_EXCEPTION`.
-
-target already exists for newly creation request
 
 ### `SQL-02018`
 
@@ -570,29 +570,35 @@ symbolic name: `OCC_EXCEPTION`.
 
 OCC aborted
 
+### `SQL-04003`
+
+symbolic name: `LTX_EXCEPTION`.
+
+LTX aborted
+
+### `SQL-04005`
+
+symbolic name: `RTX_EXCEPTION`.
+
+RTX aborted
+
+### `SQL-04007`
+
+symbolic name: `BLOCKED_BY_CONCURRENT_OPERATION_EXCEPTION`.
+
+request was blocked by the other operations executed concurrently
+
 ### `SQL-04010`
 
 symbolic name: `OCC_READ_EXCEPTION`.
 
 OCC aborted due to its read
 
-### `SQL-04015`
-
-symbolic name: `CONFLICT_ON_WRITE_PRESERVE_EXCEPTION`.
-
-OCC (early) aborted because it read other LTX's write preserve
-
 ### `SQL-04011`
 
 symbolic name: `OCC_WRITE_EXCEPTION`.
 
 OCC aborted due to its write
-
-### `SQL-04003`
-
-symbolic name: `LTX_EXCEPTION`.
-
-LTX aborted
 
 ### `SQL-04013`
 
@@ -606,17 +612,11 @@ symbolic name: `LTX_WRITE_EXCEPTION`.
 
 LTX aborted due to its write
 
-### `SQL-04005`
+### `SQL-04015`
 
-symbolic name: `RTX_EXCEPTION`.
+symbolic name: `CONFLICT_ON_WRITE_PRESERVE_EXCEPTION`.
 
-RTX aborted
-
-### `SQL-04007`
-
-symbolic name: `BLOCKED_BY_CONCURRENT_OPERATION_EXCEPTION`.
-
-request was blocked by the other operations executed concurrently
+OCC (early) aborted because it read other LTX's write preserve
 
 ## `CoreServiceCode`
 
