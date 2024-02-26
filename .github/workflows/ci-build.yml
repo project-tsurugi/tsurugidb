@@ -50,6 +50,11 @@ jobs:
           path: tsurugidb-*.tar.gz
           retention-days: 30
 
+      - name: Show_Tsurugi_Version
+        if: ${{ matrix.os == 'ubuntu-22.04' }}
+        run: |
+          tar xOf tsurugidb-*.tar.gz BUILDINFO.md | cat >> ${GITHUB_STEP_SUMMARY}
+
   Test:
     uses: ./.github/workflows/ci-test-modules.yml
     secrets: inherit
