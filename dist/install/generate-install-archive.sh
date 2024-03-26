@@ -34,7 +34,7 @@ INSTALL_ARCHIVE_PATH="$BUILD_WORK_DIR/$ARCHIVE_FILE_NAME"
 tar --exclude-vcs --exclude='.github' --exclude='*/third_party/googletest' -czf "${INSTALL_ARCHIVE_PATH}" .install *
 
 rm -fr .install/
-cd -
+cd $OLDPWD
 
 mkdir -p "$ARCHIVE_OUTPUT_DIR"
 cp "$INSTALL_ARCHIVE_PATH" "$ARCHIVE_OUTPUT_DIR"

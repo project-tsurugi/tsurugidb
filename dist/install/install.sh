@@ -133,7 +133,7 @@ chmod +x ${TG_INSTALL_DIR}/bin/*
 if [ "${_SYMBOLIC}" = "ON" ]; then
   cd "${_INSTALL_PREFIX}"
   ln -nfs "tsurugi-${TSURUGI_VERSION}" "tsurugi"
-  cd -
+  cd $OLDPWD
 fi
 
 echo "------------------------------------"

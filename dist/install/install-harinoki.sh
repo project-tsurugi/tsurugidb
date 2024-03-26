@@ -8,13 +8,13 @@ JETTY_HOME="${TG_INSTALL_DIR}/lib/jetty"
 if [ ! -f "${TG_INSTALL_BASE_DIR}/third_party/jetty-home-11.0.16.tar.gz" ]; then
   cd ${TG_INSTALL_BASE_DIR}/third_party
   curl -OL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/11.0.16/jetty-home-11.0.16.tar.gz
-  cd -
+  cd $OLDPWD
 fi
 
 mkdir -p ${JETTY_HOME}
 cd ${JETTY_HOME}
 tar xf ${TG_INSTALL_BASE_DIR}/third_party/jetty-home-*.tar.gz --strip-components 1
-cd -
+cd $OLDPWD
 
 JETTY_BASE="${TSURUGI_BASE}/auth"
 mkdir -p ${JETTY_BASE}
