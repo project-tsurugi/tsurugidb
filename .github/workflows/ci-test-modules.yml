@@ -556,7 +556,7 @@ jobs:
         run: |
           export LSAN_OPTIONS=suppressions=$(pwd)/etc/lsan/suppress.txt
           cd build
-          ctest --verbose --timeout 120 -j 20
+          ctest --verbose --timeout 120 -j 4 --test-load 16
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v1
