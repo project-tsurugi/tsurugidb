@@ -218,8 +218,6 @@ This version does not support temporal value literals (e.g. `TIMESTAMP '2000-01-
   * `NULLIF`
   * `COALESCE`
   * `CASE ... WHEN ...`
-* Cast/assignment conversions
-  * more conversion rules
 
 ### Normal
 
