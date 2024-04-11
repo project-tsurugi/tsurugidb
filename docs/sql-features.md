@@ -146,11 +146,14 @@ This version does not support sub-queries.
 * `(CAST x AS <type>)`
   * see [Types](#types)
   * supported conversions:
-    * `CHAR`/`VARCHAR` -> `INT`
-    * `CHAR`/`VARCHAR` -> `BIGINT`
-    * `CHAR`/`VARCHAR` -> `REAL`
-    * `CHAR`/`VARCHAR` -> `DOUBLE`
-    * `CHAR`/`VARCHAR` -> `DECIMAL`
+    * any pair of source and destination types from the following:
+      * `INT`
+      * `BIGINT`
+      * `REAL`
+      * `DOUBLE`
+      * `DECIMAL`
+      * `CHAR`
+      * `VARCHAR`
 
 ## Types
 
@@ -215,8 +218,6 @@ This version does not support temporal value literals (e.g. `TIMESTAMP '2000-01-
   * `NULLIF`
   * `COALESCE`
   * `CASE ... WHEN ...`
-* Cast/assignment conversions
-  * more conversion rules
 
 ### Normal
 
