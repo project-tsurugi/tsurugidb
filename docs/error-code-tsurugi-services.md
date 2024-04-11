@@ -730,6 +730,12 @@ the destination service was not found.
 * references
   * [Issue: "SCD-00402: unsupported service message"](https://github.com/project-tsurugi/tsurugidb/blob/doc-client-error-code/docs/upgrade-guide.md#service-not-registered)
 
+### `SCD-00403`
+
+symbolic name: `OPERATION_CANCELED`.
+
+operation was canceled by user or system.
+
 ### `SCD-00501`
 
 symbolic name: `INVALID_REQUEST`.
