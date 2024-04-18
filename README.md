@@ -111,6 +111,7 @@ This includes the below significant limitations as below:
 
 ## Resources
 
+* [Tsurugi documents](./docs/)
 * [Tsurugi Community Site (ja)](https://www.tsurugidb.com/)
 
 ## Contributing
