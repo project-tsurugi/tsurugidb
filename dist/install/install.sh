@@ -8,21 +8,19 @@ while (( $# > 0 ))
 do
   if [[ "$1" =~ "--prefix=" ]]; then
     _INSTALL_PREFIX=${1#--prefix=}
-  fi
-  if [[ "$1" =~ "--buildtype=" ]]; then
+  elif [[ "$1" =~ "--buildtype=" ]]; then
     _BUILD_TYPE=${1#--buildtype=}
-  fi
-  if [[ "$1" =~ "--parallel=" ]]; then
+  elif [[ "$1" =~ "--parallel=" ]]; then
     _PARALLEL=${1#--parallel=}
-  fi
-  if [[ "$1" == "--symbolic" ]]; then
+  elif [[ "$1" == "--symbolic" ]]; then
     _SYMBOLIC=ON
-  fi
-  if [[ "$1" =~ "--skip=" ]]; then
+  elif [[ "$1" =~ "--skip=" ]]; then
     _SKIP=${1#--skip=}
-  fi
-  if [[ "$1" == "--verbose" ]]; then
+  elif [[ "$1" == "--verbose" ]]; then
     _VERBOSE=ON
+  else
+    echo "[ERROR] invalid option: $1" 1>&2
+    exit 1
   fi
   shift
 done
