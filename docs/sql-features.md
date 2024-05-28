@@ -169,9 +169,9 @@ This version does not support sub-queries.
   * `s` - maximum number of **octets** in UTF-8, or `*` to ensure maximum capacity
 * `DATE`
 * `TIME`
-* `TIME WITH TIME ZONE`
+* `TIME WITH TIME ZONE` (currently only UTC time zone is supported)
 * `TIMESTAMP`
-* `TIMESTAMP WITH TIME ZONE`
+* `TIMESTAMP WITH TIME ZONE` (currently only UTC time zone is supported)
 
 ----
 note:
