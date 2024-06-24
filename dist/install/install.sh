@@ -96,22 +96,28 @@ echo "------------------------------------"
 mkdir -p "${TG_INSTALL_DIR}"
 cp --preserve=timestamps "${TG_INSTALL_BASE_DIR}/BUILDINFO.md" ${TG_INSTALL_DIR}
 
-if "${MAKE_TSURUGI_BASE}"; then
-  mkdir -p "${TSURUGI_BASE}/etc"
-  cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc
+if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
+  if "${MAKE_TSURUGI_BASE}"; then
+    mkdir -p "${TSURUGI_BASE}/etc"
+    cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc
 
-  mkdir -p "${TSURUGI_BASE}/data"
-  if [ "$EUID" -eq 0 ]; then
-    chmod -R o+w "${TSURUGI_BASE}/data"
+    mkdir -p "${TSURUGI_BASE}/data"
+    if [ "$EUID" -eq 0 ]; then
+      chmod -R o+w "${TSURUGI_BASE}/data"
+    fi
+  fi
+
+  ${_SCRIPTS_DIR}/install-server.sh
+
+  if [ -f "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" ]; then
+    cp -a "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" "${TG_INSTALL_DIR}/lib"
+  else
+    ${_SCRIPTS_DIR}/generate-tsurugi-info.sh > "${TG_INSTALL_DIR}/lib/tsurugi-info.json"
   fi
 fi
 
-${_SCRIPTS_DIR}/install-server.sh
-
-if [ -f "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" ]; then
-  cp -a "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" "${TG_INSTALL_DIR}/lib"
-else
-  ${_SCRIPTS_DIR}/generate-tsurugi-info.sh > "${TG_INSTALL_DIR}/lib/tsurugi-info.json"
+if [[ ! ${TG_SKIP_INSTALL} == *"nativelib"* ]]; then
+  ${_SCRIPTS_DIR}/install-nativelib.sh
 fi
 
 if [[ ! ${TG_SKIP_INSTALL} == *"tanzawa"* ]]; then
@@ -126,7 +132,9 @@ if [ -f "${_SCRIPTS_DIR}/install-dist-java.sh" ]; then
   ${_SCRIPTS_DIR}/install-dist-java.sh
 fi
 
-chmod +x ${TG_INSTALL_DIR}/bin/*
+if [ -d "${TG_INSTALL_DIR}/bin" ]; then
+  chmod +x ${TG_INSTALL_DIR}/bin/*
+fi
 
 if [ "${_SYMBOLIC}" = "ON" ]; then
   cd "${_INSTALL_PREFIX}"
