@@ -5,6 +5,7 @@
 Currently, Tsurugi has been tested only in the following OS environment.
 
 - Ubuntu-22.04
+- Ubuntu-24.04 (Experimental support)
 
 ## Installation Instructions
 

@@ -5,6 +5,7 @@
 現時点では、Tsurugiは以下のOS環境でのみ動作を確認しています。
 
 - Ubuntu-22.04
+- Ubuntu-24.04 (Experimental support)
 
 ## インストール手順
 
