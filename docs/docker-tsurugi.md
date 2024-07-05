@@ -94,6 +94,16 @@ tgsql>
 
 To execute other client applications via an IPC connection, you will need to deploy the full application runtime environment on the Docker container.
 
+> [!IMPORTANT]
+> IPC connections use the operating system's shared memory area (`/dev/shm`) for communication. Typically each session consumes approximately **20MB** of shared memory.
+> In Docker, the default shared memory size for containers is limited to **64MB**. Therefore, if you use multiple IPC sessions with Tsurugi Server, it may run out of memory and failing to establish sessions.
+>
+> The shared memory size when launching a Docker container can be specified with the `--shm-size` option. Please adjust the shared memory size and related Tsurugi configuration settings as needed. For example, to specify a shared memory size of 2GB, use the following command:
+> ```docker container run --shm-size=2g```
+>
+> For more details on the shared memory usage for IPC connections, refer to the following documentation:
+> - https://github.com/project-tsurugi/tateyama/blob/master/docs/internal/shared-memory-usage_ja.md
+
 ### Connecting from outside a container
 
 To connect from outside the Docker container, you should connect via a TCP connection.
