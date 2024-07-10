@@ -5,12 +5,18 @@ The planned features are listed [here](#planned-features).
 
 ## Definitions (DDL)
 
-* `CREATE TABLE <table> ...`
-  * see [Table definition](#table-definition)
-* `DROP TABLE [IF EXISTS] <table>`
-* `CREATE INDEX <index> ...`
-  * see [Index definition](#index-definition)
-* `DROP INDEX [IF EXISTS] <index>`
+* [CREATE TABLE](#create-table)
+* [CREATE INDEX](#create-table)
+* [DROP TABLE](#drop-table)
+* [DROP INDEX](#drop-table)
+
+```txt
+<ddl-statement>:
+  <table-definition>
+  <index-definition>
+  <drop-table>
+  <drop-index>
+```
 
 ----
 note:
@@ -18,39 +24,45 @@ note:
 Concurrent execution of DML and DDL statements are not fully supported.
 DDL should be issued from single thread when there is no on-going DML processing for the target tables/indices.
 
-### Table definition
+### CREATE TABLE
 
 ```txt
-CREATE TABLE [<table-options>] <table-name> (<table-element> [, <table-element> [, ...]])
+<table-definition>:
+  CREATE TABLE [<table-definition-option>] <table-name> (<table-element> [, <table-element> [, ...]])
 
-<table-options>:
+<table-definition-option>:
   IF NOT EXISTS
 
 <table-element>:
-  <column-name> <type> [<column-constraints>]
+  <column-name> <type> [<column-constraint>...]
   PRIMARY KEY ( <column-name> [, <column-name> [, ...]] )
 
-<column-constraints>:
+<column-constraint>:
   NULL
   NOT NULL
   PRIMARY KEY
-  DEFAULT <value>
+  DEFAULT <default-expression>
+
+<default-expression>:
+  <literal>
 ```
 
+* `<*-name>` - see [Names](#names)
 * `<type>` - see [Types](#types)
-* `<values>` - see [Literals](#literals)
+* `<literal>` - see [Literals](#literals)
 
 ----
 note:
 
 `CREATE TABLE ... AS SELECT ...` is not supported.
 
-### Index definition
+### CREATE INDEX
 
 ```txt
-CREATE INDEX [<index-options>] <index-name> ON <table-name> (<index-element> [, <index-element> [, ...]])
+<index-definition>
+  CREATE INDEX [<index-definition-option>] <index-name> ON <table-name> (<index-element> [, <index-element> [, ...]])
 
-<index-options>:
+<index-definition-option>:
   IF NOT EXISTS
 
 <index-element>:
@@ -62,116 +74,322 @@ CREATE INDEX [<index-options>] <index-name> ON <table-name> (<index-element> [, 
 ----
 note:
 
-Limitation: the target table must be empty when index is created on it.
+Limitation: the target table must not contain any rows when index is created on it.
+
+Limitation: index name must be specified, and it must not be empty.
+
+### DROP TABLE
+
+```txt
+<drop-table>:
+  DROP TABLE [<drop-table-option>] <table-name> [<drop-table-behavior>]
+
+<drop-table-option>:
+  IF EXISTS
+
+<drop-table-behavior>:
+  RESTRICT
+```
+
+### DROP INDEX
+
+```txt
+<drop-index>:
+  DROP INDEX [<drop-index-option>] <index-name> [<drop-index-behavior>]
+
+<drop-index-option>:
+  IF EXISTS
+
+<drop-index-behavior>:
+  RESTRICT
+```
 
 ## Statements (DML)
 
-* `SELECT ...`
-* `INSERT INTO <table> VALUES ...`
-* `INSERT OR REPLACE INTO <table> VALUES ...`
-  * This will put a row to the table even if the target row already exists (i.e. primary key conflicts)
-* `INSERT IF NOT EXISTS INTO <table> VALUES ...`
-  * This will put a row only if the target row doesn't exists. Unlike INSERT INTO statement, no error occurs even if target row exists.
-* `UPDATE <table> SET ... WHERE ...`
-* `DELETE FROM <table> WHERE ...`
+* [SELECT](#select)
+* [INSERT](#insert)
+* [UPDATE](#update)
+* [DELETE](#delete)
+
+```txt
+<dml-statement>:
+  <select-statement>
+  <insert-statement>
+  <update-statement>
+  <delete-statement>
+```
+
+### SELECT
+
+see [Queries](#queries)
+
+```txt
+<select-statement>:
+  <query-expression>
+```
+
+* `<query-expression>` - see [Queries](#queries)
+
+### INSERT
+
+```txt
+<insert-statement>:
+  INSERT [<insert-option>] INTO <table-name> [(<column-name> [, ...])] VALUES (<value-expression> [, ...]) [, ...]
+
+<insert-option>:
+  OR REPLACE
+  OR IGNORE
+  IF NOT EXISTS
+```
+
+* `INSERT OR REPLACE` - replaces the row even if the primary key already exists
+* `INSERT OR IGNORE` - does nothing if the primary key already exists
+* `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
 
 ----
 note:
 
-`INSERT INTO ... SELECT ...` is NOT available now. We are working to make this feature is available in nearby versions.
+`INSERT INTO ... SELECT ...` is NOT available now. We are working to make this feature available in nearby versions.
+
+### UPDATE
+
+```txt
+<update-statement>:
+  UPDATE <table-name> SET <set-clause> [, ...] [WHERE <value-expression>]
+
+<set-clause>:
+  <column-name> = <value-expression>
+```
+
+### DELETE
+
+```txt
+<delete-statement>:
+  DELETE FROM <table-name> [WHERE <value-expression>]
+```
 
 ## Queries
 
-* `SELECT [DISTINCT] <column-list>`
-* `FROM <table>`
-* `JOIN <table>`
-  * `INNER JOIN`
-  * `CROSS JOIN`
-  * `LEFT OUTER JOIN`
-  * `RIGHT OUTER JOIN`
-* `WHERE <condition>`
-* `ORDER BY <column-list>`
-* `GROUP BY <column-list>`
+```txt
+<query-expression>:
+  SELECT [<set-quantifier>] <select-element> [, ...]
+      FROM <table-reference> [, ...]
+      [WHERE <value-expression>]
+      [GROUP BY <column-name> [, ...]]
+      [HAVING <value-expression>]
+      [ORDER BY <order-by-element> [, ...]]
+      [LIMIT <integer>]
+  TABLE <table-name>
+
+<set-quantifier>:
+  ALL
+  DISTINCT
+
+<select-element>:
+  <value-expression> [[AS] <column-name>]
+  *
+  <relation-name> .*
+
+<table-reference>:
+  <table-name> [[AS] <relation-name>]
+  (<query-expression>) [AS] <relation-name>
+  <table-reference> CROSS JOIN <table-reference>
+  <table-reference> [<join-type>] JOIN <table-reference> <join-specification>
+
+<join-type>:
+  INNER
+  LEFT [OUTER]
+  RIGHT [OUTER]
+  FULL [OUTER]
+
+<join-specification>:
+  ON <value-expression>
+  USING (<column-name> [, ...])
+
+<order-by-element>:
+  <value-expression>
+  <value-expression> ASC
+  <value-expression> DESC
+```
 
 ----
 note:
 
-This version does not support sub-queries.
+Limitation: `LIMIT` must be with `ORDER BY`.
 
-## Expressions
+## Value expressions
+
+* [Primary expressions](#primary-expressions)
+* [Arithmetic expressions](#arithmetic-expressions)
+* [Comparison expressions](#comparison-expressions)
+* [Boolean expressions](#boolean-expressions)
+* [Character string expressions](#character-string-expressions)
+* [Aggregation functions](#aggregation-functions)
+* [CAST](#cast)
+* [Placeholders](#placeholders)
+
+```txt
+<value-expression>:
+  <primary-expression>
+  <arithmetic-expression>
+  <comparison-expression>
+  <boolean-expression>
+  <character-string-expression>
+  <aggregation-function>
+  <cast-expression>
+  <placeholder>
+```
+
+### Primary expressions
+
+```txt
+<primary-expression>:
+  <literal>
+  <column-name>
+  ( <value-expression> )
+```
+
+* `<*-name>` - see [Names](#names)
+* `<literal>` - see [Literals](#literals)
 
 ### Arithmetic expressions
 
-* `a + b`
-* `a - b`
-* `a * b`
-* `a / b`
-* `a % b`
-* `+a`
-* `-a`
+```txt
+<arithmetic-expression>:
+  + <value-expression>
+  - <value-expression>
+  <value-expression> + <value-expression>
+  <value-expression> - <value-expression>
+  <value-expression> * <value-expression>
+  <value-expression> / <value-expression>
+  <value-expression> % <value-expression>
+```
 
 ### Comparison expressions
 
-* `a = b`
-* `a <> b`
-* `a < b`
-* `a <= b`
-* `a > b`
-* `a >= b`
+```txt
+<comparison-expression>:
+  <value-expression> = <value-expression>
+  <value-expression> <> <value-expression>
+  <value-expression> < <value-expression>
+  <value-expression> <= <value-expression>
+  <value-expression> > <value-expression>
+  <value-expression> >= <value-expression
+```
 
 ### Boolean expressions
 
-* `a AND b`
-* `a OR b`
-* `NOT a`
-* `a IS NULL`
-* `a IS NOT NULL`
+```txt
+<boolean-expression>:
+  NOT <value-expression>
+  <value-expression> AND <value-expression>
+  <value-expression> OR <value-expression>
+  <value-expression> IS [NOT] NULL
+  <value-expression> IS [NOT] TRUE
+  <value-expression> IS [NOT] FALSE
+```
 
-### Character string expression
+### Character string expressions
 
-* `a || b`
+```txt
+<character-string-expression>:
+  <value-expression> || <value-expression>
+```
 
 ### Aggregation functions
 
-* `COUNT(*)`
-* `COUNT([DISTINCT|ALL] <expression>)`
-* `SUM(<expression>)`
-* `MAX(<expression>)`
-* `MIN(<expression>)`
-* `AVG(<expression>)`
+```txt
+<aggregation-function>:
+  COUNT(*)
+  COUNT([<set-quantifier>] <value-expression>)
+  SUM(<value-expression>)
+  MAX(<value-expression>)
+  MIN(<value-expression>)
+  AVG(<value-expression>)
 
-### Cast conversions
+<set-quantifier>:
+  ALL
+  DISTINCT
+```
 
-* `(CAST x AS <type>)`
-  * see [Types](#types)
-  * supported conversions:
-    * any pair of source and destination types from the following:
-      * `INT`
-      * `BIGINT`
-      * `REAL`
-      * `DOUBLE`
-      * `DECIMAL`
-      * `CHAR`
-      * `VARCHAR`
+### CAST
+
+```txt
+<cast-expression>:
+  CAST(<value-expression> AS <type>)
+```
+
+* `<type>` - see [Types](#types)
+
+----
+note:
+
+supported conversions:
+
+* any pair of source and destination types from the following:
+  * `INT`
+  * `BIGINT`
+  * `REAL`
+  * `DOUBLE`
+  * `DECIMAL`
+  * `CHAR`
+  * `VARCHAR`
+
+### Placeholders
+
+```txt
+<placeholder>:
+  : <placeholder-name>
+
+<placeholder-name>:
+  <regular-identifier>
+```
+
+* `<regular-identifier>` - see [Regular identifiers](#regular-identifiers)
 
 ## Types
 
-* `INT`
-* `BIGINT`
-* `REAL`
-* `DOUBLE PRECISION` (`DOUBLE`)
-* `DECIMAL(p [, s])` ( `p` >= `s` )
-  * `p` - number of digits (precision, `1~38` or `*` to use the max precision)
-  * `s` - number of decimal places (scale, `0~p` or zero when omitted)
-* `CHAR(s)`
-  * `s` - number of **octets** in UTF-8
-* `VARCHAR(s)`
-  * `s` - maximum number of **octets** in UTF-8, or `*` to ensure maximum capacity
-* `DATE`
-* `TIME`
-* `TIME WITH TIME ZONE` (currently only UTC time zone is supported)
-* `TIMESTAMP`
-* `TIMESTAMP WITH TIME ZONE` (currently only UTC time zone is supported)
+```txt
+<type>:
+  INT
+  BIGINT
+  REAL
+  FLOAT
+  DOUBLE [PRECISION]
+  DECIMAL [(<decimal-precision> [, <decimal-scale>])]
+  DECIMAL(*, *)
+  CHAR [(<fixed-length>)]
+  VARCHAR [(<varying-length>)]
+  DATE
+  TIME
+  TIME WITH TIME ZONE
+  TIMESTAMP
+  TIMESTAMP WITH TIME ZONE
+
+<decimal-precision>:
+  <integer>
+  *
+
+<decimal-scale>:
+  <integer>
+
+<fixed-length>:
+  <integer>
+
+<varying-length>
+  <integer>
+  *
+```
+
+* `<decimal-precision>` must be in [1, 38], or `*` to use the max precision
+* `<decimal-scale>` must be in [0, `<decimal-precision>`], or zero when omitted
+* `DECIMAL(*, *)` represents floating decimal number, that is, its scale is not fixed
+  * `DECIMAL(*, *)` is not allowed as table column type in [table definitions](#create-table)
+* `CHAR` and `VARCHAR` length represents the (maximum) number of **octets** in UTF-8
+* when `<fixed-length>` is omitted, it is considered as `1`
+* when `<varying-length>` is omitted, it is considered as `*`
+* `*` in `<varying-length>` means the maximum length of the type
+* `WITH TIME ZONE` is currently limited support, it is always considered as UTC time zone
 
 ----
 note:
@@ -180,15 +398,185 @@ Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast
 
 ## Literals
 
-* integral numbers
-* floating point numbers
-* `'character string'`
-* `NULL`
+* [Exact numeric literals](#exact-numeric-literals)
+* [Approximate numeric literals](#approximate-numeric-literals)
+* [Character string literals](#character-string-literals)
+* [Boolean literals](#boolean-literals)
+* [Null literal](#null-literal)
+
+```txt
+<literal>:
+  <exact-numeric-literal>
+  <approximate-numeric-literal>
+  <character-string-literal>
+  <boolean-literal>
+  <null-literal>
+```
 
 ----
 note:
 
 This version does not support temporal value literals (e.g. `TIMESTAMP '2000-01-01'`). You can specify such values using placeholders from Tsubakuro or Iceaxe.
+
+### Exact numeric literals
+
+```txt
+<exact-numeric-literal>:
+  [<numeric-sign>] <integer>
+  [<numeric-sign>] <decimal-number>
+
+<numeric-sign>:
+  +
+  -
+
+<integer>:
+  <digit> [<digit>...]
+
+<decimal-number>:
+  <integer> . <digit> [<digit>...]
+
+<digit>:
+  0 .. 9
+```
+
+----
+note:
+
+Tsurugi interprets exact numeric literals as `BIGINT` or `DECIMAL` type:
+
+* If the number fits into `BIGINT`, it is resolved as `BIGINT` type value
+* Otherwise, it is resolved as `DECIMAL` type value with the exact scale
+
+### Approximate numeric literals
+
+```txt
+<approximate-numeric-literal>:
+  <exact-numeric-literal> <exponential-part>
+
+<exponential-part>:
+  E [<numeric-sign>] <integer>
+```
+
+----
+note:
+
+Tsurugi interpret approximate numeric literals as just `DOUBLE` type.
+
+`E` is the exponent separator, and can be lower case character (e.g. `314e-2`).
+
+### Character string literals
+
+```txt
+<character-string-literal>:
+  ' <character-string-character>... '
+  
+<character-string-character>:
+  any character except for '
+  ''
+```
+
+----
+note:
+
+`''` in character string literals is considered as a single quote character (`'`).
+
+Tsurugi currently does not support any escape sequences (e.g. `\n`).
+We now plan whether to support escape sequences starting with back-slash (`\`) in the future.
+
+### Boolean literals
+
+```txt
+<boolean-literal>:
+  TRUE
+  FALSE
+  UNKNOWN
+```
+
+----
+note:
+
+`UNKNOWN` is considered as `NULL` of boolean type.
+
+### Null literal
+
+```txt
+<null-literal>:
+  NULL
+```
+
+----
+note:
+
+The current version of tsurugi allows `NULL` as general literals, but may in the future restrict it to use in only certain places.
+
+## Names
+
+* [Regular identifiers](#regular-identifiers)
+* [Delimited identifiers](#delimited-identifiers)
+
+```txt
+<*-name>:
+  <identifier>
+  <identifier> . <identifier> [. ...]
+
+<identifier>:
+  <regular-identifier>
+  <delimited-identifier>
+```
+
+### Regular identifiers
+
+```txt
+<regular-identifier>:
+  <identifier-character-start> [<identifier-character-body>...]
+
+<identifier-character-start>:
+  A-Z
+  a-z
+  _
+
+<identifier-character-body>:
+  A .. Z
+  a .. z
+  0 .. 9
+  _
+```
+
+* Regular identifiers cannot match [reserved words](#reserved-words).
+
+----
+note:
+
+Identifiers cannot start with two consecutive underscores (`__`), they are reserved for system use.
+
+If `lowercase_regular_identifier=true` in `[sql]` section of `tsurugi.ini`, all regular identifiers becomes lowercase to achieve case-insensitive identifiers.
+If the above setting is enabled, existing tables and columns with capital names becomes be inaccessible with using regular identifiers.
+You can still access such the tables and columns to use delimited identifier with the capital name.
+
+### Delimited identifiers
+
+```txt
+<delimited-identifier>:
+  " <delimited-identifier-character>... "
+  
+<delimited-identifier-character>:
+  any character except for "
+  ""
+```
+
+----
+note:
+
+If you want to use a reserved word as an identifier, you can use delimited identifiers.
+
+Identifiers cannot start with two consecutive underscores (`"__..."`), they are reserved for system use.
+
+Tsurugi currently accepts any characters in delimited identifiers.
+We now plan to disallow using non-UTF-8 characters and ASCII control characters in the future.
+
+The `sql.lowercase_regular_identifier` does not affect to delimited identifiers in contrast of regular identifiers.
+
+Note that delimited identifiers may not refer the some built-in functions, like `COUNT`.
 
 ## Planned features
 
@@ -197,8 +585,7 @@ This version does not support temporal value literals (e.g. `TIMESTAMP '2000-01-
 * Statements
   * `INSERT INTO ... SELECT ...`
 * Queries
-  * `LIMIT` clause
-  * `HAVING` clause
+  * `LIMIT` clause without `ORDER BY` clause
 * Expressions
   * `BETWEEN`
   * `IN`
@@ -217,18 +604,101 @@ This version does not support temporal value literals (e.g. `TIMESTAMP '2000-01-
   * `NULLIF`
   * `COALESCE`
   * `CASE ... WHEN ...`
+* Types
+  * `BINARY` / `VARBINARY`
 
 ### Normal
 
 * Definitions
   * `GENERATED BY DEFAULT AS IDENTITY` (identity columns)
 * Queries
-  * Sub-queries
+  * Scalar sub-queries
+  * `VALUES` as table reference
+  * `SELECT` without `FROM` clause
 * Expressions
   * `LIKE`
   * `EXISTS`
   * `IN` with sub-queries
 * Types
-  * `BINARY`
   * `BOOLEAN`
   * `TINYINT`/`SMALLINT`
+
+## Appendix
+
+### Reserved words
+
+The below reserved words are not allowed to use as regular identifiers.
+
+* `A`
+  * `ABS`, `ABSOLUTE`, `ACTION`, `ADD`, `ADMIN`, `AFTER`, `ALIAS`, `ALL`, `ALTER`, `ALWAYS`, `AND`, `ANY`, `ARE`, `ARRAY`, `AS`, `ASSERTION`, `ASYMMETRIC`, `AT`, `AUTHORIZATION`, `AVG`
+* `B`
+  * `BEFORE`, `BEGIN`, `BETWEEN`, `BIGINT`, `BINARY`, `BIT`, `BIT_AND`, `BIT_LENGTH`, `BIT_OR`, `BITVAR`, `BLOB`, `BOOL_AND`, `BOOL_OR`, `BOOLEAN`, `BOTH`, `BY`
+* `C`
+  * `CALL`, `CARDINALITY`, `CASCADE`, `CASCADED`, `CASE`, `CAST`, `CHAR`, `CHAR_LENGTH`, `CHARACTER`, `CHARACTER_LENGTH`, `CHECK`, `CLASS`, `CLOB`, `CLOSE`, `COALESCE`, `COLLATE`, `COLUMN`, `COMMIT`, `CONNECT`, `CONSTRAINT`, `CONSTRAINTS`, `CONVERT`, `CORRESPONDING`, `COUNT`, `CREATE`, `CROSS`, `CUBE`, `CURRENT`, `CURRENT_DATE`, `CURRENT_PATH`, `CURRENT_ROLE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`, `CURRENT_USER`, `CURSOR`, `CYCLE`
+* `D`
+  * `DATE`, `DAY`, `DEALLOCATE`, `DEC`, `DECIMAL`, `DECLARE`, `DEFAULT`, `DELETE`, `DEREF`, `DESCRIBE`, `DETERMINISTIC`, `DISCONNECT`, `DISTINCT`, `DOUBLE`, `DROP`, `DYNAMIC`
+* `E`
+  * `EACH`, `ELSE`, `END`, `END-EXEC`, `ESCAPE`, `EVERY`, `EXCEPT`, `EXEC`, `EXECUTE`, `EXISTS`, `EXTERNAL`, `EXTRACT`
+* `F`
+  * `FALSE`, `FETCH`, `FLOAT`, `FOR`, `FOREIGN`, `FROM`, `FULL`, `FUNCTION`
+* `G`
+  * `GENERATED`, `GET`, `GLOBAL`, `GRANT`, `GROUP`, `GROUPING`
+* `H`
+  * `HAVING`, `HOUR`
+* `I`
+  * `IDENTITY`, `IF`, `IN`, `INCLUDE`, `INCREMENT`, `INDEX`, `INDICATOR`, `INNER`, `INOUT`, `INSERT`, `INT`, `INTEGER`, `INTERSECT`, `INTERVAL`, `INTO`, `IS`
+* `J`
+  * `JOIN`
+* `K`
+* `L`
+  * `LANGUAGE`, `LARGE`, `LATERAL`, `LEADING`, `LEFT`, `LENGTH`, `LIKE`, `LIMIT`, `LOCAL`, `LOCALTIME`, `LOCALTIMESTAMP`, `LOWER`
+* `M`
+  * `MATCH`, `MAX`, `MAXVALUE`, `MIN`, `MINUTE`, `MINVALUE`, `MOD`, `MODIFIES`, `MODULE`, `MONTH`
+* `N`
+  * `NATIONAL`, `NATURAL`, `NCHAR`, `NCLOB`, `NEW`, `NEXT`, `NO`, `NONE`, `NOT`, `NULL`, `NULLIF`, `NULLS`, `NUMERIC`
+* `O`
+  * `OCTET_LENGTH`, `OF`, `OLD`, `ON`, `ONLY`, `OPEN`, `OR`, `ORDER`, `OUT`, `OUTER`, `OVERLAPS`, `OVERLAY`, `OWNED`
+* `P`
+  * `PARAMETER`, `PLACING`, `POSITION`, `PRECISION`, `PREPARE`, `PRIMARY`, `PROCEDURE`
+* `Q`
+* `R`
+  * `REAL`, `RECURSIVE`, `REF`, `REFERENCES`, `REFERENCING`, `REPLACE`, `RESULT`, `RETURN`, `RETURNS`, `REVOKE`, `RIGHT`, `ROLE`, `ROLLBACK`, `ROLLUP`, `ROW`, `ROWS`
+* `S`
+  * `SAVEPOINT`, `SCOPE`, `SEARCH`, `SECOND`, `SELECT`, `SESSION_USER`, `SET`, `SIMILAR`, `SMALLINT`, `SOME`, `SPECIFIC`, `SQL`, `SQLEXCEPTION`, `SQLSTATE`, `SQLWARNING`, `START`, `STATIC`, `SUBLIST`, `SUBSTRING`, `SUM`, `SYMMETRIC`, `SYSTEM_USER`
+* `T`
+  * `TABLE`, `TEMPORARY`, `THEN`, `TIME`, `TIMESTAMP`, `TIMEZONE_HOUR`, `TIMEZONE_MINUTE`, `TINYINT`, `TO`, `TRAILING`, `TRANSLATE`, `TRANSLATION`, `TREAT`, `TRIGGER`, `TRIM`, `TRUE`
+* `U`
+  * `UNION`, `UNIQUE`, `UNKNOWN`, `UNNEST`, `UPDATE`, `UPPER`, `USER`, `USING`
+* `V`
+  * `VALUES`, `VARBINARY`, `VARBIT`, `VARCHAR`, `VARYING`, `VIEW`
+* `W`
+  * `WHEN`, `WHENEVER`, `WHERE`, `WITH`, `WITHOUT`
+* `X`
+* `Y`
+  * `YEAR`
+* `Z`
+  * `ZONE`
+
+----
+note:
+
+The reserved words are case-insensitive.
+
+These reserved word list may change in the future.
+The above also includes unnecessary words because of according to the standard SQL definition.
+
+### Comments
+
+Comments are treated as whitespace characters in Tsurugi SQL.
+
+```txt
+<comment>:
+  <simple-comment>
+  <block-comment>
+
+<simple-comment>:
+  -- ...
+
+<block-comment>:
+  /* ... */
+```
