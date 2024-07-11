@@ -319,21 +319,7 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   CAST(<value-expression> AS <type>)
 ```
 
-* `<type>` - see [Types](#types)
-
-----
-note:
-
-supported conversions:
-
-* any pair of source and destination types from the following:
-  * `INT`
-  * `BIGINT`
-  * `REAL`
-  * `DOUBLE`
-  * `DECIMAL`
-  * `CHAR`
-  * `VARCHAR`
+* `<type>` - see [Types](#types) and [Conversions](#conversions)
 
 ### Placeholders
 
@@ -702,3 +688,64 @@ Comments are treated as whitespace characters in Tsurugi SQL.
 <block-comment>:
   /* ... */
 ```
+
+### Conversions
+
+When an expression needs to be evaluated with different types for comparisons, arithmetic operations, assignments, etc., type conversions are performed to match the types before processing.
+
+Type conversions can be explicit or implicit.
+
+* Implicit type conversion is done automatically by SQL engine and compiler when the value change is known to be safe.
+* Explicit conversions are not necessarily safe and require explicit instructions by CAST expressions.
+
+#### Explicit conversion
+
+Explicit conversion can be done by specifying the destination type with a CAST expression.
+
+CAST expression is possible when the source and target types are one of the following:
+
+* INT
+* BIGINT
+* REAL
+* DOUBLE
+* DECIMAL
+* CHAR
+* VARCHAR
+
+CAST expression chooses appropriate values for successful conversion unless conversion is not possible in principle. For example, values that exceed the range of possible values to be stored in the destination are rounded to the appropriate value near the boundary value.
+
+#### Implicit conversion
+
+##### Binary promotion
+
+When performing arithmetic operations or comparisons between two different types, type conversion is performed beforehand to a wider type that includes both types. The following is a list of the source types and the result type of conversion.
+
+| source type pair | result type |
+| --- | --- |
+| `INT` and `BIGINT` | `BIGINT` |
+| `REAL` and `DOUBLE` | `DOUBLE` |
+| one of `INT`/`BIGINT` and `DECIMAL` | `DECIMAL` |
+| one of `INT`/`BIGINT` and one of `REAL`/`DOUBLE` | `DOUBLE` |
+| `DECIMAL` and one of `REAL`/`DOUBLE`  | `DOUBLE` |
+
+##### Assignment Conversions
+
+When an assignment is made by INSERT/UPDATE statements, etc., the source type is converted to the destination type as long as the precision is not lost. The following is a list of possible assignment source and destination types.
+
+| source type | destination type |
+| --- | --- |
+| one of INT/BIGINT/DECIMAL | one of INT/BIGINT/DECIMAL/REAL/DOUBLE |
+| one of REAL/DOUBLE | one of REAL/DOUBLE |
+
+remark: REAL/DOUBLE to INT/BIGINT/DECIMAL conversions are not performed.
+
+If safe conversion is not possible, for example, values that cannot be stored in the destination type will result in a conversion error at runtime.
+
+###### Special case of assignment Conversions
+
+Additionally to assignment by INSERT/UPDATE statements, assignment conversions are also performed when execution plan conducts point read or range scan targetting to tables/indices. The values given for the search condition of point read or range scan will be converted to the type of index/table key columns. Same rule on source/destination types as above apply to this case.
+
+----
+note: 
+
+On BETA5, the assignment conversion for point read/range scan does not yet support conversion from DECIMAL to REAL/DOUBLE. So searching REAL/DOUBLE columns with DECIMAL values can result in runtime error. Casting the DECIMAL values works around the problem. This will be fixed in a future release.
