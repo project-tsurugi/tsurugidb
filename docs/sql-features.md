@@ -743,7 +743,7 @@ If safe conversion is not possible, for example, values that cannot be stored in
 
 ###### Special case of assignment Conversions
 
-Additionally to assignment by INSERT/UPDATE statements, assignment conversions are also performed when execution plan conducts point read or range scan targetting to KVS where table/index data is stored. The values given for the search condition of point read or range scan will be converted to the type of index/table key columns. Same rule on source/destination types as above apply to this case.
+Additionally to assignment by INSERT/UPDATE statements, assignment conversions are also performed when execution plan conducts point read or range scan targetting to tables/indices. The values given for the search condition of point read or range scan will be converted to the type of index/table key columns. Same rule on source/destination types as above apply to this case.
 
 ----
 note: 
