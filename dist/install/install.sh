@@ -18,6 +18,8 @@ do
     _SKIP=${1#--skip=}
   elif [[ "$1" == "--verbose" ]]; then
     _VERBOSE=ON
+  elif [[ "$1" =~ "--replaceconfig=" ]]; then
+    _REPLACE_CONFIG=${1#--replaceconfig=}
   else
     echo "[ERROR] invalid option: $1" 1>&2
     exit 1
@@ -45,6 +47,8 @@ export TG_CMAKE_BUILD_TYPE=${_BUILD_TYPE}
 export TG_CMAKE_BUILD_PARALLEL=${_PARALLEL}
 export TG_SKIP_INSTALL=${_SKIP}
 export TG_VERBOSE_INSTALL=${_VERBOSE}
+
+source ${_SCRIPTS_DIR}/install-util.sh
 
 source ${_SCRIPTS_DIR}/install-env.sh ${TG_INSTALL_BASE_DIR}
 if [ -f "${TG_INSTALL_BASE_DIR}/.install/BUILDINFO.md" ]; then
@@ -100,6 +104,7 @@ if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
   if "${MAKE_TSURUGI_BASE}"; then
     mkdir -p "${TSURUGI_BASE}/etc"
     cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc
+    replace_config "${TSURUGI_BASE}/etc/tsurugi.ini" "${_REPLACE_CONFIG}"
 
     mkdir -p "${TSURUGI_BASE}/data"
     if [ "$EUID" -eq 0 ]; then

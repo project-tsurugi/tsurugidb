@@ -11,7 +11,7 @@ WORKDIR /tmp/tsurugidb
 RUN set -eux \
  && tar xf "${SRC_DIR}/tsurugidb.tar.gz" \
  && ./apt-install.sh \
- && ./install.sh --symbolic \
+ && ./install.sh --symbolic --replaceconfig=enabled=true \
  && rm -fr /tmp/tsurugidb
 
 ARG TSURUGI_HOME="/usr/lib/tsurugi"
