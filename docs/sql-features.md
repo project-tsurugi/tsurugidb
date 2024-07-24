@@ -45,11 +45,14 @@ DDL should be issued from single thread when there is no on-going DML processing
 
 <default-expression>:
   <literal>
+  <function>
 ```
 
 * `<*-name>` - see [Names](#names)
 * `<type>` - see [Types](#types)
 * `<literal>` - see [Literals](#literals)
+* `<function>` - see [Functions](#functions)
+  * The arguments must be empty here.
 
 ----
 note:
@@ -224,6 +227,7 @@ Limitation: `LIMIT` must be with `ORDER BY`.
 * [Comparison expressions](#comparison-expressions)
 * [Boolean expressions](#boolean-expressions)
 * [Character string expressions](#character-string-expressions)
+* [Functions](#functions)
 * [Aggregation functions](#aggregation-functions)
 * [CAST](#cast)
 * [Placeholders](#placeholders)
@@ -235,6 +239,7 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   <comparison-expression>
   <boolean-expression>
   <character-string-expression>
+  <function>
   <aggregation-function>
   <cast-expression>
   <placeholder>
@@ -292,6 +297,19 @@ Limitation: `LIMIT` must be with `ORDER BY`.
 ```txt
 <character-string-expression>:
   <value-expression> || <value-expression>
+```
+
+### Functions
+
+```txt
+<function>:
+  <builtin-function>
+
+<builtin-function>:
+  CURRENT_DATE
+  LOCALTIME
+  CURRENT_TIMESTAMP
+  LOCALTIMESTAMP
 ```
 
 ### Aggregation functions
