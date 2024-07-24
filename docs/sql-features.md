@@ -386,6 +386,7 @@ Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast
 * [Approximate numeric literals](#approximate-numeric-literals)
 * [Character string literals](#character-string-literals)
 * [Boolean literals](#boolean-literals)
+* [Temporal literals](#temporal-literals)
 * [Null literal](#null-literal)
 
 ```txt
@@ -394,6 +395,7 @@ Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast
   <approximate-numeric-literal>
   <character-string-literal>
   <boolean-literal>
+  <temporal-literal>
   <null-literal>
 ```
 
@@ -480,6 +482,71 @@ We now plan whether to support escape sequences starting with back-slash (`\`) i
 note:
 
 `UNKNOWN` is considered as `NULL` of boolean type.
+
+## Temporal literals
+
+Temporal literals are represented by a combination of a temporal type name followed by a string literal that represents a time.
+
+```txt
+<temporal-literal>:
+  DATE '<date-string>'
+  TIME '<time-string>'
+  TIMESTAMP '<timestamp-string>'
+  TIMESTAMP WITHOUT TIME ZONE '<timestamp-string>'
+  TIMESTAMP WITH TIME ZONE '<timestamp-tz-string>'
+
+<date-string>:
+  <year> - <month> - <day>
+
+<time-string>:
+  <hour> : <minute> : <second>
+  <hour> : <minute> : <second> . <fraction>
+
+<timestamp-string>:
+  <date-string>
+  <date-string> <date-time-separator> <time-string>
+
+<timestamp-tz-string>:
+  <date-string>
+  <date-string> <date-time-separator> <time-string>
+  <date-string> <date-time-separator> <time-string> Z
+  <date-string> <date-time-separator> <time-string> <sign> <hour>
+  <date-string> <date-time-separator> <time-string> <sign> <hour> : <minute>
+
+<year>:
+  1 ..
+
+<month>:
+  1 .. 12
+
+<day>:
+  1 .. 31
+
+<hour>:
+  0 .. 23
+
+<minute>:
+  0 .. 59
+
+<second>:
+  0 .. 59
+
+<fraction>:
+  0 .. 999999999
+
+<date-time-separator>:
+  T
+  U+0020 (SPACE)
+
+<sign>:
+  +
+  -
+```
+
+* individual integer values can be with or without leading zeros (e.g., `2020-1-02 3:04:05`)
+* `<timestamp-string>` without time part is considered as `00:00:00`
+* `<timestamp-tz-string>` without zone offset part is considered as the system zone offset
+* `T` in `<date-time-separator>` is case sensitive
 
 ### Null literal
 
@@ -584,7 +651,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 * Queries
   * `UNION ALL`
 * Expressions
-  * temporal value literals
   * `NULLIF`
   * `COALESCE`
   * `CASE ... WHEN ...`
