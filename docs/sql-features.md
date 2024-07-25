@@ -172,6 +172,10 @@ note:
 
 ```txt
 <query-expression>:
+  <query>
+  <query> UNION [<set-quantifier>] <query>
+
+<query>:
   SELECT [<set-quantifier>] <select-element> [, ...]
       FROM <table-reference> [, ...]
       [WHERE <value-expression>]
@@ -216,6 +220,8 @@ note:
 note:
 
 Limitation: `LIMIT` must be with `ORDER BY`.
+
+Limitation: In the current version, `ORDER BY` and `LIMIT` are does not work correctly if they are at the end of binary expressions of query like `UNION` operator. This limitation will be removed in the future.
 
 ## Value expressions
 
