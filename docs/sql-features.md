@@ -150,6 +150,23 @@ see [Queries](#queries)
 * `INSERT OR IGNORE` - does nothing if the primary key already exists
 * `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
 
+----
+note:
+
+Limitation: `<query-expression>` that contains the destination table of insert statement can form a cycle among read/write operations and possibly cause unexpected result. Currently no measure is implemented to protect such operations. 
+
+For example, inserting scanned records from the same table easily results in an error as below. 
+```
+tgsql> create table t (c0 int);
+execute succeeded
+tgsql> insert into t values (1),(2),(3),(4),(5),(6),(7),(8);
+(8 rows inserted)
+tgsql> insert into t select * from t;
+(8 rows inserted)
+tgsql> insert into t select * from t;
+CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b shirakami response Status=ERR_CC {reason_code:CC_OCC_PHANTOM_AVOIDANCE, storage_name:t, no key information} location={key:<not available> storage:t})
+```
+
 ### UPDATE
 
 ```txt
