@@ -134,22 +134,21 @@ see [Queries](#queries)
 
 ```txt
 <insert-statement>:
-  INSERT [<insert-option>] INTO <table-name> [(<column-name> [, ...])] VALUES (<value-expression> [, ...]) [, ...]
+  INSERT [<insert-option>] INTO <table-name> [(<column-name> [, ...])] <insert-source>
 
 <insert-option>:
   OR REPLACE
   OR IGNORE
   IF NOT EXISTS
+
+<insert-source>:
+  VALUES (<value-expression> [, ...]) [, ...]
+  <query-expression>
 ```
 
 * `INSERT OR REPLACE` - replaces the row even if the primary key already exists
 * `INSERT OR IGNORE` - does nothing if the primary key already exists
 * `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
-
-----
-note:
-
-`INSERT INTO ... SELECT ...` is NOT available now. We are working to make this feature available in nearby versions.
 
 ### UPDATE
 
@@ -566,8 +565,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 ### Highest
 
-* Statements
-  * `INSERT INTO ... SELECT ...`
 * Queries
   * `LIMIT` clause without `ORDER BY` clause
 * Expressions
