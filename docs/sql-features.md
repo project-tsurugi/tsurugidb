@@ -146,17 +146,20 @@ see [Queries](#queries)
   <query-expression>
 ```
 
-* `INSERT OR REPLACE` - replaces the row even if the primary key already exists
-* `INSERT OR IGNORE` - does nothing if the primary key already exists
-* `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
+* behavior of individual insert operations:
+  * `INSERT` - failure if the primary key already exists
+  * `INSERT OR REPLACE` - replaces the row even if the primary key already exists
+  * `INSERT OR IGNORE` - does nothing if the primary key already exists
+  * `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
 
 ----
 note:
 
-Limitation: `<query-expression>` that contains the destination table of insert statement can form a cycle among read/write operations and possibly cause unexpected result. Currently no measure is implemented to protect such operations. 
+Limitation: `<query-expression>` that contains the destination table of insert statement can form a cycle among read/write operations and possibly cause unexpected result. Currently no measure is implemented to protect such operations.
 
-For example, inserting scanned records from the same table easily results in an error as below. 
-```
+For example, inserting scanned records from the same table easily results in an error as below.
+
+```txt
 tgsql> create table t (c0 int);
 execute succeeded
 tgsql> insert into t values (1),(2),(3),(4),(5),(6),(7),(8);
