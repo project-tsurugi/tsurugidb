@@ -155,7 +155,7 @@ see [Queries](#queries)
 ----
 note:
 
-Limitation: `<query-expression>` that contains the destination table of insert statement can form a cycle among read/write operations and possibly cause unexpected result. Currently no measure is implemented to protect such operations.
+Limitation: `<query-expression>` that contains the destination table of insert statement can form a cycle among read/write operations and the transaction will fail. Currently no measure is implemented to protect such operations.
 
 For example, inserting scanned records from the same table easily results in an error as below.
 
