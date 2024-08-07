@@ -546,6 +546,7 @@ jobs:
           sharksfin-implementation: shirakami
           checkout: false
           path: '.'
+          bridge-only: 'on'
 
       - name: CMake_Build
         working-directory: ogawayama
@@ -553,7 +554,7 @@ jobs:
           rm -rf build
           mkdir build
           cd build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DSHARKSFIN_IMPLEMENTATION=shirakami -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DBUILD_EXAMPLES=OFF -DBUILD_BRIDGE_ONLY=ON -DSHARKSFIN_IMPLEMENTATION=shirakami -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
           cmake --build . --target all --clean-first
 
       - name: CTest
