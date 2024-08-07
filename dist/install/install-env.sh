@@ -20,9 +20,6 @@ _YUGAWARA_DIR="${TG_INSTALL_BASE_DIR}/yugawara"
 _TAKATORI_DIR="${TG_INSTALL_BASE_DIR}/takatori"
 _SHAKUJO_DIR="${TG_INSTALL_BASE_DIR}/shakujo"
 
-_METADATA_MANAGER_DIR="${TG_INSTALL_BASE_DIR}/metadata-manager"
-_MESSAGE_MANAGER_DIR="${TG_INSTALL_BASE_DIR}/message-manager"
-
 _TSUBAKURO_DIR="${TG_INSTALL_BASE_DIR}/tsubakuro"
 _TANZAWA_DIR="${TG_INSTALL_BASE_DIR}/tanzawa"
 _HARINOKI_DIR="${TG_INSTALL_BASE_DIR}/harinoki"
@@ -127,22 +124,6 @@ if [ "${TG_SHAKUJO_DIR}" = "" ]; then
 fi
 if [ ! -d "${TG_SHAKUJO_DIR}" ]; then
   echo "TG_SHAKUJO_DIR (${TG_SHAKUJO_DIR}) is not exist" 1>&2
-  exit 1
-fi
-
-if [ "${TG_METADATA_MANAGER_DIR}" = "" ]; then
-  export TG_METADATA_MANAGER_DIR="${_METADATA_MANAGER_DIR}"
-fi
-if [ ! -d "${TG_METADATA_MANAGER_DIR}" ]; then
-  echo "TG_METADATA_MANAGER_DIR (${TG_METADATA_MANAGER_DIR}) is not exist" 1>&2
-  exit 1
-fi
-
-if [ "${TG_MESSAGE_MANAGER_DIR}" = "" ]; then
-  export TG_MESSAGE_MANAGER_DIR="${_MESSAGE_MANAGER_DIR}"
-fi
-if [ ! -d "${TG_MESSAGE_MANAGER_DIR}" ]; then
-  echo "TG_MESSAGE_MANAGER_DIR (${TG_MESSAGE_MANAGER_DIR}) is not exist" 1>&2
   exit 1
 fi
 

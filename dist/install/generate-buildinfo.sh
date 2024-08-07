@@ -32,8 +32,6 @@ BUILD_TIMESTAMP:${BUILD_TIMESTAMP}
 - mizugaki $(git -C ${TG_MIZUGAKI_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/mizugaki/commit/%H)" -1 HEAD)
 - tateyama $(git -C ${TG_TATEYAMA_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/tateyama/commit/%H)" -1 HEAD)
 - shakujo $(git -C ${TG_SHAKUJO_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/shakujo/commit/%H)" -1 HEAD)
-- metadata-manager $(git -C ${TG_METADATA_MANAGER_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/metadata-manager/commit/%H)" -1 HEAD)
-- message-manager $(git -C ${TG_MESSAGE_MANAGER_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/message-manager/commit/%H)" -1 HEAD)
 - tsubakuro $(git -C ${TG_TSUBAKURO_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/tsubakuro/commit/%H)" -1 HEAD)
 - tanzawa $(git -C ${TG_TANZAWA_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/tanzawa/commit/%H)" -1 HEAD)
 - harinoki $(git -C ${TG_HARINOKI_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/harinoki/commit/%H)" -1 HEAD)

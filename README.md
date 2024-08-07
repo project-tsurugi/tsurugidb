@@ -97,14 +97,6 @@ This includes the below significant limitations as below:
 
 ### Peripherals
 
-* [message-manager](https://github.com/project-tsurugi/message-manager)
-
-  A message broker between PostgreSQL and Tsurugi, using ogawayama
-
-* [metadata-manager](https://github.com/project-tsurugi/metadata-manager)
-
-  Manages Tsurugi meta-data in PostgreSQL
-
 * [harinoki](https://github.com/project-tsurugi/harinoki)
 
   Tiny authentication service

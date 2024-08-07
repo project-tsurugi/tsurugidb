@@ -28,12 +28,6 @@
 [submodule "jogasaki"]
 	path = jogasaki
 	url = https://github.com/project-tsurugi/jogasaki.git
-[submodule "metadata-manager"]
-	path = metadata-manager
-	url = https://github.com/project-tsurugi/metadata-manager.git
-[submodule "message-manager"]
-	path = message-manager
-	url = https://github.com/project-tsurugi/message-manager.git
 [submodule "ogawayama"]
 	path = ogawayama
 	url = https://github.com/project-tsurugi/ogawayama.git

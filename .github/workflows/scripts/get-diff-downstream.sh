@@ -18,8 +18,6 @@ function get_downstream() {
       tateyama ) dss=jogasaki ;;
       jogasaki ) dss=ogawayama ;;
       ogawayama ) dss=tateyama-bootstrap ;;
-      metadata-manager ) dss=message-manager ;;
-      message-manager ) dss=ogawayama ;;
       tateyama-bootstrap ) dss="" ;;
       tsubakuro ) dss=tanzawa ;;
       tanzawa ) dss="" ;;
