@@ -67,10 +67,6 @@ This includes the below significant limitations as below:
 
   SQL intermediate representations and utilities
 
-* [shakujo](https://github.com/project-tsurugi/shakujo)
-
-  Legacy implementation of SQL compiler
-
 ### Database framework
 
 * [tateyama](https://github.com/project-tsurugi/tateyama)

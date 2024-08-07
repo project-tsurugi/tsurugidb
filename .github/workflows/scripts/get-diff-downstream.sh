@@ -6,8 +6,6 @@ function get_downstream() {
   items=$1
   for item in $items; do
     case "$item" in
-      antlr4 ) dss=shakujo ;;
-      shakujo ) dss=mizugaki ;;
       takatori ) dss="yugawara tatetama" ;;
       yugawara ) dss=mizugaki ;;
       mizugaki ) dss=jogasaki ;;

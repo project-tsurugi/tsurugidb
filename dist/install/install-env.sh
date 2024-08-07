@@ -18,7 +18,6 @@ _LIMESTONE_DIR="${TG_INSTALL_BASE_DIR}/limestone"
 _MIZUGAKI_DIR="${TG_INSTALL_BASE_DIR}/mizugaki"
 _YUGAWARA_DIR="${TG_INSTALL_BASE_DIR}/yugawara"
 _TAKATORI_DIR="${TG_INSTALL_BASE_DIR}/takatori"
-_SHAKUJO_DIR="${TG_INSTALL_BASE_DIR}/shakujo"
 
 _TSUBAKURO_DIR="${TG_INSTALL_BASE_DIR}/tsubakuro"
 _TANZAWA_DIR="${TG_INSTALL_BASE_DIR}/tanzawa"
@@ -116,14 +115,6 @@ if [ "${TG_TAKATORI_DIR}" = "" ]; then
 fi
 if [ ! -d "${TG_TAKATORI_DIR}" ]; then
   echo "TG_TAKATORI_DIR (${TG_TAKATORI_DIR}) is not exist" 1>&2
-  exit 1
-fi
-
-if [ "${TG_SHAKUJO_DIR}" = "" ]; then
-  export TG_SHAKUJO_DIR="${_SHAKUJO_DIR}"
-fi
-if [ ! -d "${TG_SHAKUJO_DIR}" ]; then
-  echo "TG_SHAKUJO_DIR (${TG_SHAKUJO_DIR}) is not exist" 1>&2
   exit 1
 fi
 

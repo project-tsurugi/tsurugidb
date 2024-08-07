@@ -4,9 +4,6 @@
 [submodule "yugawara"]
 	path = yugawara
 	url = https://github.com/project-tsurugi/yugawara.git
-[submodule "shakujo"]
-	path = shakujo
-	url = https://github.com/project-tsurugi/shakujo.git
 [submodule "mizugaki"]
 	path = mizugaki
 	url = https://github.com/project-tsurugi/mizugaki.git

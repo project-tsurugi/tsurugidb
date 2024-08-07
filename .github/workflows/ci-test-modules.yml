@@ -91,54 +91,6 @@ jobs:
         with:
           ctest_input: 'takatori/build/**/*_gtest_result.xml'
 
-  Shakujo:
-    needs: Extract_Target
-    if: contains(needs.Extract_Target.outputs.target, '@shakujo@') || contains(needs.Extract_Target.outputs.target, '@all@')
-    runs-on: [self-hosted, docker]
-    permissions:
-      checks: write
-    timeout-minutes: 30
-    container:
-      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
-      volumes:
-        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
-    defaults:
-      run:
-        shell: bash
-    env:
-      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
-      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: CMake_Build
-        working-directory: shakujo
-        run: |
-          rm -fr build
-          mkdir build
-          cd build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
-          cmake --build . --target all --clean-first
-
-      - name: CTest
-        working-directory: shakujo
-        env:
-          GTEST_OUTPUT: xml
-          ASAN_OPTIONS: detect_stack_use_after_return=true
-        run: |
-          cd build
-          ctest --verbose
-
-      - name: Verify
-        uses: project-tsurugi/tsurugi-annotations-action@v1
-        if: always()
-        with:
-          ctest_input: 'shakujo/build/**/*_gtest_result.xml'
-
   Yugawara:
     needs: Extract_Target
     if: contains(needs.Extract_Target.outputs.target, '@yugawara@') || contains(needs.Extract_Target.outputs.target, '@all@')
