@@ -68,3 +68,31 @@ This section provides information about troubleshooting when tsurugidb failed to
 This section provides information about troubleshooting on failed connections from client libraries and client CLI tools.
 
 *To be written.*
+
+## Fail to execute query
+
+### Buffer overflow in IPC endpoint
+
+#### Problem or Error
+
+SELECT query fails with the following error message:
+
+```
+com.tsurugidb.tsubakuro.sql.exception.SqlExecutionException:
+SQL-02000: an error occurred in writing output records, possibly due to buffer overflow in endpoint
+```
+
+#### Possible Cause or Solution
+
+For communication on the IPC endpoint, the maximum size of the Resultset, which stores the data resulting from the execution of the SELECT clause, is limited by the `ipc_endpoint.datachannel_buffer_size` (KB) in `tsurugi.ini`.
+
+- https://github.com/project-tsurugi/tateyama/blob/master/docs/config_parameters.md (ja)
+- https://github.com/project-tsurugi/tateyama/blob/master/docs/config-parameters-en.md (en)
+
+If the size of the Resultset exceeds the value of `ipc_endpoint.datachannel_buffer_size`, the error occurs with message above.
+
+To resolve this issue, increase the value of `ipc_endpoint.datachannel_buffer_size` in `tsurugi.ini` and restart tsurugidb.
+
+Note that IPC connections statically consume shared memory by `ipc_endpoint.datachannel_buffer_size` at the start of the session; see the following document for more information on shared memory consumption when using IPC endpoints.
+
+- https://github.com/project-tsurugi/tateyama/blob/master/docs/internal/shared-memory-usage_ja.md (ja)
