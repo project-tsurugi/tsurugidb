@@ -344,6 +344,9 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   DECIMAL(*, *)
   CHAR [(<fixed-length>)]
   VARCHAR [(<varying-length>)]
+  BINARY [(<fixed-length>)]
+  VARBINARY [(<varying-length>)]
+  BINARY VARYING [(<varying-length>)]
   DATE
   TIME
   TIME WITH TIME ZONE
@@ -385,6 +388,7 @@ Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast
 * [Exact numeric literals](#exact-numeric-literals)
 * [Approximate numeric literals](#approximate-numeric-literals)
 * [Character string literals](#character-string-literals)
+* [Binary string literals](#binary-string-literals)
 * [Boolean literals](#boolean-literals)
 * [Null literal](#null-literal)
 
@@ -393,6 +397,7 @@ Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast
   <exact-numeric-literal>
   <approximate-numeric-literal>
   <character-string-literal>
+  <binary-string-literal>
   <boolean-literal>
   <null-literal>
 ```
@@ -467,6 +472,21 @@ note:
 Tsurugi currently does not support any escape sequences (e.g. `\n`).
 We now plan whether to support escape sequences starting with back-slash (`\`) in the future.
 
+### Binary string literals
+
+```txt
+<binary-string-literal>:
+  X ' <octet-value>... '
+
+<octet-value>
+  <hex-digit> <hex-digit>
+
+<hex-digit>:
+  0 .. 9
+  A .. F
+  a .. f
+```
+
 ### Boolean literals
 
 ```txt
@@ -515,8 +535,8 @@ The current version of tsurugi allows `NULL` as general literals, but may in the
   <identifier-character-start> [<identifier-character-body>...]
 
 <identifier-character-start>:
-  A-Z
-  a-z
+  A .. Z
+  a .. z
   _
 
 <identifier-character-body>:
@@ -588,8 +608,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
   * `NULLIF`
   * `COALESCE`
   * `CASE ... WHEN ...`
-* Types
-  * `BINARY` / `VARBINARY`
 
 ### Normal
 
