@@ -310,6 +310,7 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   LOCALTIME
   CURRENT_TIMESTAMP
   LOCALTIMESTAMP
+  OCTET_LENGTH(<value-expression>)
 ```
 
 ### Aggregation functions
