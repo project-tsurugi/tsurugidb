@@ -511,6 +511,7 @@ Temporal literals are represented by a combination of a temporal type name follo
   <date-string> <date-time-separator> <time-string>
   <date-string> <date-time-separator> <time-string> Z
   <date-string> <date-time-separator> <time-string> <sign> <hour>
+  <date-string> <date-time-separator> <time-string> <sign> <hour> <minute>
   <date-string> <date-time-separator> <time-string> <sign> <hour> : <minute>
 
 <year>:
