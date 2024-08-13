@@ -285,6 +285,9 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   <value-expression> AND <value-expression>
   <value-expression> OR <value-expression>
   <value-expression> IS [NOT] NULL
+  <value-expression> IS [NOT] TRUE
+  <value-expression> IS [NOT] FALSE
+  <value-expression> IS [NOT] UNKNOWN
 ```
 
 ### Character string expressions
