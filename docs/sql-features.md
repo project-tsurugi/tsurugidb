@@ -134,22 +134,41 @@ see [Queries](#queries)
 
 ```txt
 <insert-statement>:
-  INSERT [<insert-option>] INTO <table-name> [(<column-name> [, ...])] VALUES (<value-expression> [, ...]) [, ...]
+  INSERT [<insert-option>] INTO <table-name> [(<column-name> [, ...])] <insert-source>
 
 <insert-option>:
   OR REPLACE
   OR IGNORE
   IF NOT EXISTS
+
+<insert-source>:
+  VALUES (<value-expression> [, ...]) [, ...]
+  <query-expression>
 ```
 
-* `INSERT OR REPLACE` - replaces the row even if the primary key already exists
-* `INSERT OR IGNORE` - does nothing if the primary key already exists
-* `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
+* behavior of individual insert operations:
+  * `INSERT` - failure if the primary key already exists
+  * `INSERT OR REPLACE` - replaces the row even if the primary key already exists
+  * `INSERT OR IGNORE` - does nothing if the primary key already exists
+  * `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
 
 ----
 note:
 
-`INSERT INTO ... SELECT ...` is NOT available now. We are working to make this feature available in nearby versions.
+Limitation: `<query-expression>` that contains the destination table of insert statement can form a cycle among read/write operations and the transaction will fail. Currently no measure is implemented to protect such operations.
+
+For example, inserting scanned records from the same table easily results in an error as below.
+
+```txt
+tgsql> create table t (c0 int);
+execute succeeded
+tgsql> insert into t values (1),(2),(3),(4),(5),(6),(7),(8);
+(8 rows inserted)
+tgsql> insert into t select * from t;
+(8 rows inserted)
+tgsql> insert into t select * from t;
+CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b shirakami response Status=ERR_CC {reason_code:CC_OCC_PHANTOM_AVOIDANCE, storage_name:t, no key information} location={key:<not available> storage:t})
+```
 
 ### UPDATE
 
@@ -589,8 +608,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 ### Highest
 
-* Statements
-  * `INSERT INTO ... SELECT ...`
 * Queries
   * `LIMIT` clause without `ORDER BY` clause
 * Expressions
