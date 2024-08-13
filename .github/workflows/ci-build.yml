@@ -53,7 +53,8 @@ jobs:
       - name: Show_Tsurugi_Version
         if: ${{ matrix.os == 'ubuntu-22.04' }}
         run: |
-          tar xOf tsurugidb-*.tar.gz BUILDINFO.md | cat >> ${GITHUB_STEP_SUMMARY}
+          tar xf tsurugidb-*.tar.gz --strip-components 1 --wildcards */BUILDINFO.md
+          cat BUILDINFO.md >> ${GITHUB_STEP_SUMMARY}
 
   Test:
     uses: ./.github/workflows/ci-test-modules.yml

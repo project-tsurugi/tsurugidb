@@ -26,12 +26,13 @@ if [ "${TSURUGI_VERSION}" = "" ]; then
 fi
 
 BUILD_WORK_DIR="$TG_INSTALL_BASE_DIR/.build"
-ARCHIVE_FILE_NAME="tsurugidb-${TSURUGI_VERSION}.tar.gz"
+ARCHIVE_DIR_NAME="tsurugidb-${TSURUGI_VERSION}"
+ARCHIVE_FILE_NAME="${ARCHIVE_DIR_NAME}.tar.gz"
 
 mkdir "$BUILD_WORK_DIR"
 INSTALL_ARCHIVE_PATH="$BUILD_WORK_DIR/$ARCHIVE_FILE_NAME"
 
-tar --exclude-vcs --exclude='.github' --exclude='*/third_party/googletest' -czf "${INSTALL_ARCHIVE_PATH}" .install *
+tar --exclude-vcs --exclude='.github' --exclude='*/third_party/googletest' -czf "${INSTALL_ARCHIVE_PATH}"  -C . --transform "s,^,${ARCHIVE_DIR_NAME}/," .install *
 
 rm -fr .install/
 cd $OLDPWD

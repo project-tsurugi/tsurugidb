@@ -24,6 +24,7 @@ This is a working directory; the installation directory will be specified at ano
 
 ```sh
 tar xf tsurugidb-<version>.tar.gz
+cd tsurugidb-<version>
 ```
 
 ### Installing libraries for runtime environment (apt package)

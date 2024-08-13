@@ -9,7 +9,7 @@ COPY docker-entrypoint.sh /usr/local/bin
 
 WORKDIR /tmp/tsurugidb
 RUN set -eux \
- && tar xf "${SRC_DIR}/tsurugidb.tar.gz" \
+ && tar xf "${SRC_DIR}/tsurugidb.tar.gz" --strip-components 1 \
  && ./apt-install.sh \
  && ./install.sh --symbolic --replaceconfig=enabled=true \
  && rm -fr /tmp/tsurugidb

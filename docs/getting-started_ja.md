@@ -24,6 +24,7 @@ TsurugiのインストールアーカイブはGitHub Releasesで公開されて�
 
 ```sh
 tar xf tsurugidb-<version>.tar.gz
+cd tsurugidb-<version>
 ```
 
 ### 実行環境用ライブラリ（aptパッケージ）のインストール
