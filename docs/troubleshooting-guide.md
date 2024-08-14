@@ -26,7 +26,7 @@ This section provides information about troubleshooting when tsurugidb failed to
 
 #### Problem or Error
 
- `tgctl start` command fails with the following error message:
+`tgctl start` command fails with the following error message:
 
 ```sh
 
@@ -56,6 +56,33 @@ If `tglogutil repair` succeeds, tsurugidb can be started by `tgctl start`.
 
 For more information of `tglogutil repair`, please see the following documentation.
 - https://github.com/project-tsurugi/limestone/blob/master/docs/tglogutil-repair-man.md
+
+### Too many open files
+
+`tgctl start` fails, and the server log shows the following messages.
+
+```sh
+
+$ $TSURUGI_HOME/bin/tgctl start
+E... sortdb_wrapper.h:86] /:limestone:api:sortdb_wrapper:put sortdb put error, status: IO error: While open a file for appending: /path/to/tsurugi/var/data/log/sorting/000082.sst: Too many open files
+I... dblog_scan.cpp:216] /:limestone catch runtime_error(error in sortdb put)
+I... datastore_snapshot.cpp:115] /:limestone:internal:create_sortdb_from_wals failed to scan pwal files: error in sortdb put
+E... datastore_snapshot.cpp:116] /:limestone recover process failed. (cause: corruption detected in transaction log data directory), see https://github.com/project-tsurugi/tsurugidb/blob/master/docs/troubleshooting-guide.md
+E... datastore_snapshot.cpp:118] /:limestone dblogdir (transaction log directory): "/path/to/tsurugi/var/data/log"
+E... transactional_kvs_resource.cpp:89] opening database failed
+E... server.cpp:98] Server application framework setup phase failed.
+E... backend.cpp:176] Starting server failed due to errors in setting up server application framework.
+could not launch tsurugidb, as tsurugidb exited due to some error.
+
+```
+
+#### Possible Cause or Solution
+
+When starting tsurugidb, a large number of files may be temporarily created if the transaction log is very large.
+If the maximum number of open files in the OS configuration is exceeded, the startup will fail with the error described above.
+
+To resolve this, set the maximum number of open files in the OS to an appropriate value. This can be set using the `ulimit` command, `limits.conf` or by changing the systemd configuration.
+For more information, refer to the documentation of the operating system you are using.
 
 ## Fail to shutdown tsurugidb
 
