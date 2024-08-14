@@ -26,7 +26,7 @@ This section provides information about troubleshooting when tsurugidb failed to
 
 #### Problem or Error
 
- `tgctl start` command fails with the following error message:
+`tgctl start` command fails with the following error message:
 
 ```sh
 
@@ -59,7 +59,7 @@ For more information of `tglogutil repair`, please see the following documentati
 
 ### Too many open files
 
- `tgctl start` command fails with the following error message:
+`tgctl start` fails, and the server log shows the following messages.
 
 ```sh
 
