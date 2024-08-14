@@ -91,8 +91,8 @@ For communication on the IPC endpoint, the maximum size of the Resultset, which 
 
 If the size of the Resultset exceeds the value of `ipc_endpoint.datachannel_buffer_size`, the error occurs with message above.
 
-To resolve this issue, increase the value of `ipc_endpoint.datachannel_buffer_size` in `tsurugi.ini` and restart tsurugidb.
+To resolve this issue, increase the `ipc_endpoint.datachannel_buffer_size` in `tsurugi.ini` to a value sufficient to store the Resultset and restart tsurugidb.
 
-Note that IPC connections statically consume shared memory by `ipc_endpoint.datachannel_buffer_size` at the start of the session; see the following document for more information on shared memory consumption when using IPC endpoints.
+Note that an IPC-connected session statically consumes approximately the amount of shared memory determined by the product of `ipc_endpoint.datachannel_buffer_size` and `ipc_endpoint.max_datachannel_buffers`; see the following document for more information on shared memory consumption when using IPC endpoints.
 
 - https://github.com/project-tsurugi/tateyama/blob/master/docs/internal/shared-memory-usage_ja.md (ja)
