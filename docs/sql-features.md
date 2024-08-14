@@ -299,6 +299,11 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   <value-expression> <= <value-expression>
   <value-expression> > <value-expression>
   <value-expression> >= <value-expression
+  <value-expression> [NOT] BETWEEN [<between-type>] <value-expression> AND <value-expression>
+
+<between-type>:
+  SYMMETRIC
+  ASYMMETRIC
 ```
 
 ### Boolean expressions
@@ -698,7 +703,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 * Queries
   * `LIMIT` clause without `ORDER BY` clause
 * Expressions
-  * `BETWEEN`
   * `IN`
   * `CURRENT_DATE`
   * `CURRENT_TIME`
