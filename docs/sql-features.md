@@ -441,10 +441,10 @@ Here are some limitations on types used for the primary key or index key columns
 * The maximum length of a key is approximately 30KB
   * The length of the primary key is the sum of the length of the columns in the primary key
   * The length of an index key is the sum of the length of the columns in the index key and in the primary key
-  * For fixed-length columns such as CHAR or BINARY, the length is calculated based on the length specified for the type
-  * For variable-length columns such as VARCHAR, the length is calculated based on the actual value
+  * For fixed-length columns such as `CHAR` or `BINARY`, the length is calculated based on the length specified for the type
+  * For variable-length columns such as `VARCHAR`, the length is calculated based on the actual value
   * The length of columns may be larger than the actual data length of the columns because some management information is included in addition to the actual data
-* VARBINARY is not allowed for the primary or index key columns
+* `VARBINARY` is not allowed for the primary or index key columns
 
 ## Literals
 
