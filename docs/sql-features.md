@@ -52,7 +52,6 @@ DDL should be issued from single thread when there is no on-going DML processing
 * `<type>` - see [Types](#types)
 * `<literal>` - see [Literals](#literals)
 * `<function>` - see [Functions](#functions)
-  * The arguments must be empty here.
 
 ----
 note:
