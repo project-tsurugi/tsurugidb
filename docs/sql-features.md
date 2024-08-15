@@ -432,6 +432,10 @@ note:
 
 Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast expressions, you can use DECIMAL with any number of digits by specifying `(CAST x as DECIMAL(*,*))`. On the other hand, the scale (`s`) is required when stored it into tables because it must be recorded as a fixed point number.
 
+The zone offset of `TIMESTAMP WITH TIME ZONE` refers the configuration parameter `zone_offset` in `[session]` section of `tsurugi.ini`.
+Values of that type are stored as UTC time internally in the database, and the conversion (from/to strings or local timestamps) will use the zone offset value above.
+We are planning to allow individual clients to specify the zone offset value in the future.
+
 ## Literals
 
 * [Exact numeric literals](#exact-numeric-literals)
@@ -452,11 +456,6 @@ Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast
   <temporal-literal>
   <null-literal>
 ```
-
-----
-note:
-
-This version does not support temporal value literals (e.g. `TIMESTAMP '2000-01-01'`). You can specify such values using placeholders from Tsubakuro or Iceaxe.
 
 ### Exact numeric literals
 
