@@ -389,7 +389,10 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   DECIMAL [(<decimal-precision> [, <decimal-scale>])]
   DECIMAL(*, *)
   CHAR [(<fixed-length>)]
+  CHARACTER [(<fixed-length>)]
   VARCHAR [(<varying-length>)]
+  CHAR VARYING [(<varying-length>)]
+  CHARACTER VARYING [(<varying-length>)]
   BINARY [(<fixed-length>)]
   VARBINARY [(<varying-length>)]
   BINARY VARYING [(<varying-length>)]
@@ -422,7 +425,6 @@ Limitation: `LIMIT` must be with `ORDER BY`.
 * when `<fixed-length>` is omitted, it is considered as `1`
 * when `<varying-length>` is omitted, it is considered as `*`
 * `*` in `<varying-length>` means the maximum length of the type
-* `WITH TIME ZONE` is currently limited support, it is always considered as UTC time zone
 
 ----
 note:
@@ -702,10 +704,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 * Queries
   * `LIMIT` clause without `ORDER BY` clause
-* Expressions
-  * `CURRENT_DATE`
-  * `CURRENT_TIME`
-  * `CURRENT_TIMESTAMP`
 
 ### High
 
