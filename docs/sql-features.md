@@ -45,11 +45,14 @@ DDL should be issued from single thread when there is no on-going DML processing
 
 <default-expression>:
   <literal>
+  <function>
 ```
 
 * `<*-name>` - see [Names](#names)
 * `<type>` - see [Types](#types)
 * `<literal>` - see [Literals](#literals)
+* `<function>` - see [Functions](#functions)
+  * The arguments must be empty here.
 
 ----
 note:
@@ -134,22 +137,41 @@ see [Queries](#queries)
 
 ```txt
 <insert-statement>:
-  INSERT [<insert-option>] INTO <table-name> [(<column-name> [, ...])] VALUES (<value-expression> [, ...]) [, ...]
+  INSERT [<insert-option>] INTO <table-name> [(<column-name> [, ...])] <insert-source>
 
 <insert-option>:
   OR REPLACE
   OR IGNORE
   IF NOT EXISTS
+
+<insert-source>:
+  VALUES (<value-expression> [, ...]) [, ...]
+  <query-expression>
 ```
 
-* `INSERT OR REPLACE` - replaces the row even if the primary key already exists
-* `INSERT OR IGNORE` - does nothing if the primary key already exists
-* `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
+* behavior of individual insert operations:
+  * `INSERT` - failure if the primary key already exists
+  * `INSERT OR REPLACE` - replaces the row even if the primary key already exists
+  * `INSERT OR IGNORE` - does nothing if the primary key already exists
+  * `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
 
 ----
 note:
 
-`INSERT INTO ... SELECT ...` is NOT available now. We are working to make this feature available in nearby versions.
+Limitation: `<query-expression>` that contains the destination table of insert statement can form a cycle among read/write operations and the transaction will fail. Currently no measure is implemented to protect such operations.
+
+For example, inserting scanned records from the same table easily results in an error as below.
+
+```txt
+tgsql> create table t (c0 int);
+execute succeeded
+tgsql> insert into t values (1),(2),(3),(4),(5),(6),(7),(8);
+(8 rows inserted)
+tgsql> insert into t select * from t;
+(8 rows inserted)
+tgsql> insert into t select * from t;
+CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b shirakami response Status=ERR_CC {reason_code:CC_OCC_PHANTOM_AVOIDANCE, storage_name:t, no key information} location={key:<not available> storage:t})
+```
 
 ### UPDATE
 
@@ -224,6 +246,7 @@ Limitation: `LIMIT` must be with `ORDER BY`.
 * [Comparison expressions](#comparison-expressions)
 * [Boolean expressions](#boolean-expressions)
 * [Character string expressions](#character-string-expressions)
+* [Functions](#functions)
 * [Aggregation functions](#aggregation-functions)
 * [CAST](#cast)
 * [Placeholders](#placeholders)
@@ -235,6 +258,7 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   <comparison-expression>
   <boolean-expression>
   <character-string-expression>
+  <function>
   <aggregation-function>
   <cast-expression>
   <placeholder>
@@ -275,6 +299,12 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   <value-expression> <= <value-expression>
   <value-expression> > <value-expression>
   <value-expression> >= <value-expression
+  <value-expression> [NOT] BETWEEN [<between-type>] <value-expression> AND <value-expression>
+  <value-expression> [NOT] IN ( <value-expression> [, <value-expression> ...] )
+
+<between-type>:
+  SYMMETRIC
+  ASYMMETRIC
 ```
 
 ### Boolean expressions
@@ -285,6 +315,9 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   <value-expression> AND <value-expression>
   <value-expression> OR <value-expression>
   <value-expression> IS [NOT] NULL
+  <value-expression> IS [NOT] TRUE
+  <value-expression> IS [NOT] FALSE
+  <value-expression> IS [NOT] UNKNOWN
 ```
 
 ### Character string expressions
@@ -292,6 +325,20 @@ Limitation: `LIMIT` must be with `ORDER BY`.
 ```txt
 <character-string-expression>:
   <value-expression> || <value-expression>
+```
+
+### Functions
+
+```txt
+<function>:
+  <builtin-function>
+
+<builtin-function>:
+  CURRENT_DATE
+  LOCALTIME
+  CURRENT_TIMESTAMP
+  LOCALTIMESTAMP
+  OCTET_LENGTH(<value-expression>)
 ```
 
 ### Aggregation functions
@@ -343,7 +390,13 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   DECIMAL [(<decimal-precision> [, <decimal-scale>])]
   DECIMAL(*, *)
   CHAR [(<fixed-length>)]
+  CHARACTER [(<fixed-length>)]
   VARCHAR [(<varying-length>)]
+  CHAR VARYING [(<varying-length>)]
+  CHARACTER VARYING [(<varying-length>)]
+  BINARY [(<fixed-length>)]
+  VARBINARY [(<varying-length>)]
+  BINARY VARYING [(<varying-length>)]
   DATE
   TIME
   TIME WITH TIME ZONE
@@ -373,19 +426,34 @@ Limitation: `LIMIT` must be with `ORDER BY`.
 * when `<fixed-length>` is omitted, it is considered as `1`
 * when `<varying-length>` is omitted, it is considered as `*`
 * `*` in `<varying-length>` means the maximum length of the type
-* `WITH TIME ZONE` is currently limited support, it is always considered as UTC time zone
 
 ----
 note:
 
 Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast expressions, you can use DECIMAL with any number of digits by specifying `(CAST x as DECIMAL(*,*))`. On the other hand, the scale (`s`) is required when stored it into tables because it must be recorded as a fixed point number.
 
+The zone offset of `TIMESTAMP WITH TIME ZONE` refers the configuration parameter `zone_offset` in `[session]` section of `tsurugi.ini`.
+Values of that type are stored as UTC time internally in the database, and the conversion (from/to strings or local timestamps) will use the zone offset value above.
+We are planning to allow individual clients to specify the zone offset value in the future.
+
+Here are some limitations on types used for the primary key or index key columns:
+
+* The maximum length of a key is approximately 30KB
+  * The length of the primary key is the sum of the length of the columns in the primary key
+  * The length of an index key is the sum of the length of the columns in the index key and in the primary key
+  * For fixed-length columns such as `CHAR` or `BINARY`, the length is calculated based on the length specified for the type
+  * For variable-length columns such as `VARCHAR`, the length is calculated based on the actual value
+  * The length of columns may be larger than the actual data length of the columns because some management information is included in addition to the actual data
+* `VARBINARY` is not allowed for the primary or index key columns
+
 ## Literals
 
 * [Exact numeric literals](#exact-numeric-literals)
 * [Approximate numeric literals](#approximate-numeric-literals)
 * [Character string literals](#character-string-literals)
+* [Binary string literals](#binary-string-literals)
 * [Boolean literals](#boolean-literals)
+* [Temporal literals](#temporal-literals)
 * [Null literal](#null-literal)
 
 ```txt
@@ -393,14 +461,11 @@ Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast
   <exact-numeric-literal>
   <approximate-numeric-literal>
   <character-string-literal>
+  <binary-string-literal>
   <boolean-literal>
+  <temporal-literal>
   <null-literal>
 ```
-
-----
-note:
-
-This version does not support temporal value literals (e.g. `TIMESTAMP '2000-01-01'`). You can specify such values using placeholders from Tsubakuro or Iceaxe.
 
 ### Exact numeric literals
 
@@ -467,6 +532,21 @@ note:
 Tsurugi currently does not support any escape sequences (e.g. `\n`).
 We now plan whether to support escape sequences starting with back-slash (`\`) in the future.
 
+### Binary string literals
+
+```txt
+<binary-string-literal>:
+  X ' <octet-value>... '
+
+<octet-value>
+  <hex-digit> <hex-digit>
+
+<hex-digit>:
+  0 .. 9
+  A .. F
+  a .. f
+```
+
 ### Boolean literals
 
 ```txt
@@ -480,6 +560,72 @@ We now plan whether to support escape sequences starting with back-slash (`\`) i
 note:
 
 `UNKNOWN` is considered as `NULL` of boolean type.
+
+## Temporal literals
+
+Temporal literals are represented by a combination of a temporal type name followed by a string literal that represents a time.
+
+```txt
+<temporal-literal>:
+  DATE '<date-string>'
+  TIME '<time-string>'
+  TIMESTAMP '<timestamp-string>'
+  TIMESTAMP WITHOUT TIME ZONE '<timestamp-string>'
+  TIMESTAMP WITH TIME ZONE '<timestamp-tz-string>'
+
+<date-string>:
+  <year> - <month> - <day>
+
+<time-string>:
+  <hour> : <minute> : <second>
+  <hour> : <minute> : <second> . <fraction>
+
+<timestamp-string>:
+  <date-string>
+  <date-string> <date-time-separator> <time-string>
+
+<timestamp-tz-string>:
+  <date-string>
+  <date-string> <date-time-separator> <time-string>
+  <date-string> <date-time-separator> <time-string> Z
+  <date-string> <date-time-separator> <time-string> <sign> <hour>
+  <date-string> <date-time-separator> <time-string> <sign> <hour> <minute>
+  <date-string> <date-time-separator> <time-string> <sign> <hour> : <minute>
+
+<year>:
+  1 ..
+
+<month>:
+  1 .. 12
+
+<day>:
+  1 .. 31
+
+<hour>:
+  0 .. 23
+
+<minute>:
+  0 .. 59
+
+<second>:
+  0 .. 59
+
+<fraction>:
+  0 .. 999999999
+
+<date-time-separator>:
+  T
+  U+0020 (SPACE)
+
+<sign>:
+  +
+  -
+```
+
+* individual integer values can be with or without leading zeros (e.g., `2020-1-02 3:04:05`)
+* `<timestamp-string>` without time part is considered as `00:00:00`
+* `<timestamp-tz-string>` without zone offset part is considered as the system zone offset
+* `T` in `<date-time-separator>` is case sensitive
 
 ### Null literal
 
@@ -515,8 +661,8 @@ The current version of tsurugi allows `NULL` as general literals, but may in the
   <identifier-character-start> [<identifier-character-body>...]
 
 <identifier-character-start>:
-  A-Z
-  a-z
+  A .. Z
+  a .. z
   _
 
 <identifier-character-body>:
@@ -566,16 +712,8 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 ### Highest
 
-* Statements
-  * `INSERT INTO ... SELECT ...`
 * Queries
   * `LIMIT` clause without `ORDER BY` clause
-* Expressions
-  * `BETWEEN`
-  * `IN`
-  * `CURRENT_DATE`
-  * `CURRENT_TIME`
-  * `CURRENT_TIMESTAMP`
 
 ### High
 
@@ -584,12 +722,9 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 * Queries
   * `UNION ALL`
 * Expressions
-  * temporal value literals
   * `NULLIF`
   * `COALESCE`
   * `CASE ... WHEN ...`
-* Types
-  * `BINARY` / `VARBINARY`
 
 ### Normal
 
