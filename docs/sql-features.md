@@ -246,6 +246,7 @@ Limitation: `LIMIT` must be with `ORDER BY`.
 * [Comparison expressions](#comparison-expressions)
 * [Boolean expressions](#boolean-expressions)
 * [Character string expressions](#character-string-expressions)
+* [Case expressions](#case-expressions)
 * [Functions](#functions)
 * [Aggregation functions](#aggregation-functions)
 * [CAST](#cast)
@@ -258,6 +259,7 @@ Limitation: `LIMIT` must be with `ORDER BY`.
   <comparison-expression>
   <boolean-expression>
   <character-string-expression>
+  <case-expression>
   <function>
   <aggregation-function>
   <cast-expression>
@@ -325,6 +327,22 @@ Limitation: `LIMIT` must be with `ORDER BY`.
 ```txt
 <character-string-expression>:
   <value-expression> || <value-expression>
+```
+
+### Case expressions
+
+```txt
+<case-expression>:
+  CASE <value-expression> <when-clause> [...] [<else-clause>] END
+  CASE <when-clause> [...] [<else-clause>] END
+  NULLIF (<value-expression>, <value-expression>)
+  COALESCE (<value-expression> [, ...])
+
+<when-clause>:
+  WHEN <value-expression> THEN <value-expression>
+
+<else-clause>:
+  ELSE <value-expression>
 ```
 
 ### Functions
@@ -721,10 +739,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
   * `GENERATED ALWAYS AS IDENTITY` (identity columns)
 * Queries
   * `UNION ALL`
-* Expressions
-  * `NULLIF`
-  * `COALESCE`
-  * `CASE ... WHEN ...`
 
 ### Normal
 
