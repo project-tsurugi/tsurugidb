@@ -653,7 +653,7 @@ symbolic name: `ILLEGAL_STATE`.
 operation was requested in illegal or inappropriate time.
 
 * references
-  * [Issue: "SCD-00102: handshake operation is required to establish sessions"](https://github.com/project-tsurugi/tsurugidb/blob/doc-client-error-code/docs/upgrade-guide.md#handshake-required)
+  * [Issue: "SCD-00102: handshake operation is required to establish sessions"](upgrade-guide.md#handshake-required)
 
 ### `SCD-00103`
 
@@ -728,7 +728,7 @@ symbolic name: `SERVICE_UNAVAILABLE`.
 the destination service was not found.
 
 * references
-  * [Issue: "SCD-00402: unsupported service message"](https://github.com/project-tsurugi/tsurugidb/blob/doc-client-error-code/docs/upgrade-guide.md#service-not-registered)
+  * [Issue: "SCD-00402: unsupported service message"](upgrade-guide.md#service-not-registered)
 
 ### `SCD-00403`
 
@@ -743,5 +743,5 @@ symbolic name: `INVALID_REQUEST`.
 the service received a request message with invalid payload.
 
 * references
-  * [Issue: "SCD-00501: inconsistent service message version"](https://github.com/project-tsurugi/tsurugidb/blob/doc-client-error-code/docs/upgrade-guide.md#inconsistent-message)
+  * [Issue: "SCD-00501: inconsistent service message version"](upgrade-guide.md#inconsistent-message)
 
