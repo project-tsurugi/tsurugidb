@@ -430,7 +430,7 @@ Limitation: `LIMIT` must be with `ORDER BY`.
 ----
 note:
 
-Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast expressions, you can use DECIMAL with any number of digits by specifying `(CAST x as DECIMAL(*,*))`. On the other hand, the scale (`s`) is required when stored it into tables because it must be recorded as a fixed point number.
+Tsurugi internally handles `DECIMAL` as a floating point decimal number. In cast expressions, you can use DECIMAL with any number of digits by specifying `CAST(x as DECIMAL(*,*))`. On the other hand, the scale (`s`) is required when stored it into tables because it must be recorded as a fixed point number.
 
 The zone offset of `TIMESTAMP WITH TIME ZONE` refers the configuration parameter `zone_offset` in `[session]` section of `tsurugi.ini`.
 Values of that type are stored as UTC time internally in the database, and the conversion (from/to strings or local timestamps) will use the zone offset value above.
