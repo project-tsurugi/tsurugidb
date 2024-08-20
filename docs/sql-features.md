@@ -194,10 +194,6 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 
 ```txt
 <query-expression>:
-  <query>
-  <query> UNION [<set-quantifier>] <query>
-
-<query>:
   SELECT [<set-quantifier>] <select-element> [, ...]
       FROM <table-reference> [, ...]
       [WHERE <value-expression>]
@@ -206,6 +202,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
       [ORDER BY <order-by-element> [, ...]]
       [LIMIT <integer>]
   TABLE <table-name>
+  <query-expression> UNION [<set-quantifier>] <query-expression>
 
 <set-quantifier>:
   ALL
