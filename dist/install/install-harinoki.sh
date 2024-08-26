@@ -7,7 +7,7 @@ JETTY_HOME="${TG_INSTALL_DIR}/lib/jetty"
 
 if [ ! -f "${TG_INSTALL_BASE_DIR}/third_party/jetty-home-11.0.16.tar.gz" ]; then
   cd ${TG_INSTALL_BASE_DIR}/third_party
-  curl -OL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/11.0.16/jetty-home-11.0.16.tar.gz
+  curl --retry 3 --retry-all-errors -OL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/11.0.16/jetty-home-11.0.16.tar.gz
   cd $OLDPWD
 fi
 

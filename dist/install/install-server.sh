@@ -10,7 +10,7 @@ else
   echo -e "\n[Install mpdecimal]"
   if [ ! -f "${TG_INSTALL_BASE_DIR}/third_party/mpdecimal-2.5.1.tar.gz" ]; then
     cd ${TG_INSTALL_BASE_DIR}/third_party
-    curl -OL https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-2.5.1.tar.gz
+    curl --retry 3 --retry-all-errors -OL https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-2.5.1.tar.gz
     cd $OLDPWD
   fi
   rm -fr build-mpdecimal
