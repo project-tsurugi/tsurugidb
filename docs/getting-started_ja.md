@@ -161,14 +161,14 @@ Tsurugiサーバの設定はTsurugiインストールディレクトリ配下の
 $ cat $TSURUGI_HOME/var/etc/tsurugi.ini
 
 # tsurugidb config parameters
-# https://github.com/project-tsurugi/tateyama/blob/master/docs/config_parameters.md
-
-[cc]
-    #epoch_duration=40000
-    #waiting_resolver_threads=2
+# https://github.com/project-tsurugi/tsurugidb/blob/master/docs/config-parameters.md
 
 [datastore]
     log_location=var/data/log
+
+[cc]
+    #epoch_duration=3000
+    #waiting_resolver_threads=2
     ...
 ```
 
@@ -176,7 +176,7 @@ $ cat $TSURUGI_HOME/var/etc/tsurugi.ini
 設定項目については以下を参照してください。
 
 - 構成ファイルのパラメーター
-  - https://github.com/project-tsurugi/tateyama/blob/master/docs/config_parameters.md
+  - https://github.com/project-tsurugi/tsurugidb/blob/master/docs/config-parameters.md
 
 ## Tsurugiが提供する外部インターフェース群
 
