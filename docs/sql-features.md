@@ -202,6 +202,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
       [ORDER BY <order-by-element> [, ...]]
       [LIMIT <integer>]
   TABLE <table-name>
+  <query-expression> UNION [<set-quantifier>] <query-expression>
 
 <set-quantifier>:
   ALL
@@ -238,6 +239,8 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 note:
 
 Limitation: `LIMIT` must be with `ORDER BY`.
+
+Limitation: In the current version, `ORDER BY` and `LIMIT` are does not work correctly if they are at the end of binary expressions of query like `UNION` operator. This limitation will be removed in the future.
 
 ## Value expressions
 
@@ -719,8 +722,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 * Definitions
   * `GENERATED ALWAYS AS IDENTITY` (identity columns)
-* Queries
-  * `UNION ALL`
 * Expressions
   * `NULLIF`
   * `COALESCE`
