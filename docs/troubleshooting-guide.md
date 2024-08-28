@@ -113,8 +113,7 @@ SQL-02000: an error occurred in writing output records, possibly due to buffer o
 
 For communication on the IPC endpoint, the maximum size of the Resultset, which stores the data resulting from the execution of the SELECT clause, is limited by the `ipc_endpoint.datachannel_buffer_size` (KB) in `tsurugi.ini`.
 
-- https://github.com/project-tsurugi/tateyama/blob/master/docs/config_parameters.md (ja)
-- https://github.com/project-tsurugi/tateyama/blob/master/docs/config-parameters-en.md (en)
+- https://github.com/project-tsurugi/tsurugidb/blob/master/docs/config-parameters.md
 
 If the size of the Resultset exceeds the value of `ipc_endpoint.datachannel_buffer_size`, the error occurs with message above.
 

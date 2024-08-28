@@ -163,14 +163,14 @@ The Tsurugi server configuration is described in the "configuration file" locate
 $ cat $TSURUGI_HOME/var/etc/tsurugi.ini
 
 # tsurugidb config parameters
-# https://github.com/project-tsurugi/tateyama/blob/master/docs/config_parameters.md
-
-[cc]
-    #epoch_duration=40000
-    #waiting_resolver_threads=2
+# https://github.com/project-tsurugi/tsurugidb/blob/master/docs/config-parameters.md
 
 [datastore]
     log_location=var/data/log
+
+[cc]
+    #epoch_duration=3000
+    #waiting_resolver_threads=2
     ...
 ```
 
@@ -178,7 +178,7 @@ After editing the settings, you need to restart the Tsurugi server for the setti
 Please refer to the following for each setting item.
 
 - Configuration file parameters
-  - https://github.com/project-tsurugi/tateyama/blob/master/docs/config_parameters.md
+  - https://github.com/project-tsurugi/tsurugidb/blob/master/docs/config-parameters.md
 
 ## External interfaces for Tsurugi
 
