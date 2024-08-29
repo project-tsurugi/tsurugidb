@@ -204,6 +204,8 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
       [LIMIT <integer>]
   TABLE <table-name>
   <query-expression> UNION [<set-quantifier>] <query-expression>
+  <query-expression> EXCEPT [DISTINCT] <query-expression>
+  <query-expression> INTERSECT [DISTINCT] <query-expression>
 
 <set-quantifier>:
   ALL
