@@ -245,6 +245,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 * [Comparison expressions](#comparison-expressions)
 * [Boolean expressions](#boolean-expressions)
 * [Character string expressions](#character-string-expressions)
+* [Case expressions](#case-expressions)
 * [Functions](#functions)
 * [Aggregation functions](#aggregation-functions)
 * [CAST](#cast)
@@ -257,6 +258,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <comparison-expression>
   <boolean-expression>
   <character-string-expression>
+  <case-expression>
   <function>
   <aggregation-function>
   <cast-expression>
@@ -324,6 +326,22 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 ```txt
 <character-string-expression>:
   <value-expression> || <value-expression>
+```
+
+### Case expressions
+
+```txt
+<case-expression>:
+  CASE <value-expression> <when-clause> [...] [<else-clause>] END
+  CASE <when-clause> [...] [<else-clause>] END
+  NULLIF (<value-expression>, <value-expression>)
+  COALESCE (<value-expression> [, ...])
+
+<when-clause>:
+  WHEN <value-expression> THEN <value-expression>
+
+<else-clause>:
+  ELSE <value-expression>
 ```
 
 ### Functions
@@ -713,10 +731,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 * Definitions
   * `GENERATED ALWAYS AS IDENTITY` (identity columns)
-* Expressions
-  * `NULLIF`
-  * `COALESCE`
-  * `CASE ... WHEN ...`
 
 ### Normal
 
