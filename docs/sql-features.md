@@ -147,6 +147,7 @@ see [Queries](#queries)
 <insert-source>:
   VALUES (<value-expression> [, ...]) [, ...]
   <query-expression>
+  DEFAULT VALUES
 ```
 
 * behavior of individual insert operations:
@@ -202,6 +203,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
       [ORDER BY <order-by-element> [, ...]]
       [LIMIT <integer>]
   TABLE <table-name>
+  <query-expression> UNION [<set-quantifier>] <query-expression>
 
 <set-quantifier>:
   ALL
@@ -709,8 +711,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 * Definitions
   * `GENERATED ALWAYS AS IDENTITY` (identity columns)
-* Queries
-  * `UNION ALL`
 * Expressions
   * `NULLIF`
   * `COALESCE`
