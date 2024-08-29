@@ -238,13 +238,6 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <value-expression> DESC
 ```
 
-----
-note:
-
-Limitation: `LIMIT` must be with `ORDER BY`.
-
-Limitation: In the current version, `ORDER BY` and `LIMIT` are does not work correctly if they are at the end of binary expressions of query like `UNION` operator. This limitation will be removed in the future.
-
 ## Value expressions
 
 * [Primary expressions](#primary-expressions)
@@ -715,11 +708,6 @@ The `sql.lowercase_regular_identifier` does not affect to delimited identifiers 
 Note that delimited identifiers may not refer the some built-in functions, like `COUNT`.
 
 ## Planned features
-
-### Highest
-
-* Queries
-  * `LIMIT` clause without `ORDER BY` clause
 
 ### High
 
