@@ -762,8 +762,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 ## Planned features
 
-### Normal
-
 * Queries
   * Scalar sub-queries
   * `VALUES` as table reference
