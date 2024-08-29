@@ -762,9 +762,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 ## Planned features
 
-### High
-
-
 ### Normal
 
 * Queries
@@ -916,6 +913,6 @@ If safe conversion is not possible, for example, values that cannot be stored in
 Additionally to assignment by INSERT/UPDATE statements, assignment conversions are also performed when execution plan conducts point read or range scan targetting to tables/indices. The values given for the search condition of point read or range scan will be converted to the type of index/table key columns. Same rule on source/destination types as above apply to this case.
 
 ----
-note: 
+note:
 
 On BETA5, the assignment conversion for point read/range scan does not yet support conversion from DECIMAL to REAL/DOUBLE. So searching REAL/DOUBLE columns with DECIMAL values can result in runtime error. Casting the DECIMAL values works around the problem. This will be fixed in a future release.
