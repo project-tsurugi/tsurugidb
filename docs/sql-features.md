@@ -147,6 +147,7 @@ see [Queries](#queries)
 <insert-source>:
   VALUES (<value-expression> [, ...]) [, ...]
   <query-expression>
+  DEFAULT VALUES
 ```
 
 * behavior of individual insert operations:
