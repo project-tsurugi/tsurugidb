@@ -14,20 +14,29 @@ It focused for the following features:
 - More : Detailed Information is offered in the Handbook (only in Japanese)
   - https://nkbp.jp/lin-tsurugi
 
-## Limitations
-
-The latest version is **BETA** release.
-This includes the below significant limitations as below:
-
-* Available SQL features are very limited, please see [available feature list](docs/sql-features.md).
-* User control does not work, including authentications and authorizations.
-
 ## Getting started
 
+### Use on Linux (build and install)
+
 * [Tsurugi Getting Started](docs/getting-started.md)
-  * [Tsurugi Getting Started (ja)](docs/getting-started_ja.md)
+* [Tsurugi Getting Started (ja)](docs/getting-started_ja.md)
+
+### Use on Docker
 * [Tsurugi Docker User Guide](docs/docker-tsurugi.md)
-  * [Tsurugi Dockerユーザガイド (ja)](docs/docker-tsurugi_ja.md)
+* [Tsurugi Dockerユーザガイド (ja)](docs/docker-tsurugi_ja.md)
+
+## Documentation
+
+* [Available SQL features in Tsurugi](docs/sql-features.md)
+* [Configuration file parameters](docs/config-parameters.md)
+
+You can find more documents in the [docs](docs/) directory.
+
+## Limitations
+
+This includes the below significant limitations as below:
+
+* User control does not work, including authentications and authorizations.
 
 ## Sub projects
 
