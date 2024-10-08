@@ -16,21 +16,25 @@ It focused for the following features:
 
 ## Getting started
 
-### Use on Linux (build and install)
-
-* [Tsurugi Getting Started](docs/getting-started.md)
-* [Tsurugi Getting Started (ja)](docs/getting-started_ja.md)
-
-### Use on Docker
-* [Tsurugi Docker User Guide](docs/docker-tsurugi.md)
-* [Tsurugi Dockerユーザガイド (ja)](docs/docker-tsurugi_ja.md)
+* Installation
+  * [Tsurugi Getting Started](docs/getting-started.md)
+    * [Tsurugi Getting Started (ja)](docs/getting-started_ja.md)
+* Use official Docker Image
+  * [Tsurugi Docker User Guide](docs/docker-tsurugi.md)
+    * [Tsurugi Dockerユーザガイド (ja)](docs/docker-tsurugi_ja.md)
 
 ## Documentation
 
-* [Available SQL features in Tsurugi](docs/sql-features.md)
-* [Configuration file parameters](docs/config-parameters.md)
-
-You can find more documents in the [docs](docs/) directory.
+* Runtime Environments
+  * [Supported Platforms](docs/supported-platforms.md)
+* Support SQL
+  * [Available SQL features in Tsurugi](docs/sql-features.md)
+* External Interfaces
+  * [External interfaces for Tsurugi](docs/getting-started.md#external-interfaces-for-tsurugi)
+    * [Tsurugiが提供する外部インターフェース群 (ja)](docs/getting-started_ja.md#tsurugiが提供する外部インターフェース群)
+* Miscellaneous
+  * You can find more documents in the [docs](docs/) directory.
+  * The `docs` directory of the [Sub projects](#sub-projects) contains detailed information for each component.
 
 ## Limitations
 
@@ -108,8 +112,8 @@ This includes the below significant limitations as below:
 
 ## Resources
 
-* [Tsurugi documents](./docs/)
 * [Tsurugi Community Site (ja)](https://www.tsurugidb.com/)
+* [note (ja)](https://note.com/n_technologies/m/m88508b206159)
 
 ## Contributing
 

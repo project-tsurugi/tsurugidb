@@ -2,10 +2,9 @@
 
 ## インストール環境
 
-現時点では、Tsurugiは以下のOS環境でのみ動作を確認しています。
+Tsurugiをインストールするための環境については、以下のドキュメントに記載の要件を満たす必要があります。
 
-- Ubuntu-22.04
-- Ubuntu-24.04 (Experimental support)
+* [Supported Platforms](./supported-platforms.md)
 
 ## インストール手順
 

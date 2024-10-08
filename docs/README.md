@@ -10,6 +10,7 @@
 * [Service Message Version (SMV) Compatibility](./service-message-compatibilities.md)
 * [Error Code of Tsurugi Services](./error-code-tsurugi-services.md)
 * [Available SQL features in Tsurugi](./sql-features.md)
+* [Supported Platforms](./supported-platforms.md)
 
 ## Important documents in sub-projects
 

@@ -2,10 +2,9 @@
 
 ## Installation Environment
 
-Currently, Tsurugi has been tested only in the following OS environment.
+The following document describes the requirements for the environment in which Tsurugi is installed.
 
-- Ubuntu-22.04
-- Ubuntu-24.04 (Experimental support)
+* [Supported Platforms](./supported-platforms.md)
 
 ## Installation Instructions
 
