@@ -41,6 +41,8 @@ Target component
 | `lowercase_regular_identifiers` | Boolean (true/false) | Whether to convert table and column names into lowercase internally. The default value is false.||
 | `stealing_enabled` | Boolean (true/false) | Whether the scheduler steals tasks to utilize idle CPU cores. The default value is true. |
 | `thread_pool_size` | Integer | Number of threads used by the task scheduler in the SQL service. The default value is set according to the environment by the following formula. <ul><li>`MIN(<default worker coefficient> * <number of physical cores>, <maximum default worker count>)` </li><li>If the result is less than 1, it is set to 1. </li><li>the `<default worker coefficient>` is 0.8 </li><li>the `<maximum default worker count>` is 32.</ul> |
+| `scan_block_size` | Integer | The maximum number of scan operator records processed before yielding to other tasks. The default limit is 100 records. If set to 0, this limit is removed. The scan operator processes either the entire table or a specific range of data. This parameter is intended to prevent the thread from becoming unresponsive when the number of scan operator records is too large. |
+| `scan_yield_interval` | Integer | The maximum millisecond time of scan operator processing records before yielding to other tasks. The default is 1. If the value of this option is set to 0, the decision to split will rely solely on the value of scan_block_size. When using this option, it is recommended to keep the scan_block_size at its default value. If the scan_block_size is set to an extremely large value, the actual split occur after a time that significantly exceeds the specified value. |
 
 ## `ipc_endpoint` section
 
