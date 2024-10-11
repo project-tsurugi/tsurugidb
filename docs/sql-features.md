@@ -411,9 +411,15 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 ```txt
 <cast-expression>:
   CAST(<value-expression> AS <type>)
+  <value-expression> :: <type>
 ```
 
 * `<type>` - see [Types](#types) and [Conversions](#conversions)
+
+----
+note:
+
+`expression::type` is a PostgreSQL-style cast expression.
 
 ### Placeholders
 
