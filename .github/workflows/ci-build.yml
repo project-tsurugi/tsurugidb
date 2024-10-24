@@ -48,7 +48,6 @@ jobs:
         with:
           name: install-archive
           path: tsurugidb-*.tar.gz
-          retention-days: 30
 
       - name: Show_Tsurugi_Version
         if: ${{ matrix.os == 'ubuntu-22.04' }}
