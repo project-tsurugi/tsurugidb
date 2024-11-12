@@ -1,6 +1,6 @@
 # Error Code of Tsurugi Services
 
-Client library (Tsubakuro) version: `1.3.0-SNAPSHOT`.
+Client library (Tsubakuro) version: `1.7.0`.
 
 This document presents a comprehensive list of error codes that can be transmitted from each Tsurugi service to the client.
 
