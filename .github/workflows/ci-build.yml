@@ -60,3 +60,22 @@ jobs:
     secrets: inherit
     permissions:
       checks: write
+
+  Check:
+    runs-on: [self-hosted, docker]
+    timeout-minutes: 3
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Diff_Proto
+        run: |
+          ./.github/workflows/scripts/diff-proto.sh
