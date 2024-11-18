@@ -88,7 +88,7 @@ Target component
 
 | Parameter name | Type | Value | Remarks |
 |---:| :---: | :--- |---|
-| `pid_directory` | String | Temporary directory location to create lock files such as .pid files (see [process mutex](https://github.com/project-tsurugi/tateyama/blob/master/docs/process-mutex-ja.md)). The default value is /var/lock. | If you run multiple tsurugidb instances on the same server, you need to set the same value for this parameter in the configuration file of all tsurugidb instances. |
+| `pid_directory` | String | Temporary directory location to create lock files such as .pid files (see [process mutex](https://github.com/project-tsurugi/tateyama/blob/master/docs/process-mutex-ja.md)). The default value is /var/lock. | If you run multiple tsurugidb instances on the same server, you need to set the same value for this parameter in the configuration file of all tsurugidb instances. The lock files are also accessed from IPC connections from tsubakuro and others in order to monitor the server's dead/alive status. |
 
 ## `glog` section
 
