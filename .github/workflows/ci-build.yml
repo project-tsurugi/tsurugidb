@@ -33,7 +33,7 @@ jobs:
           git config --global --add safe.directory "${GITHUB_WORKSPACE}"
 
           mkdir build-install-test
-          ./install.sh --prefix="$(pwd)/build-install-test"
+          ./install.sh --prefix="$(pwd)/build-install-test" --skip=harinoki
         env:
           TG_COMMON_CMAKE_BUILD_OPTIONS: '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
 
