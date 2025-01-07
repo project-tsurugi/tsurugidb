@@ -632,7 +632,7 @@ jobs:
   Tsubakuro:
     needs: Extract_Target
     if: contains(needs.Extract_Target.outputs.target, '@tsubakuro@') || contains(needs.Extract_Target.outputs.target, '@all@')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       checks: write
     timeout-minutes: 30
@@ -674,7 +674,7 @@ jobs:
   Tanzawa:
     needs: Extract_Target
     if: contains(needs.Extract_Target.outputs.target, '@tanzawa@') || contains(needs.Extract_Target.outputs.target, '@all@')
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       checks: write
     timeout-minutes: 30
