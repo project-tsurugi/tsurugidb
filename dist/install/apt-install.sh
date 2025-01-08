@@ -34,7 +34,7 @@ apt-get install -y -V \
  libssl-dev \
  libtbb-dev \
  lsb-release \
- openjdk-11-jdk \
+ openjdk-11-jdk-headless \
  pkg-config \
  protobuf-compiler \
  ninja-build \
