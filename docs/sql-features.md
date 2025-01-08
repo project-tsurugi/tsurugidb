@@ -457,6 +457,11 @@ note:
   TIME WITH TIME ZONE
   TIMESTAMP
   TIMESTAMP WITH TIME ZONE
+  BLOB
+  BINARY LARGE OBJECT
+  CLOB
+  CHAR LARGE OBJECT
+  CHARACTER LARGE OBJECT
 
 <decimal-precision>:
   <integer>
@@ -814,7 +819,7 @@ The below reserved words are not allowed to use as regular identifiers.
 * `N`
   * `NATIONAL`, `NATURAL`, `NCHAR`, `NCLOB`, `NEW`, `NEXT`, `NO`, `NONE`, `NOT`, `NULL`, `NULLIF`, `NULLS`, `NUMERIC`
 * `O`
-  * `OCTET_LENGTH`, `OF`, `OLD`, `ON`, `ONLY`, `OPEN`, `OR`, `ORDER`, `OUT`, `OUTER`, `OVERLAPS`, `OVERLAY`, `OWNED`
+  * `OBJECT`, `OCTET_LENGTH`, `OF`, `OLD`, `ON`, `ONLY`, `OPEN`, `OR`, `ORDER`, `OUT`, `OUTER`, `OVERLAPS`, `OVERLAY`, `OWNED`
 * `P`
   * `PARAMETER`, `PLACING`, `POSITION`, `PRECISION`, `PREPARE`, `PRIMARY`, `PROCEDURE`
 * `Q`
