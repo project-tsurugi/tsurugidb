@@ -508,6 +508,12 @@ Here are some limitations on types used for the primary key or index key columns
   * For variable-length columns such as `VARCHAR`, the length is calculated based on the actual value
   * The length of columns may be larger than the actual data length of the columns because some management information is included in addition to the actual data
 * `VARBINARY` is not allowed for the primary or index key columns
+* `BLOB` and `CLOB` types are not comparable, so the following operations are not permitted:
+  * Using columns as primary or index keys
+  * Including columns in the `GROUP BY` clause
+  * Including columns in the `ORDER BY` clause
+  * Comparing columns with operators such as `=`, `<>`, `<`, `<=`, `>`, `>=`, `BETWEEN`, or `IN`
+  * Applying the `DISTINCT`, `UNION DISTINCT`, `EXCEPT`, or `INTERSECT` operators to the column
 
 ## Literals
 
