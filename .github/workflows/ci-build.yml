@@ -33,24 +33,37 @@ jobs:
           git config --global --add safe.directory "${GITHUB_WORKSPACE}"
 
           mkdir build-install-test
-          ./install.sh --prefix="$(pwd)/build-install-test" --skip=harinoki
+          ./install.sh --prefix="$(pwd)/build-install-test" --symbolic --skip=harinoki
         env:
           TG_COMMON_CMAKE_BUILD_OPTIONS: '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
 
+      - name: Generate_Binary_Archive
+        if: matrix.os == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
+        run: |
+          cd build-install-test
+          tar -czf ../tsurugidb-bin-${{ matrix.os }}-snapshot-${GITHUB_SHA::7}.tar.gz *
+
+      - name: Upload_Binary_Archive
+        if: matrix.os == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-archive-${{ matrix.os }}
+          path: tsurugidb-bin-*.tar.gz
+
       - name: Generate_Install_Archive
-        if: ${{ matrix.os == 'ubuntu-22.04' }}
+        if: matrix.os == 'ubuntu-22.04'
         run: |
           ./dist/install/generate-install-archive.sh
 
-      - name: Upload_Artifact
-        if: ${{ matrix.os == 'ubuntu-22.04' }}
+      - name: Upload_Install_Archive
+        if: matrix.os == 'ubuntu-22.04'
         uses: actions/upload-artifact@v4
         with:
           name: install-archive
           path: tsurugidb-*.tar.gz
 
       - name: Show_Tsurugi_Version
-        if: ${{ matrix.os == 'ubuntu-22.04' }}
+        if: matrix.os == 'ubuntu-22.04'
         run: |
           tar xf tsurugidb-*.tar.gz --strip-components 1 --wildcards */BUILDINFO.md
           cat BUILDINFO.md >> ${GITHUB_STEP_SUMMARY}
