@@ -28,32 +28,25 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install
+      - name: Generate_Install_Archive
         run: |
           git config --global --add safe.directory "${GITHUB_WORKSPACE}"
 
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            export TG_RELEASE_TSURUGI_VERSION=${GITHUB_REF_NAME}
+          fi
+          ./dist/install/generate-install-archive.sh
+
+      - name: Install
+        run: |
+          mkdir work-install
           mkdir build-install-test
-          ./install.sh --prefix="$(pwd)/build-install-test" --symbolic --skip=harinoki
+
+          cd work-install
+          tar xf ../tsurugidb-*.tar.gz --strip-components 1
+          ./install.sh --prefix=${GITHUB_WORKSPACE}/build-install-test --symbolic --skip=harinoki
         env:
           TG_COMMON_CMAKE_BUILD_OPTIONS: '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
-
-      - name: Generate_Binary_Archive
-        if: matrix.os == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
-        run: |
-          cd build-install-test
-          tar -czf ../tsurugidb-bin-${{ matrix.os }}-snapshot-${GITHUB_SHA::7}.tar.gz *
-
-      - name: Upload_Binary_Archive
-        if: matrix.os == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
-        uses: actions/upload-artifact@v4
-        with:
-          name: binary-archive-${{ matrix.os }}
-          path: tsurugidb-bin-*.tar.gz
-
-      - name: Generate_Install_Archive
-        if: matrix.os == 'ubuntu-22.04'
-        run: |
-          ./dist/install/generate-install-archive.sh
 
       - name: Upload_Install_Archive
         if: matrix.os == 'ubuntu-22.04'
@@ -65,8 +58,22 @@ jobs:
       - name: Show_Tsurugi_Version
         if: matrix.os == 'ubuntu-22.04'
         run: |
-          tar xf tsurugidb-*.tar.gz --strip-components 1 --wildcards */BUILDINFO.md
+          cd work-install
           cat BUILDINFO.md >> ${GITHUB_STEP_SUMMARY}
+
+      - name: Generate_Binary_Archive
+        if: matrix.os == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
+        run: |
+          cd build-install-test
+          TSURUGI_VERSION=$(grep -oP '(?<=^TSURUGI_VERSION:).*' tsurugi/BUILDINFO.md)
+          tar -czf ../tsurugidb-bin-${{ matrix.os }}-${TSURUGI_VERSION}.tar.gz *
+
+      - name: Upload_Binary_Archive
+        if: matrix.os == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-archive-${{ matrix.os }}
+          path: tsurugidb-bin-*.tar.gz
 
   Test:
     uses: ./.github/workflows/ci-test-modules.yml
