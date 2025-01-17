@@ -457,6 +457,11 @@ note:
   TIME WITH TIME ZONE
   TIMESTAMP
   TIMESTAMP WITH TIME ZONE
+  BLOB
+  BINARY LARGE OBJECT
+  CLOB
+  CHAR LARGE OBJECT
+  CHARACTER LARGE OBJECT
 
 <decimal-precision>:
   <integer>
@@ -503,6 +508,12 @@ Here are some limitations on types used for the primary key or index key columns
   * For variable-length columns such as `VARCHAR`, the length is calculated based on the actual value
   * The length of columns may be larger than the actual data length of the columns because some management information is included in addition to the actual data
 * `VARBINARY` is not allowed for the primary or index key columns
+* `BLOB` and `CLOB` types are not comparable, so the following operations are not permitted:
+  * Using columns as primary or index keys
+  * Including columns in the `GROUP BY` clause
+  * Including columns in the `ORDER BY` clause
+  * Comparing columns with operators such as `=`, `<>`, `<`, `<=`, `>`, `>=`, `BETWEEN`, or `IN`
+  * Applying the `DISTINCT`, `UNION DISTINCT`, `EXCEPT`, or `INTERSECT` operators to the column
 
 ## Literals
 
@@ -814,7 +825,7 @@ The below reserved words are not allowed to use as regular identifiers.
 * `N`
   * `NATIONAL`, `NATURAL`, `NCHAR`, `NCLOB`, `NEW`, `NEXT`, `NO`, `NONE`, `NOT`, `NULL`, `NULLIF`, `NULLS`, `NUMERIC`
 * `O`
-  * `OCTET_LENGTH`, `OF`, `OLD`, `ON`, `ONLY`, `OPEN`, `OR`, `ORDER`, `OUT`, `OUTER`, `OVERLAPS`, `OVERLAY`, `OWNED`
+  * `OBJECT`, `OCTET_LENGTH`, `OF`, `OLD`, `ON`, `ONLY`, `OPEN`, `OR`, `ORDER`, `OUT`, `OUTER`, `OVERLAPS`, `OVERLAY`, `OWNED`
 * `P`
   * `PARAMETER`, `PLACING`, `POSITION`, `PRECISION`, `PREPARE`, `PRIMARY`, `PROCEDURE`
 * `Q`
