@@ -5,6 +5,7 @@
 - [Fail to start tsurugidb](#fail-to-start-tsurugidb)
 - [Fail to shutdown tsurugidb](#fail-to-shutdown-tsurugidb)
 - [Fail to connect to tsurugidb](#fail-to-connect-to-tsurugidb)
+- [Fail to  execute query](#fail-to-execute-query)
 
 ## Fail to install Tsurugi
 
