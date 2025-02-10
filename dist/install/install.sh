@@ -114,6 +114,7 @@ if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
 
   ${_SCRIPTS_DIR}/install-server.sh
 
+  mkdir -p "${TG_INSTALL_DIR}/lib"
   if [ -f "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" ]; then
     cp -a "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" "${TG_INSTALL_DIR}/lib"
   else
