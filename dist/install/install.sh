@@ -52,7 +52,7 @@ source ${_SCRIPTS_DIR}/install-util.sh
 
 source ${_SCRIPTS_DIR}/install-env.sh ${TG_INSTALL_BASE_DIR}
 if [ -f "${TG_INSTALL_BASE_DIR}/.install/BUILDINFO.md" ]; then
-  cp -a "${TG_INSTALL_BASE_DIR}/.install/BUILDINFO.md" "${TG_INSTALL_BASE_DIR}"
+  cp -a "${TG_INSTALL_BASE_DIR}/.install/BUILDINFO.md" "${TG_INSTALL_BASE_DIR}/"
 else
   ${_SCRIPTS_DIR}/generate-buildinfo.sh > ${TG_INSTALL_BASE_DIR}/BUILDINFO.md
 fi
@@ -98,12 +98,12 @@ cat ${TG_INSTALL_BASE_DIR}/BUILDINFO.md
 echo "------------------------------------"
 
 mkdir -p "${TG_INSTALL_DIR}"
-cp --preserve=timestamps "${TG_INSTALL_BASE_DIR}/BUILDINFO.md" ${TG_INSTALL_DIR}
+cp --preserve=timestamps "${TG_INSTALL_BASE_DIR}/BUILDINFO.md" ${TG_INSTALL_DIR}/
 
 if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
   if "${MAKE_TSURUGI_BASE}"; then
     mkdir -p "${TSURUGI_BASE}/etc"
-    cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc
+    cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc/
     replace_config "${TSURUGI_BASE}/etc/tsurugi.ini" zone_offset="$(date +%:z),${_REPLACE_CONFIG}"
 
     mkdir -p "${TSURUGI_BASE}/data"
@@ -114,8 +114,9 @@ if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
 
   ${_SCRIPTS_DIR}/install-server.sh
 
+  mkdir -p "${TG_INSTALL_DIR}/lib"
   if [ -f "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" ]; then
-    cp -a "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" "${TG_INSTALL_DIR}/lib"
+    cp -a "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" "${TG_INSTALL_DIR}/lib/"
   else
     ${_SCRIPTS_DIR}/generate-tsurugi-info.sh > "${TG_INSTALL_DIR}/lib/tsurugi-info.json"
   fi
