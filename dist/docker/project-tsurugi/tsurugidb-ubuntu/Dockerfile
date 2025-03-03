@@ -11,10 +11,11 @@ WORKDIR /tmp/tsurugidb
 RUN set -eux \
  && tar xf "${SRC_DIR}/tsurugidb.tar.gz" --strip-components 1 \
  && ./apt-install.sh \
- && ./install.sh --symbolic --replaceconfig=enabled=true \
+ && ./install.sh --symbolic --prefix=/opt --replaceconfig=enabled=true \
+ && ln -s /opt/tsurugi /usr/lib/tsurugi \
  && rm -fr /tmp/tsurugidb
 
-ARG TSURUGI_HOME="/usr/lib/tsurugi"
+ARG TSURUGI_HOME="/opt/tsurugi"
 ARG TSURUGI_USER="tsurugi"
 
 RUN set -eux \
