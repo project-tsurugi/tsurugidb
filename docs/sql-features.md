@@ -884,15 +884,15 @@ Type conversions can be explicit or implicit.
 
 Explicit conversion can be done by specifying the destination type with a CAST expression.
 
-CAST expression is possible when the source and target types are one of the following:
+CAST expression is possible when the source and destination type pair is listed on the following table.
 
-* INT
-* BIGINT
-* REAL
-* DOUBLE
-* DECIMAL
-* CHAR
-* VARCHAR
+| source type | destination type |
+| --- | --- |
+| one of the following types: <ul><li>`INT`</li><li>`BIGINT`</li><li>`DECIMAL`</li><li>`REAL`</li><li>`DOUBLE`</li><li>`CHAR`</li><li>`VARCHAR`</li></ul> | one of the following types: <ul><li>`INT`</li><li>`BIGINT`</li><li>`DECIMAL`</li><li>`REAL`</li><li>`DOUBLE`</li><li>`CHAR`</li><li>`VARCHAR`</li></ul> |
+| `BLOB` | one of the following types: <ul><li>`BLOB`</li><li>`BINARY`</li><li>`VARBINARY`</li></ul> |
+| one of the following types: <ul><li>`BINARY`</li><li>`VARBINARY`</li></ul> | `BLOB` |
+| `CLOB` | one of the following types: <ul><li>`CLOB`</li><li>`CHAR`</li><li>`VARCHAR`</li></ul> |
+| one of the following types: <ul><li>`CHAR`</li><li>`VARCHAR`</li></ul> | `CLOB` |
 
 CAST expression chooses appropriate values for successful conversion unless conversion is not possible in principle. For example, values that exceed the range of possible values to be stored in the destination are rounded to the appropriate value near the boundary value.
 
