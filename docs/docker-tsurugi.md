@@ -113,6 +113,16 @@ When running the Docker image as a container, you need to map the port of the Ts
 
 To connect from external Java clients (applications that use Tsubakuro or Iceaxe APIs), please specify Tsurugi's TCP endpoint via the Docker container in the API that establishes connection sessions.
 
+## Tsurugi Docker Container Configuration
+
+In the Tsurugi Docker container, the default values for the Tsurugi server configuration parameters, as described in [Configuration file parameters](config-parameters.md), have been changed as follows.
+
+section|parameter|default value
+---|---|---
+`datastore`|`log_location`|`/opt/tsurugi/var/data/log`
+`stream_endpoint`|`enabled`|`true`
+`stream_endpoint`|`allow_blob_privileged`|`true`
+
 ## Various ways to run Tsurugi Docker containers
 
 ### Configuring Tsurugi's log level settings
@@ -131,3 +141,7 @@ To start Tsurugi server with another configuration file, you can mount the direc
 ```sh
 $ docker container run -d -v $HOME/tsurugi-conf:/usr/lib/tsurugi/var/etc --name tsurugi ghcr.io/project-tsurugi/tsurugidb
 ```
+
+> [!IMPORTANT]
+> As described in Tsurugi Docker Container Configuration section, several default values in the Tsurugi Docker container have been modified for container use.
+> When specifying a configuration file, make sure that appropriate values are set for these configuration parameters.

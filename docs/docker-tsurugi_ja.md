@@ -113,6 +113,16 @@ Dockerイメージをコンテナとして実行する際に、Tsurugiサーバ�
 
 外部のJavaクライアント(TsubakuroやIceaxeのAPIを利用するアプリケーション)からは、接続セッションを構築するAPIで指定するエンドポイントにDockerコンテナのホストとポートを指定して接続してください。
 
+## Tsurugi Dockerコンテナの設定
+
+Tsurugi Dockerコンテナでは、[Configuration file parameters](config-parameters.md) で説明されているTsurugiサーバの設定項目に対して以下の通りデフォルト値を変更しています。
+
+section|parameter|default value
+---|---|---
+`datastore`|`log_location`|`/opt/tsurugi/var/data/log`
+`stream_endpoint`|`enabled`|`true`
+`stream_endpoint`|`allow_blob_privileged`|`true`
+
 ## Tsurugi Dockerコンテナの様々な実行方法
 
 ### Tsurugiのログレベル指定
@@ -131,3 +141,7 @@ TsurugiサーバはDockerコンテナ上の `/usr/lib/tsurugi` 配下にイン�
 ```sh
 $ docker container run -d -v $HOME/tsurugi-conf:/usr/lib/tsurugi/var/etc --name tsurugi ghcr.io/project-tsurugi/tsurugidb
 ```
+
+> [!IMPORTANT]
+> 「Tsurugi Dockerコンテナの設定」で説明した通り、Tsurugi Dockerコンテナではいくつかのデフォルト値をDockerコンテナ向けに変更しています。
+> 設定ファイルを指定する際には、これらの設定項目について適切な値を設定しているか確認してください。
