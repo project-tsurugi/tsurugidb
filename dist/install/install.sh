@@ -92,6 +92,8 @@ fi
 
 export TG_SHIRAKAMI_OPTIONS="${TG_SHIRAKAMI_OPTIONS}"
 
+_INSTALL_WARNING_MESSAGES=""
+
 echo -e "\n[Install Tsurugi]"
 echo "------------------------------------"
 cat ${TG_INSTALL_BASE_DIR}/BUILDINFO.md
@@ -119,6 +121,18 @@ if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
     cp -a "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" "${TG_INSTALL_DIR}/lib/"
   else
     ${_SCRIPTS_DIR}/generate-tsurugi-info.sh > "${TG_INSTALL_DIR}/lib/tsurugi-info.json"
+  fi
+
+  if [[ 1777 != $(stat --format=%a /var/lock/) ]]; then
+    _WARNMSG=$(cat <<'EOF'
+
+[WARNING] /var/lock/ is not set to 1777.
+Tsurugi uses /var/lock/ as the default location to create the lock file at startup.
+However, the permissions on /var/lock/ are currently not set to 1777, which prevents non-privileged users from writing to this directory.
+If you are starting tsurugidb process as a non-privileged user, edit the system.pid_directory parameter in var/etc/tsurugi.ini accordingly.
+EOF
+  )
+  _INSTALL_WARNING_MESSAGES="${_INSTALL_WARNING_MESSAGES}${_WARNMSG}"
   fi
 fi
 
@@ -151,4 +165,11 @@ fi
 echo "------------------------------------"
 echo -e "[Install Tsurugi successful]"
 echo "Install Directory: ${TG_INSTALL_DIR}"
+
+if [ "${_INSTALL_WARNING_MESSAGES}" != "" ]; then
+  echo "${_INSTALL_WARNING_MESSAGES}"
+fi
+
 echo "------------------------------------"
+
+echo
