@@ -388,6 +388,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   CURRENT_TIMESTAMP
   LOCALTIMESTAMP
   OCTET_LENGTH(<value-expression>)
+  SUBSTRING(<value-expression> FROM <value-expression> [FOR <value-expression>])
 ```
 
 ### Aggregation functions
