@@ -18,9 +18,19 @@ Once the above error occurs, please check the SMVs for each version as described
 
 ## SMV compatibility list
 
+### Tsurugi Release 1.3.0
+
+SMV             | Tsubakuro-Java version | Tsubakuro-Rust version
+--------------- | ---------------------- | ----------------------
+`sql-1.4`       | `1.8.0`                | `0.1.0`
+`datastore-0.0` | `1.0.1`                | `-`
+`kvs-0.0`       | `1.0.1`                | `-`
+`auth-0.0`      | `1.0.1`                | `-`
+`debug-0.0`     | `1.1.0`                | `-`
+
 ### Tsurugi Release 1.2.0
 
-SMV             | Tsubakuro version
+SMV             | Tsubakuro-Java version
 --------------- | -----------------
 `sql-1.3`       | `1.6.0`
 `datastore-0.0` | `1.0.1`
@@ -30,7 +40,7 @@ SMV             | Tsubakuro version
 
 ### Tsurugi Release 1.1.0
 
-SMV             | Tsubakuro version
+SMV             | Tsubakuro-Java version
 --------------- | -----------------
 `sql-1.3`       | `1.6.0`
 `datastore-0.0` | `1.0.1`
@@ -40,7 +50,7 @@ SMV             | Tsubakuro version
 
 ### Tsurugi Release 1.0.0
 
-SMV             | Tsubakuro version
+SMV             | Tsubakuro-Java version
 --------------- | -----------------
 `sql-1.3`       | `1.6.0`
 `datastore-0.0` | `1.0.1`
@@ -50,7 +60,7 @@ SMV             | Tsubakuro version
 
 ### Tsurugi Release 1.0.0-BETA6
 
-SMV             | Tsubakuro version
+SMV             | Tsubakuro-Java version
 --------------- | -----------------
 `sql-1.2`       | `1.5.0`
 `datastore-0.0` | `1.0.1`
@@ -60,7 +70,7 @@ SMV             | Tsubakuro version
 
 ### Tsurugi Release 1.0.0-BETA5
 
-SMV             | Tsubakuro version
+SMV             | Tsubakuro-Java version
 --------------- | -----------------
 `sql-1.1`       | `1.2.0`
 `datastore-0.0` | `1.0.1`
@@ -70,7 +80,7 @@ SMV             | Tsubakuro version
 
 ### Tsurugi Release 1.0.0-BETA4
 
-SMV             | Tsubakuro version
+SMV             | Tsubakuro-Java version
 --------------- | -----------------
 `sql-1.1`       | `1.2.0`
 `datastore-0.0` | `1.0.1`
@@ -80,7 +90,7 @@ SMV             | Tsubakuro version
 
 ### Tsurugi Release 1.0.0-BETA3
 
-SMV             | Tsubakuro version
+SMV             | Tsubakuro-Java version
 --------------- | -----------------
 `sql-1.1`       | `1.2.0`
 `datastore-0.0` | `1.0.1`
@@ -90,7 +100,7 @@ SMV             | Tsubakuro version
 
 ### Tsurugi Release 1.0.0-BETA2
 
-SMV             | Tsubakuro version
+SMV             | Tsubakuro-Java version
 --------------- | -----------------
 `sql-1.0`       | `1.1.0`
 `datastore-0.0` | `1.0.1`
@@ -100,7 +110,7 @@ SMV             | Tsubakuro version
 
 ### Tsurugi Release 1.0.0-BETA1
 
-SMV             | Tsubakuro version
+SMV             | Tsubakuro-Java version
 --------------- | -----------------
 `sql-0.0`       | `1.0.1`
 `datastore-0.0` | `1.0.1`
