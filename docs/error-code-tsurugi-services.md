@@ -1,6 +1,6 @@
 # Error Code of Tsurugi Services
 
-Client library (Tsubakuro) version: `1.7.0`.
+Client library (Tsubakuro) version: `1.8.0`.
 
 This document presents a comprehensive list of error codes that can be transmitted from each Tsurugi service to the client.
 
@@ -735,6 +735,15 @@ the destination service was not found.
 symbolic name: `OPERATION_CANCELED`.
 
 operation was canceled by user or system.
+
+### `SCD-00404`
+
+symbolic name: `OPERATION_DENIED`.
+
+the service has denied the request to conduct.
+
+* references
+  * [Issue: "SCD-00404: operation denied"](upgrade-guide.md#operation-denied)
 
 ### `SCD-00501`
 

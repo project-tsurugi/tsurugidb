@@ -79,6 +79,14 @@ The "ID=X" segment of the error message contains the numeric service ID of the t
 
 Please match the service ID in the error message with the corresponding service ID in the list above to identify the specific service causing the issue.
 
+### Issue: "SCD-00404: failed to receive BLOB file in privileged mode" <a name="operation-denied"></a>
+
+If you encounter the error message "SCD-00404: ("tsurugidb" or "client") failed to receive BLOB file in privileged mode, it may be due to following conditions:
+
+- When sending BLOB data from the client to the server, the file created by the client must be accessible by the tsurugidb process on the server.
+- When the client receives BLOB data from the server, the file created by the tsurugidb process must be accessible by the client.
+- In addition, when transferring these files, they must be accessed using the same path on a common filesystem from both the client’s and the server’s perspectives.
+
 ### Issue: "SCD-00501: inconsistent service message version" <a name="inconsistent-message"></a>
 
 If you encounter the error message "SCD-00501: inconsistent service message version: see https://github.com/project-tsurugi/tsurugidb/blob/master/docs/service-message-compatibilities.md (client: X, server: Y)" while executing requests from clients, it may be attributed to an incorrect version/edition combination of the client and server.
