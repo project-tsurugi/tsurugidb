@@ -1,17 +1,20 @@
 name: tsurugidb-CI
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      os:
+        type: string
+        default: 'ubuntu-22.04'
 
 jobs:
   Build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-22.04]
     runs-on: [self-hosted, docker]
     timeout-minutes: 30
     container:
-      image: ghcr.io/project-tsurugi/tsurugi-ci:${{ matrix.os }}
+      image: ghcr.io/project-tsurugi/tsurugi-ci:${{ inputs.os || 'ubuntu-22.04' }}
       volumes:
         - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
         - ${{ vars.gradle_cache_dir }}:/root/.gradle
@@ -20,7 +23,7 @@ jobs:
         shell: bash
     env:
       CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
-      CCACHE_DIR: ${{ vars.ccache_dir }}/${{ matrix.os }}
+      CCACHE_DIR: ${{ vars.ccache_dir }}/${{ inputs.os || 'ubuntu-22.04' }}
 
     steps:
       - name: Checkout
@@ -49,31 +52,54 @@ jobs:
           TG_COMMON_CMAKE_BUILD_OPTIONS: '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
 
       - name: Upload_Install_Archive
-        if: matrix.os == 'ubuntu-22.04'
+        if: ${{ inputs.os || 'ubuntu-22.04' }} == 'ubuntu-22.04'
         uses: actions/upload-artifact@v4
         with:
           name: install-archive
           path: tsurugidb-*.tar.gz
 
       - name: Show_Tsurugi_Version
-        if: matrix.os == 'ubuntu-22.04'
+        if: ${{ inputs.os || 'ubuntu-22.04' }} == 'ubuntu-22.04'
         run: |
           cd work-install
           cat BUILDINFO.md >> ${GITHUB_STEP_SUMMARY}
 
       - name: Generate_Binary_Archive
-        if: matrix.os == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
+        if: ${{ inputs.os || 'ubuntu-22.04' }} == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
         run: |
           cd build-install-test
           TSURUGI_VERSION=$(grep -oP '(?<=^TSURUGI_VERSION:).*' tsurugi/BUILDINFO.md)
-          tar -czf ../tsurugidb-bin-${{ matrix.os }}-${TSURUGI_VERSION}.tar.gz *
+          tar -czf ../tsurugidb-bin-${{ inputs.os || 'ubuntu-22.04' }}-${TSURUGI_VERSION}.tar.gz *
 
       - name: Upload_Binary_Archive
-        if: matrix.os == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
+        if: ${{ inputs.os || 'ubuntu-22.04' }} == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
         uses: actions/upload-artifact@v4
         with:
-          name: binary-archive-${{ matrix.os }}
+          name: binary-archive-${{ inputs.os || 'ubuntu-22.04' }}
           path: tsurugidb-bin-*.tar.gz
+
+      - name: Sanity_Check
+        run: |
+          cat <<'EOF' >/tmp/getting-started.sql
+          BEGIN;
+          CREATE TABLE tb1(pk INT PRIMARY KEY, c1 INT);
+          COMMIT;
+          BEGIN;
+          INSERT INTO tb1(pk, c1) VALUES(1,100);
+          COMMIT;
+          BEGIN;
+          SELECT * FROM tb1;
+          COMMIT;
+          EOF
+
+          $TSURUGI_HOME/bin/tgctl start
+          $TSURUGI_HOME/bin/tgsql --script -c ipc:tsurugi -t manual /tmp/getting-started.sql | tee /tmp/getting-started-result.txt
+          $TSURUGI_HOME/bin/tgctl shutdown
+
+          _RESULT=$(sed -n '2p' /tmp/getting-started-result.txt)
+          echo "${_RESULT}" | grep -q '^{"pk":1,"c1":100}$' || { echo "Error: Unexpected tgsql result: ${_RESULT}"; exit 1; }
+        env:
+          TSURUGI_HOME: ${{ github.workspace }}/build-install-test/tsurugi
 
   Test:
     uses: ./.github/workflows/ci-test-modules.yml
