@@ -83,7 +83,7 @@ jobs:
 
   Check:
     runs-on: [self-hosted, docker]
-    timeout-minutes: 3
+    timeout-minutes: 10
     container:
       image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
     defaults:
