@@ -383,12 +383,20 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <builtin-function>
 
 <builtin-function>:
+  ABS(<value-expression>)
+  CHAR_LENGTH(<value-expression>)
+  CHARACTER_LENGTH(<value-expression>)
   CURRENT_DATE
-  LOCALTIME
   CURRENT_TIMESTAMP
+  LOCALTIME
   LOCALTIMESTAMP
+  LOWER(<value-expression>)
+  MOD(<value-expression> , <value-expression>)
   OCTET_LENGTH(<value-expression>)
+  POSITION(<value-expression> IN <value-expression>)
+  SUBSTR(<value-expression> , <value-expression> [, <value-expression>])
   SUBSTRING(<value-expression> FROM <value-expression> [FOR <value-expression>])
+  UPPER(<value-expression>)
 ```
 
 ### Aggregation functions
@@ -833,7 +841,7 @@ The below reserved words are not allowed to use as regular identifiers.
 * `R`
   * `REAL`, `RECURSIVE`, `REF`, `REFERENCES`, `REFERENCING`, `REPLACE`, `RESULT`, `RETURN`, `RETURNS`, `REVOKE`, `RIGHT`, `ROLE`, `ROLLBACK`, `ROLLUP`, `ROW`, `ROWS`
 * `S`
-  * `SAVEPOINT`, `SCOPE`, `SEARCH`, `SECOND`, `SELECT`, `SESSION_USER`, `SET`, `SIMILAR`, `SMALLINT`, `SOME`, `SPECIFIC`, `SQL`, `SQLEXCEPTION`, `SQLSTATE`, `SQLWARNING`, `START`, `STATIC`, `SUBLIST`, `SUBSTRING`, `SUM`, `SYMMETRIC`, `SYSTEM_USER`
+  * `SAVEPOINT`, `SCOPE`, `SEARCH`, `SECOND`, `SELECT`, `SESSION_USER`, `SET`, `SIMILAR`, `SMALLINT`, `SOME`, `SPECIFIC`, `SQL`, `SQLEXCEPTION`, `SQLSTATE`, `SQLWARNING`, `START`, `STATIC`, `SUBLIST`, `SUBSTR`, `SUBSTRING`, `SUM`, `SYMMETRIC`, `SYSTEM_USER`
 * `T`
   * `TABLE`, `TEMPORARY`, `THEN`, `TIME`, `TIMESTAMP`, `TIMEZONE_HOUR`, `TIMEZONE_MINUTE`, `TINYINT`, `TO`, `TRAILING`, `TRANSLATE`, `TRANSLATION`, `TREAT`, `TRIGGER`, `TRIM`, `TRUE`
 * `U`
