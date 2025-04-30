@@ -2,6 +2,7 @@
 
 if [ "${TG_VERBOSE_INSTALL}" = "ON" ]; then
   set -x
+  export VERBOSE=1
 fi
 
 echo -e "\n[Install Tsubakuro Native Library]"
