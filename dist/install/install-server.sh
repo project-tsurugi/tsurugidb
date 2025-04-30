@@ -2,6 +2,7 @@
 
 if [ "${TG_VERBOSE_INSTALL}" = "ON" ]; then
   set -x
+  export VERBOSE=1
 fi
 
 if [ "${TG_FORCE_INSTALL_MPDECIMAL}" != "ON" ] && ldconfig -p | grep -F --quiet libmpdec++; then

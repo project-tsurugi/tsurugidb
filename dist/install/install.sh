@@ -72,6 +72,9 @@ fi
 export TG_COMMON_CMAKE_BUILD_OPTIONS="${TG_COMMON_CMAKE_BUILD_OPTIONS}"
 export TG_COMMON_BUILD_TOOL_OPTIONS="${TG_COMMON_BUILD_TOOL_OPTIONS}"
 
+if [ ! -v CXXFLAGS ]; then
+  export CXXFLAGS="-march=native"
+fi
 if [ "${TG_CMAKE_CXX_FLAGS_RELWITHDEBINFO}" = "" ]; then
   export TG_CMAKE_CXX_FLAGS_RELWITHDEBINFO="-O2 -g"
 else
@@ -171,5 +174,4 @@ if [ "${_INSTALL_WARNING_MESSAGES}" != "" ]; then
 fi
 
 echo "------------------------------------"
-
-echo
+echo ""

@@ -11,7 +11,7 @@ WORKDIR /tmp/tsurugidb
 RUN set -eux \
  && tar xf "${SRC_DIR}/tsurugidb.tar.gz" --strip-components 1 \
  && ./apt-install.sh \
- && ./install.sh --symbolic --replaceconfig=enabled=true,allow_blob_privileged=true,log_location=/opt/tsurugi/var/data/log \
+ && CXXFLAGS="" ./install.sh --symbolic --verbose --replaceconfig=enabled=true,allow_blob_privileged=true,log_location=/opt/tsurugi/var/data/log \
  && rm -fr /tmp/tsurugidb
 
 ARG TSURUGI_HOME="/usr/lib/tsurugi"
