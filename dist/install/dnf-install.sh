@@ -8,10 +8,12 @@ fi
 dnf install -y \
  bison \
  boost-devel \
+ clang \
  cmake \
  doxygen \
  flex \
  gcc-c++ \
+ gcc-toolset-13-libatomic-devel \
  glog-devel \
  icu \
  java-11-openjdk-devel \
