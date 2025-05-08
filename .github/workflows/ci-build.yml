@@ -47,7 +47,7 @@ jobs:
 
           cd work-install
           tar xf ../tsurugidb-*.tar.gz --strip-components 1
-          ./install.sh --prefix=${GITHUB_WORKSPACE}/build-install-test --symbolic --skip=harinoki
+          CXXFLAGS="" ./install.sh --prefix=${GITHUB_WORKSPACE}/build-install-test --symbolic --skip=harinoki
         env:
           TG_COMMON_CMAKE_BUILD_OPTIONS: '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
 
