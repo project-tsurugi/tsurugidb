@@ -34,8 +34,11 @@ DDL should be issued from single thread when there is no on-going DML processing
   IF NOT EXISTS
 
 <table-element>:
-  <column-name> <type> [<column-constraint>...]
+  <column-definition>
   PRIMARY KEY ( <column-name> [, <column-name> [, ...]] )
+
+<column-definition>:
+  <column-name> <type> [<column-constraint>...]
 
 <column-constraint>:
   NULL
@@ -872,13 +875,22 @@ Comments are treated as whitespace characters in Tsurugi SQL.
 <comment>:
   <simple-comment>
   <block-comment>
+  <documentation-comment>
 
 <simple-comment>:
   -- ...
 
 <block-comment>:
   /* ... */
+
+<documentation-comment>:
+  /** ... */
 ```
+
+* `<documentation-comment>` can attach a description to the elements (e.g., tables, columns) by placing the comment before the following declarations:
+  * [`<table-definition>`](#create-table) (`CREATE TABLE ...`)
+  * [`<column-definition>`](#create-table) (`CREATE TABLE ... (..., <column-name> <type> ...)`)
+  * [`<index-definition>`](#create-index) (`CREATE INDEX ...`)
 
 ### Conversions
 
