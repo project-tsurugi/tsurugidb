@@ -15,8 +15,10 @@ The following minimum hardware requirements and recommendations apply to Tsurugi
 
 Tsurugi officially supports the following operating systems:
 
-- Ubuntu 22.04 (Recommended)
-- Ubuntu 24.04 (Experimental support)
+- Ubuntu 22.04
+- Ubuntu 24.04
+- AlmaLinux 9.5 (Experimental support)
+- Rocky Linux 9.5 (Experimental support)
 
 ## Virtual Machines and Containers
 

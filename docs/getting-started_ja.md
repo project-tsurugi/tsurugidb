@@ -8,7 +8,7 @@ Tsurugiをインストールするための環境については、以下のド�
 
 ## インストール手順
 
-### インストールアーカイブ
+### インストールアーカイブのダウンロード
 
 TsurugiのインストールアーカイブはGitHub Releasesで公開されています。
 
@@ -26,7 +26,11 @@ tar xf tsurugidb-<version>.tar.gz
 cd tsurugidb-<version>
 ```
 
-### 実行環境用ライブラリ（aptパッケージ）のインストール
+### インストーラーの実行 (Ubuntu)
+
+Ubuntu上でのインストール手順を説明します。
+
+#### aptパッケージ用インストールスクリプトの実行
 
 インストールパッケージを解凍したディレクトリ直下に含まれる `apt-install.sh` を使ってTsurugiのインストールおよび実行に必要なライブラリをインストールします。
 
@@ -37,7 +41,7 @@ sudo ./apt-install.sh
 `apt-install.sh` は `apt-get update` や `apt-get install` を使って必要なパッケージをインストールするため、スーパーユーザや `sudo` コマンド経由で実行する必要があります。
 インストール環境への影響があるため、実行前にスクリプトの内容を確認の上で実行することを強く推奨します。
 
-### Tsurugiのインストール
+#### Tsurugiインストールスクリプトの実行
 
 ソースアーカイブに含まれるインストールスクリプト `install.sh` を実行して実行バイナリをビルドし、 `--prefix=<install_directory>` で指定したインストールディレクトリにインストールします。
 `--symbolic` はインストールパス上にシンボリックリンク `tsurugi` を作成します。
@@ -54,7 +58,96 @@ Install Directory: $HOME/opt/tsurugi-1.x.x
 
 `install.sh` を引数なしで実行する場合、標準のインストールパス `/usr/lib/tsurugi-<tsurugi-version>` 配下にインストールします。この場合、通常はスーパーユーザの権限での実行が必要となります。
 
-#### その他のインストール・オプション
+### インストーラーの実行 (AlmaLinux, Rocky Linux)
+
+AlmaLinux および Rocky Linux上でのインストール手順を説明します。
+
+> [!IMPORTANT]
+> 現在 AlmaLinux, Rocky Linux上での利用は試験的機能として提供しています。
+
+#### EPELリポジトリ有効化スクリプトの実行
+
+AlmaLinux および Rocky Linux上でのインストールに必要ないくつかのパッケージはEPELリポジトリからインストールします。
+そのため、まずEPELリポジトリを有効化する必要があります。
+
+インストール環境でEPELリポジトリが有効化されていない場合、インストールパッケージを解凍したディレクトリ直下に含まれる `dist/install/dnf-enable-epel.sh` を実行してEPELリポジトリを有効化します。
+
+`dnf-enable-epel.sh` は `dnf update` や `dnf install` を使って必要なパッケージをインストールするため、スーパーユーザや `sudo` コマンド経由で実行する必要があります。
+また、本書で示すインストール手順ではこのスクリプトによって有効化された設定はインストール後も維持されます。
+インストール環境への影響があるため、実行前にスクリプトの内容を確認の上で実行することを強く推奨します。
+
+```sh
+sudo ./dist/install/dnf-enable-epel.sh
+```
+
+EPELリポジトリについての詳細は、OSのドキュメントなどを参照してください。
+AlmaLinuxについては、以下のドキュメントにて説明されています。
+- https://wiki.almalinux.org/repos/Extras.html#epel
+
+#### dnfパッケージ用インストールスクリプトの実行
+
+インストールパッケージを解凍したディレクトリ直下に含まれる `dist/install/dnf-install.sh` を使ってTsurugiのインストールおよび実行に必要なライブラリをインストールします。
+
+```sh
+sudo ./dist/install/dnf-install.sh
+```
+
+`dnf-install.sh` は `dnf update` や `dnf install` を使って必要なパッケージをインストールするため、スーパーユーザや `sudo` コマンド経由で実行する必要があります。
+インストール環境への影響があるため、実行前にスクリプトの内容を確認の上で実行することを強く推奨します。
+
+#### Tsurugiインストールスクリプトの実行
+
+> [!IMPORTANT]
+> 現在Tsurugiが動作検証済みのAlmaLinux, Rocky Linuxはバージョン9系ですが、これらのディストリビューションに含まれるGCCの不具合により、GCCを利用してTsurugiをインストールした場合にTsurugiに性能上の問題が発生することを確認しています。
+> このため、AlmaLinux, Rocky Linux上でTsurugiをインストールする場合、Clangを使ってTsurugiをインストールすることを推奨しています。以降ではClangを使ったインストール手順を説明します。
+
+ソースアーカイブに含まれるインストールスクリプト `install.sh` を実行して実行バイナリをビルドし、 `--prefix=<install_directory>` で指定したインストールディレクトリにインストールします。
+`--symbolic` はインストールパス上にシンボリックリンク `tsurugi` を作成します。
+
+また上述した通り、AlmaLinux, Rocky Linux上でのインストールはClangを使ってビルドを行うため、インストールスクリプト実行時にClangを利用するための環境変数を指定します。
+
+```sh
+$ mkdir $HOME/opt
+$ CC=clang CXX=clang++ ./install.sh --prefix=$HOME/opt --symbolic
+...
+------------------------------------
+[Install Tsurugi successful]
+Install Directory: $HOME/opt/tsurugi-1.x.x
+------------------------------------
+
+[WARNING] /var/lock/ is not set to 1777.
+Tsurugi uses /var/lock/ as the default location to create the lock file at startup.
+However, the permissions on /var/lock/ are currently not set to 1777, which prevents non-privileged users from writing to this directory.
+If you are starting tsurugidb process as a non-privileged user, edit the system.pid_directory parameter in var/etc/tsurugi.ini accordingly.
+```
+
+一般ユーザでインストールした場合、インストール完了時に `/var/lock/` ディレクトリのパーミッションが1777でないことによる警告が表示されることがあります (AlmaLinux, Rocky Linuxの標準のパーミッション設定ではこの警告が表示されます)。
+この警告が表示された場合、後述の「 `pid_directory` の設定変更」の項を参照して、Tsurugiの設定を変更してください。
+
+`install.sh` を引数なしで実行する場合、標準のインストールパス `/usr/lib/tsurugi-<tsurugi-version>` 配下にインストールします。この場合、通常はスーパーユーザの権限での実行が必要となります。
+
+#### `pid_directory` の設定変更
+
+Tsurugiはプロセスの死活監視やプロセスの二重起動防止のために、Tsurugiの設定ファイル `tsurugi.ini` の設定項目 `pid_directory` に指定されたディレクトリにプロセスのロックファイルを作成します。
+
+`pid_directory` のデフォルト値は `/var/lock/` ですが、AlmaLinux, Rocky Linuxの標準のパーミッション設定では一般ユーザがこのディレクトリにロックファイルを作成できないため、Tsurugiを一般ユーザで起動する場合は `pid_directory` の値を変更する必要があります。
+
+`pid_directory` の値を変更するには、Tsurugiのインストールディレクトリ配下に含まれる設定ファイル `var/etc/tsurugi.ini` を編集します。
+コメントアウトされている `pid_directory` の行を有効にして、任意のディレクトリを絶対パスで指定します。
+
+```ini
+[system]
+    pid_directory=/opt/tsurugi/var/lock
+```
+
+その上で、Tsurugiを起動するユーザが `/opt/tsurugi/var/lock` ディレクトリに書き込み権限を持つようにパーミッションを変更してください。
+
+```sh
+sudo mkdir -p /opt/tsurugi/var/lock
+sudo chmod 1777 /opt/tsurugi/var/lock
+```
+
+### トラブルシューティングに関するインストール・オプション
 
 - `--parallel=<jobs>` インストール時に実行されるビルド処理の最大並列ジョブ数を指定します。インストール時にメモリ不足などの問題が発生する場合、この値を低く設定することで問題を回避できる可能性があります。未指定の場合はインストール環境の(論理コア数 + 2)が設定されます。
 
@@ -137,7 +230,7 @@ transaction started. option=[
 Time: 56.096 ms
 tgsql> CREATE TABLE tb1(pk INT PRIMARY KEY, c1 INT);
 Time: 58.242 ms
-tgsql>  INSERT INTO tb1(pk, c1) VALUES(1,100);
+tgsql> INSERT INTO tb1(pk, c1) VALUES(1,100);
 Time: 49.57 ms
 tgsql> SELECT * FROM tb1;
 [pk: INT4, c1: INT4]
