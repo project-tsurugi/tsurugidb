@@ -18,6 +18,16 @@ Once the above error occurs, please check the SMVs for each version as described
 
 ## SMV compatibility list
 
+### Tsurugi Release 1.4.0
+
+SMV             | Tsubakuro-Java version | Tsubakuro-Rust version
+--------------- | ---------------------- | ----------------------
+`sql-1.5`       | `1.9.0`                | `0.2.0`
+`datastore-0.0` | `1.0.1`                | `-`
+`kvs-0.0`       | `1.0.1`                | `-`
+`auth-0.0`      | `1.0.1`                | `-`
+`debug-0.0`     | `1.1.0`                | `-`
+
 ### Tsurugi Release 1.3.0
 
 SMV             | Tsubakuro-Java version | Tsubakuro-Rust version
