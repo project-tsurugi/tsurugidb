@@ -284,7 +284,7 @@ It is designed to facilitate the use of Tsurugi-specific functions with an API s
 
 - Iceaxe:
   - https://github.com/project-tsurugi/iceaxe
-- Iceaxe Exmaples:
+- Iceaxe Examples:
   - https://github.com/project-tsurugi/iceaxe/tree/master/modules/iceaxe-examples/src/main/java/com/tsurugidb/iceaxe/example
 
 We have also published batch applications developed with Iceaxe for benchmarking purposes:
@@ -301,7 +301,7 @@ Most of them are provided as asynchronous APIs, which are not convenient APIs bu
 
 - Tsubakuro:
   - https://github.com/project-tsurugi/tsubakuro
-- Tsubakuro Exmaples:
+- Tsubakuro Examples:
   - https://github.com/project-tsurugi/tsubakuro-examples
 
 ### `Belayer` Operations Management Interface

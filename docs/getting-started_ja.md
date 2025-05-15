@@ -281,7 +281,7 @@ Tsurugi固有の機能を利用しやすくすることに志向しており、J
 
 - Iceaxe:
   - https://github.com/project-tsurugi/iceaxe
-- Iceaxe Exmaples:
+- Iceaxe Examples:
   - https://github.com/project-tsurugi/iceaxe/tree/master/modules/iceaxe-examples/src/main/java/com/tsurugidb/iceaxe/example
 
 Iceaxeを利用して開発した、ベンチマーク用のバッチアプリケーションを合わせて公開しています。
@@ -298,7 +298,7 @@ Iceaxeを利用して開発した、ベンチマーク用のバッチアプリ�
 
 - Tsubakuro:
   - https://github.com/project-tsurugi/tsubakuro
-- Tsubakuro Exmaples:
+- Tsubakuro Examples:
   - https://github.com/project-tsurugi/tsubakuro-examples
 
 ### `Belayer` 運用管理インターフェース
