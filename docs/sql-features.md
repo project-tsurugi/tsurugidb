@@ -34,8 +34,11 @@ DDL should be issued from single thread when there is no on-going DML processing
   IF NOT EXISTS
 
 <table-element>:
-  <column-name> <type> [<column-constraint>...]
+  <column-definition>
   PRIMARY KEY ( <column-name> [, <column-name> [, ...]] )
+
+<column-definition>:
+  <column-name> <type> [<column-constraint>...]
 
 <column-constraint>:
   NULL
@@ -384,10 +387,12 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 
 <builtin-function>:
   ABS(<value-expression>)
+  CEIL(<value-expression>)
   CHAR_LENGTH(<value-expression>)
   CHARACTER_LENGTH(<value-expression>)
   CURRENT_DATE
   CURRENT_TIMESTAMP
+  FLOOR(<value-expression>)
   LOCALTIME
   LOCALTIMESTAMP
   LOWER(<value-expression>)
@@ -811,13 +816,13 @@ The below reserved words are not allowed to use as regular identifiers.
 * `B`
   * `BEFORE`, `BEGIN`, `BETWEEN`, `BIGINT`, `BINARY`, `BIT`, `BIT_AND`, `BIT_LENGTH`, `BIT_OR`, `BITVAR`, `BLOB`, `BOOL_AND`, `BOOL_OR`, `BOOLEAN`, `BOTH`, `BY`
 * `C`
-  * `CALL`, `CARDINALITY`, `CASCADE`, `CASCADED`, `CASE`, `CAST`, `CHAR`, `CHAR_LENGTH`, `CHARACTER`, `CHARACTER_LENGTH`, `CHECK`, `CLASS`, `CLOB`, `CLOSE`, `COALESCE`, `COLLATE`, `COLUMN`, `COMMIT`, `CONNECT`, `CONSTRAINT`, `CONSTRAINTS`, `CONVERT`, `CORRESPONDING`, `COUNT`, `CREATE`, `CROSS`, `CUBE`, `CURRENT`, `CURRENT_DATE`, `CURRENT_PATH`, `CURRENT_ROLE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`, `CURRENT_USER`, `CURSOR`, `CYCLE`
+  * `CALL`, `CARDINALITY`, `CASCADE`, `CASCADED`, `CASE`, `CAST`, `CEIL`, `CHAR`, `CHAR_LENGTH`, `CHARACTER`, `CHARACTER_LENGTH`, `CHECK`, `CLASS`, `CLOB`, `CLOSE`, `COALESCE`, `COLLATE`, `COLUMN`, `COMMIT`, `CONNECT`, `CONSTRAINT`, `CONSTRAINTS`, `CONVERT`, `CORRESPONDING`, `COUNT`, `CREATE`, `CROSS`, `CUBE`, `CURRENT`, `CURRENT_DATE`, `CURRENT_PATH`, `CURRENT_ROLE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`, `CURRENT_USER`, `CURSOR`, `CYCLE`
 * `D`
   * `DATE`, `DAY`, `DEALLOCATE`, `DEC`, `DECIMAL`, `DECLARE`, `DEFAULT`, `DELETE`, `DEREF`, `DESCRIBE`, `DETERMINISTIC`, `DISCONNECT`, `DISTINCT`, `DOUBLE`, `DROP`, `DYNAMIC`
 * `E`
   * `EACH`, `ELSE`, `END`, `END-EXEC`, `ESCAPE`, `EVERY`, `EXCEPT`, `EXEC`, `EXECUTE`, `EXISTS`, `EXTERNAL`, `EXTRACT`
 * `F`
-  * `FALSE`, `FETCH`, `FLOAT`, `FOR`, `FOREIGN`, `FROM`, `FULL`, `FUNCTION`
+  * `FALSE`, `FETCH`, `FLOAT`, `FLOOR`, `FOR`, `FOREIGN`, `FROM`, `FULL`, `FUNCTION`
 * `G`
   * `GENERATED`, `GET`, `GLOBAL`, `GRANT`, `GROUP`, `GROUPING`
 * `H`
@@ -872,13 +877,22 @@ Comments are treated as whitespace characters in Tsurugi SQL.
 <comment>:
   <simple-comment>
   <block-comment>
+  <documentation-comment>
 
 <simple-comment>:
   -- ...
 
 <block-comment>:
   /* ... */
+
+<documentation-comment>:
+  /** ... */
 ```
+
+* `<documentation-comment>` can attach a description to the elements (e.g., tables, columns) by placing the comment before the following declarations:
+  * [`<table-definition>`](#create-table) (`CREATE TABLE ...`)
+  * [`<column-definition>`](#create-table) (`CREATE TABLE ... (..., <column-name> <type> ...)`)
+  * [`<index-definition>`](#create-index) (`CREATE INDEX ...`)
 
 ### Conversions
 

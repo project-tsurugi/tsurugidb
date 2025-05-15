@@ -8,7 +8,7 @@ The following document describes the requirements for the environment in which T
 
 ## Installation Instructions
 
-### Installation archive
+### Downloading the Installation archive
 
 Tsurugi installation archives are available at GitHub Releases.
 
@@ -26,7 +26,11 @@ tar xf tsurugidb-<version>.tar.gz
 cd tsurugidb-<version>
 ```
 
-### Installing libraries for runtime environment (apt package)
+### Running the Installer (Ubuntu)
+
+This section describes the installation procedure on Ubuntu.
+
+#### Running the apt package installation script
 
 You can install the libraries required to install and run Tsurugi using `apt-install.sh`. This is included in the directory where you extracted the installation package.
 
@@ -36,7 +40,7 @@ sudo ./apt-install.sh
 
 `apt-install.sh` must be run as superuser or via the `sudo` command, in order to install the required packages using `apt-get update` or `apt-get install`.
 
-### Installing Tsurugi
+#### Running the Tsurugi installation script
 
 You can create an executable Tsurugi binary by executing the installation script `install.sh` included in the source archive.
 If you specify `--prefix=<install_directory>`, the script will install to the specified installation directory, and `--symbolic` will create a symbolic link `tsurugi` on the installation path.
@@ -53,7 +57,97 @@ Install Directory: $HOME/opt/tsurugi-1.x.x
 
 If you execute `install.sh` without any arguments, it will put Tsurugi under the default installation path `/usr/lib/tsurugi-<tsurugi-version>`. In this case, it is usually needed to run with superuser privileges.
 
-#### Miscellaneous Installation Options
+### Running the Installer (AlmaLinux, Rocky Linux)
+
+This section describes the installation procedure on AlmaLinux and Rocky Linux.
+
+> [!IMPORTANT]
+> Currently, support for AlmaLinux and Rocky Linux is provided as an experimental feature.
+
+#### Enabling the EPEL Repository
+
+Some packages required for installation on AlmaLinux and Rocky Linux are installed from the EPEL repository.
+Therefore, you must first enable the EPEL repository.
+
+If the EPEL repository is not enabled in your environment, run `dist/install/dnf-enable-epel.sh` included in the root of the extracted installation package to enable it.
+
+Since `dnf-enable-epel.sh` uses `dnf update` and `dnf install` to install the required packages, it must be run as a superuser or via the `sudo` command.
+Also, the settings enabled by this script will remain after installation.
+Because this may affect your installation environment, it is strongly recommended to review the script contents before executing it.
+
+```sh
+sudo ./dist/install/dnf-enable-epel.sh
+```
+
+For more information about the EPEL repository, refer to your OS documentation.
+For AlmaLinux, see:
+- https://wiki.almalinux.org/repos/Extras.html#epel
+
+#### Running the dnf package installation script
+
+Use the `dist/install/dnf-install.sh` script included in the root of the extracted installation package to install the libraries required to install and run Tsurugi.
+
+```sh
+sudo ./dist/install/dnf-install.sh
+```
+
+Since `dnf-install.sh` uses `dnf update` and `dnf install` to install the required packages, it must be run as a superuser or via the `sudo` command.
+Because this may affect your installation environment, it is strongly recommended to review the script contents before executing it.
+
+#### Running the Tsurugi installation script
+
+> [!IMPORTANT]
+> Currently, Tsurugi has been tested on AlmaLinux and Rocky Linux version 9 series, but due to known issues with GCC included in these distributions, performance problems may occur if Tsurugi is installed using GCC.
+> Therefore, it is recommended to use Clang for installation on AlmaLinux and Rocky Linux. The following instructions describe installation using Clang.
+
+Run the installation script `install.sh` included in the source archive to build the executable binary and install it to the directory specified by `--prefix=<install_directory>`.
+The `--symbolic` option creates a symbolic link `tsurugi` in the installation path.
+
+As described above, since installation on AlmaLinux and Rocky Linux should use Clang, specify the environment variables for Clang when running the installation script.
+
+```sh
+$ mkdir $HOME/opt
+$ CC=clang CXX=clang++ ./install.sh --prefix=$HOME/opt --symbolic
+...
+------------------------------------
+[Install Tsurugi successful]
+Install Directory: $HOME/opt/tsurugi-1.x.x
+------------------------------------
+
+[WARNING] /var/lock/ is not set to 1777.
+Tsurugi uses /var/lock/ as the default location to create the lock file at startup.
+However, the permissions on /var/lock/ are currently not set to 1777, which prevents non-privileged users from writing to this directory.
+If you are starting tsurugidb process as a non-privileged user, edit the system.pid_directory parameter in var/etc/tsurugi.ini accordingly.
+```
+
+If you install as a non-privileged user, you may see a warning at the end of installation if the `/var/lock/` directory permissions are not set to 1777 (this is the default on AlmaLinux and Rocky Linux).
+If this warning appears, refer to the section "Changing the `pid_directory` setting" below and update the Tsurugi configuration accordingly.
+
+If you run `install.sh` without any arguments, it will install under the default installation path `/usr/lib/tsurugi-<tsurugi-version>`. In this case, you usually need to run it with superuser privileges.
+
+#### Changing the `pid_directory` setting
+
+Tsurugi creates a process lock file in the directory specified by the `pid_directory` setting in the Tsurugi configuration file `tsurugi.ini` for process monitoring and preventing multiple instances.
+
+The default value of `pid_directory` is `/var/lock/`, but with the default permissions on AlmaLinux and Rocky Linux, general users cannot create lock files in this directory.
+If you want to run Tsurugi as a non-privileged user, you need to change the value of `pid_directory`.
+
+To change the value of `pid_directory`, edit the configuration file `var/etc/tsurugi.ini` under the Tsurugi installation directory.
+Uncomment the `pid_directory` line and specify any directory as an absolute path.
+
+```ini
+[system]
+    pid_directory=/opt/tsurugi/var/lock
+```
+
+Then, change the permissions so that the user running Tsurugi has write access to `/opt/tsurugi/var/lock`.
+
+```sh
+sudo mkdir -p /opt/tsurugi/var/lock
+sudo chmod 1777 /opt/tsurugi/var/lock
+```
+
+#### Installation Options for troubleshooting
 
 - `--parallel=<jobs>` Specifies the maximum number of parallel jobs for the build process to run during installation.
 
@@ -139,7 +233,7 @@ transaction started. option=[
 Time: 56.096 ms
 tgsql> CREATE TABLE tb1(pk INT PRIMARY KEY, c1 INT);
 Time: 58.242 ms
-tgsql>  INSERT INTO tb1(pk, c1) VALUES(1,100);
+tgsql> INSERT INTO tb1(pk, c1) VALUES(1,100);
 Time: 49.57 ms
 tgsql> SELECT * FROM tb1;
 [pk: INT4, c1: INT4]
