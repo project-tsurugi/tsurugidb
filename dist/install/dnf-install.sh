@@ -16,7 +16,7 @@ dnf install -y \
  gcc-toolset-13-libatomic-devel \
  glog-devel \
  icu \
- java-11-openjdk-devel \
+ java-11-openjdk-headless \
  jemalloc-devel \
  mpdecimal-devel \
  ninja-build \
