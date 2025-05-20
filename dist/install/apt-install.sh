@@ -34,6 +34,7 @@ apt-get install -y -V \
  libssl-dev \
  libtbb-dev \
  lsb-release \
+ openjdk-11-jdk-headless \
  openjdk-17-jdk-headless \
  pkg-config \
  protobuf-compiler \
