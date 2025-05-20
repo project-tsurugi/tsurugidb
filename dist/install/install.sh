@@ -95,6 +95,17 @@ fi
 
 export TG_SHIRAKAMI_OPTIONS="${TG_SHIRAKAMI_OPTIONS}"
 
+if [ "${TG_TSUBAKURO_NATIVE_JAVA_HOME}" = "" ]; then
+  _PACKAGE_INSTALLED_JDK="$(find /usr/lib/jvm/java-11-openjdk-* -maxdepth 1 -type d | head -n 1)"
+  if [ "${_PACKAGE_INSTALLED_JDK}" = "" ]; then
+    echo "[ERROR] JDK not found for building Tsubakuro Native." 1>&2
+    exit 1
+  fi
+  export TG_TSUBAKURO_NATIVE_JAVA_HOME="${_PACKAGE_INSTALLED_JDK}"
+else
+  export TG_TSUBAKURO_NATIVE_JAVA_HOME="${TG_TSUBAKURO_NATIVE_JAVA_HOME}"
+fi
+
 _INSTALL_WARNING_MESSAGES=""
 
 echo -e "\n[Install Tsurugi]"
