@@ -12,6 +12,11 @@ if [ -f "${TG_INSTALL_BASE_DIR}/.install/TSUBAKURO_VERSION" ]; then
 else
   _TSUBAKURO_LIBRARY_VERSION=$(git -C ${TG_TSUBAKURO_DIR} log --pretty="format:%H" -1 HEAD)
 fi
+
+if [ "${TG_TSUBAKURO_NATIVE_JAVA_HOME}" = "" ]; then
+  TG_TSUBAKURO_NATIVE_JAVA_HOME=$(./gradlew -q tsubakuro-ipc:showToolchainJavaHome)
+fi
+
 cd modules/ipc/src/main/native
 if [ "clean" = "${TG_CLEAN_BUILD}" ]; then
   rm -fr build
