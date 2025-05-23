@@ -14,6 +14,7 @@ dnf install -y \
  flex \
  gcc-c++ \
  gcc-toolset-13-libatomic-devel \
+ gcc-toolset-14-libatomic-devel \
  glog-devel \
  icu \
  java-17-openjdk-headless \
