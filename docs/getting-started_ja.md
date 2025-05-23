@@ -126,6 +126,22 @@ If you are starting tsurugidb process as a non-privileged user, edit the system.
 
 `install.sh` を引数なしで実行する場合、標準のインストールパス `/usr/lib/tsurugi-<tsurugi-version>` 配下にインストールします。この場合、通常はスーパーユーザの権限での実行が必要となります。
 
+> [!Note]
+> 以下のようなビルドエラーによりインストールに失敗した場合、エラーの解消方法については以下のドキュメントを参照してください。
+> - https://github.com/project-tsurugi/tsurugidb/blob/master/docs/troubleshooting-guide.md#fail-to-install-with-clang-19
+> ```
+>  [Install Mizugaki]
+>  -- The C compiler identification is Clang 19.1.7
+>  -- The CXX compiler identification is Clang 19.1.7
+>  ...
+>  FAILED: src/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o
+>  /usr/bin/clang++ -DBOOST_ALL_NO_LIB -DBOOST_ENABLE_ASSERT_DEBUG_HANDLER -DBOOST_STACKTRACE_BASIC_DYN_LINK -Dmizugaki_EXPORTS -I/tmp/tsurugidb-1.4.0/mizugaki/src -I/tmp/tsurugidb-1.4.0/mizugaki/build/src -I/tmp/tsurugidb-1.4.0/mizugaki/include -isystem /usr/lib/tsurugi-1.4.0/include/takatori -isystem /usr/lib/tsurugi-1.4.0/include/yugawara -isystem /usr/lib/tsurugi-1.4.0/include -march=native -Wall -Wextra -Werror -O2 -g -std=c++17 -fPIC -MD -MT src/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o -MF src/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o.d -o src/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o -c /tmp/tsurugidb-1.4.0/mizugaki/src/mizugaki/analyzer/details/analyze_type.cpp
+>  /tmp/tsurugidb-1.4.0/mizugaki/src/mizugaki/analyzer/details/analyze_type.cpp:375:42: error: a template argument list is expected after a name prefixed by the template keyword [-Wmissing-template-arg-list-after-template-kw]
+>    375 |         return context_.types().template get(std::forward<Type>(type));
+>  ...
+>  ninja: build stopped: subcommand failed.
+> ```
+
 #### `pid_directory` の設定変更
 
 Tsurugiはプロセスの死活監視やプロセスの二重起動防止のために、Tsurugiの設定ファイル `tsurugi.ini` の設定項目 `pid_directory` に指定されたディレクトリにプロセスのロックファイルを作成します。

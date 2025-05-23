@@ -125,6 +125,22 @@ If this warning appears, refer to the section "Changing the `pid_directory` sett
 
 If you run `install.sh` without any arguments, it will install under the default installation path `/usr/lib/tsurugi-<tsurugi-version>`. In this case, you usually need to run it with superuser privileges.
 
+> [!Note]
+> If the installation fails with a build error like the example below, see the following document for how to resolve this:
+> - https://github.com/project-tsurugi/tsurugidb/blob/master/docs/troubleshooting-guide.md#fail-to-install-with-clang-19
+> ```
+>  [Install Mizugaki]
+>  -- The C compiler identification is Clang 19.1.7
+>  -- The CXX compiler identification is Clang 19.1.7
+>  ...
+>  FAILED: src/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o
+>  /usr/bin/clang++ -DBOOST_ALL_NO_LIB -DBOOST_ENABLE_ASSERT_DEBUG_HANDLER -DBOOST_STACKTRACE_BASIC_DYN_LINK -Dmizugaki_EXPORTS -I/tmp/tsurugidb-1.4.0/mizugaki/src -I/tmp/tsurugidb-1.4.0/mizugaki/build/src -I/tmp/tsurugidb-1.4.0/mizugaki/include -isystem /usr/lib/tsurugi-1.4.0/include/takatori -isystem /usr/lib/tsurugi-1.4.0/include/yugawara -isystem /usr/lib/tsurugi-1.4.0/include -march=native -Wall -Wextra -Werror -O2 -g -std=c++17 -fPIC -MD -MT src/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o -MF src/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o.d -o src/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o -c /tmp/tsurugidb-1.4.0/mizugaki/src/mizugaki/analyzer/details/analyze_type.cpp
+>  /tmp/tsurugidb-1.4.0/mizugaki/src/mizugaki/analyzer/details/analyze_type.cpp:375:42: error: a template argument list is expected after a name prefixed by the template keyword [-Wmissing-template-arg-list-after-template-kw]
+>    375 |         return context_.types().template get(std::forward<Type>(type));
+>  ...
+>  ninja: build stopped: subcommand failed.
+> ```
+
 #### Changing the `pid_directory` setting
 
 Tsurugi creates a process lock file in the directory specified by the `pid_directory` setting in the Tsurugi configuration file `tsurugi.ini` for process monitoring and preventing multiple instances.

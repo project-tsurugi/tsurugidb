@@ -11,7 +11,58 @@
 
 This section provides information about troubleshooting the Tsurugi install.
 
-*To be written.*
+### Fail to install with Clang 19
+
+#### Problem or Error
+
+The installation fails with the following build error.
+
+```
+$ CC=clang CXX=clang++ ./install.sh
+...
+ [Install Mizugaki]
+ -- The C compiler identification is Clang 19.1.7
+ -- The CXX compiler identification is Clang 19.1.7
+ ...
+ FAILED: src/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o
+ /usr/bin/clang++ -DBOOST_ALL_NO_LIB -DBOOST_ENABLE_ASSERT_DEBUG_HANDLER BOOST_STACKTRACE_BASIC_DYN_LINK -Dmizugaki_EXPORTS -I/tmp/tsurugidb-1.4.0/mizugaki/src -I/tmp/urugidb-1.4.0/mizugaki/build/src -I/tmp/tsurugidb-1.4.0/mizugaki/include -isystem /usr/lib/urugi-1.4.0/include/takatori -isystem /usr/lib/tsurugi-1.4.0/include/yugawara -isystem /usr/b/tsurugi-1.4.0/include -march=native -Wall -Wextra -Werror -O2 -g -std=c++17 -fPIC -MD -MT c/CMakeFiles/mizugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o -MF src/CMakeFiles/zugaki.dir/mizugaki/analyzer/details/analyze_type.cpp.o.d -o src/CMakeFiles/mizugaki.dir/zugaki/analyzer/details/analyze_type.cpp.o -c /tmp/tsurugidb-1.4.0/mizugaki/src/mizugaki/alyzer/details/analyze_type.cpp
+ /tmp/tsurugidb-1.4.0/mizugaki/src/mizugaki/analyzer/details/analyze_type.cpp:375:42: error: template argument list is expected after a name prefixed by the template keyword Wmissing-template-arg-list-after-template-kw]
+   375 |         return context_.types().template get(std::forward<Type>(type));
+ ...
+ ninja: build stopped: subcommand failed.
+```
+
+#### Possible Cause or Solution
+
+If you encounter the above error, please take the following steps:
+
+1. Install `gcc-toolset-14-libatomic-devel` using `dnf`
+  ```sh
+  $ dnf install gcc-toolset-14-libatomic-devel
+ ```
+2. Execute `install.sh` with `-Wno-missing-template-arg-list-after-template-kw` to the `CXX` environment variable
+  ```sh
+  $ CC=clang CXX='clang++ -Wno-missing-template-arg-list-after-template-kw' ./install.sh
+  ```
+
+#### Compatible Versions of Clang and libatomic
+
+The required version of libatomic to be installed depends on the version of Clang you are using. Please install the appropriate version of libatomic according to your Clang version.
+
+- Clang 18: `gcc-toolset-13-libatomic-devel`
+- Clang 19: `gcc-toolset-14-libatomic-devel`
+
+Below are example commands to check the installed versions of Clang and libatomic using `dnf`.
+
+```sh
+$ dnf list --installed clang
+Installed Packages
+clang.x86_64                             19.1.7-2.el9      @appstream
+
+$ dnf list --installed *libatomic-devel
+Installed Packages
+gcc-toolset-13-libatomic-devel.x86_64    13.3.1-2.3.el9    @appstream
+```
 
 ## Fail to upgrade Tsurugi
 
