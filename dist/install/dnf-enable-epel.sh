@@ -5,7 +5,6 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-dnf update -y
 dnf install -y epel-release
 dnf config-manager --set-enabled epel crb
 
