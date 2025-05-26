@@ -6,7 +6,7 @@ cd ${TG_TSUBAKURO_DIR}
 ./gradlew clean PublishToMavenLocal -PskipBuildNative -x javadoc
 
 cd ${TG_TANZAWA_DIR}
-./gradlew clean tgsql:cli:assemble tgdump:cli:assemble -PmavenLocal
+./gradlew clean tgsql:cli:shadowDistTar tgdump:cli:shadowDistTar -PmavenLocal
 
 cd ${TG_INSTALL_DIR}
 tar xf ${TG_TANZAWA_DIR}/modules/tgsql/cli/build/distributions/tgsql-*-shadow.tar.gz --strip-components 1
