@@ -25,7 +25,8 @@ dnf install -y \
  protobuf-devel \
  rocksdb-devel \
  tbb-devel \
- uuid-devel
+ uuid-devel \
+ which
 
 dnf install -y https://apache.jfrog.io/artifactory/arrow/almalinux/"$(cut -d: -f5 /etc/system-release-cpe | cut -d. -f1)"/apache-arrow-release-latest.rpm
 dnf install -y \
