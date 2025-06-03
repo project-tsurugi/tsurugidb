@@ -34,6 +34,7 @@ apt-get install -y -V \
  libssl-dev \
  libtbb-dev \
  lsb-release \
+ nlohmann-json3-dev \
  openjdk-17-jdk-headless \
  pkg-config \
  protobuf-compiler \
