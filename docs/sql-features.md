@@ -918,6 +918,7 @@ CAST expression is possible when the source and destination type pair is listed 
 | source type | destination type |
 | --- | --- |
 | one of the following types: <ul><li>`INT`</li><li>`BIGINT`</li><li>`DECIMAL`</li><li>`REAL`</li><li>`DOUBLE`</li><li>`CHAR`</li><li>`VARCHAR`</li></ul> | one of the following types: <ul><li>`INT`</li><li>`BIGINT`</li><li>`DECIMAL`</li><li>`REAL`</li><li>`DOUBLE`</li><li>`CHAR`</li><li>`VARCHAR`</li></ul> |
+| one of the following types: <ul><li>`CHAR`</li><li>`VARCHAR`</li></ul> | one of the following types: <ul><li>`DATE`</li><li>`TIME`</li><li>`TIMESTAMP`</li><li>`TIMESTAMP WITH TIME ZONE`</li></ul> |
 | `BLOB` | one of the following types: <ul><li>`BLOB`</li><li>`BINARY`</li><li>`VARBINARY`</li></ul> |
 | one of the following types: <ul><li>`BINARY`</li><li>`VARBINARY`</li></ul> | `BLOB` |
 | `CLOB` | one of the following types: <ul><li>`CLOB`</li><li>`CHAR`</li><li>`VARCHAR`</li></ul> |
