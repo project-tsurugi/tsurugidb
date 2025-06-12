@@ -920,6 +920,13 @@ CAST expression is possible when the source and destination type pair is listed 
 
 CAST expression chooses appropriate values for successful conversion unless conversion is not possible in principle. For example, values that exceed the range of possible values to be stored in the destination are rounded to the appropriate value near the boundary value.
 
+##### Auto CAST insertion
+
+For ease of use, `INSERT` statements automatically add CAST operation to the input literal expression when both of the following conditions are satisfied.
+
+* the value for the target column of `INSERT` statement is provided by a single literal expression in `VALUES` clause
+* the type of the literal expression diffes from that of target column and casting is possible to match those types
+
 #### Implicit conversion
 
 ##### Binary promotion
