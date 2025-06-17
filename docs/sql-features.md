@@ -402,6 +402,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   MOD(<value-expression> , <value-expression>)
   OCTET_LENGTH(<value-expression>)
   POSITION(<value-expression> IN <value-expression>)
+  ROUND(<value-expression> [, <value-expression>])
   SUBSTR(<value-expression> , <value-expression> [, <value-expression>])
   SUBSTRING(<value-expression> FROM <value-expression> [FOR <value-expression>])
   UPPER(<value-expression>)
@@ -850,7 +851,7 @@ The below reserved words are not allowed to use as regular identifiers.
   * `PARAMETER`, `PLACING`, `POSITION`, `PRECISION`, `PREPARE`, `PRIMARY`, `PROCEDURE`
 * `Q`
 * `R`
-  * `REAL`, `RECURSIVE`, `REF`, `REFERENCES`, `REFERENCING`, `REPLACE`, `RESULT`, `RETURN`, `RETURNS`, `REVOKE`, `RIGHT`, `ROLE`, `ROLLBACK`, `ROLLUP`, `ROW`, `ROWS`
+  * `REAL`, `RECURSIVE`, `REF`, `REFERENCES`, `REFERENCING`, `REPLACE`, `RESULT`, `RETURN`, `RETURNS`, `REVOKE`, `RIGHT`, `ROLE`, `ROLLBACK`, `ROLLUP`, `ROUND`, `ROW`, `ROWS`
 * `S`
   * `SAVEPOINT`, `SCOPE`, `SEARCH`, `SECOND`, `SELECT`, `SESSION_USER`, `SET`, `SIMILAR`, `SMALLINT`, `SOME`, `SPECIFIC`, `SQL`, `SQLEXCEPTION`, `SQLSTATE`, `SQLWARNING`, `START`, `STATIC`, `SUBLIST`, `SUBSTR`, `SUBSTRING`, `SUM`, `SYMMETRIC`, `SYSTEM_USER`
 * `T`
