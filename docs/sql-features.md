@@ -440,12 +440,15 @@ note:
 ```txt
 <placeholder>:
   : <placeholder-name>
+  ?
 
 <placeholder-name>:
   <regular-identifier>
 ```
 
 * `<regular-identifier>` - see [Regular identifiers](#regular-identifiers)
+* `?` - a positional placeholder
+  * Each question mark (`?`) is replaced with a named placeholder that uses a number instead of a regular identifier, starting from one, assigned in order of appearance in the source code  (e.g., `:1`, `:2`, ...)
 
 ## Types
 
