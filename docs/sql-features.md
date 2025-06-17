@@ -337,7 +337,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <value-expression> >= <value-expression
   <value-expression> [NOT] BETWEEN [<between-type>] <value-expression> AND <value-expression>
   <value-expression> [NOT] IN ( <value-expression> [, <value-expression> ...] )
-  <value-expression> LIKE <value-expression> [ESCAPE <value-expression>]
+  <value-expression> [NOT] LIKE <value-expression> [ESCAPE <value-expression>]
 
 <between-type>:
   SYMMETRIC
