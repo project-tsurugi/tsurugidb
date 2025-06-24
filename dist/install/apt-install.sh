@@ -21,12 +21,10 @@ apt-get install -y -V \
  libboost-stacktrace-dev \
  libboost-system-dev \
  libboost-thread-dev \
- libcurl4 \
  libgflags-dev \
  libgoogle-glog-dev \
  libicu-dev \
  libjemalloc-dev \
- libjson-c-dev \
  libjwt-dev \
  libleveldb-dev \
  libmsgpack-dev \
