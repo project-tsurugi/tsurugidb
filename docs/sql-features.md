@@ -395,6 +395,8 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   CHARACTER_LENGTH(<value-expression>)
   CURRENT_DATE
   CURRENT_TIMESTAMP
+  DECODE(<value-expression> , 'Base64')
+  ENCODE(<value-expression> , 'Base64')
   FLOOR(<value-expression>)
   LOCALTIME
   LOCALTIMESTAMP
