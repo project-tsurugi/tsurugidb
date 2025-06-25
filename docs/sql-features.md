@@ -918,12 +918,19 @@ CAST expression is possible when the source and destination type pair is listed 
 | source type | destination type |
 | --- | --- |
 | one of the following types: <ul><li>`INT`</li><li>`BIGINT`</li><li>`DECIMAL`</li><li>`REAL`</li><li>`DOUBLE`</li><li>`CHAR`</li><li>`VARCHAR`</li></ul> | one of the following types: <ul><li>`INT`</li><li>`BIGINT`</li><li>`DECIMAL`</li><li>`REAL`</li><li>`DOUBLE`</li><li>`CHAR`</li><li>`VARCHAR`</li></ul> |
+| one of the following types: <ul><li>`CHAR`</li><li>`VARCHAR`</li></ul> | one of the following types: <ul><li>`DATE`</li><li>`TIME`</li><li>`TIMESTAMP`</li><li>`TIMESTAMP WITH TIME ZONE`</li></ul> |
 | `BLOB` | one of the following types: <ul><li>`BLOB`</li><li>`BINARY`</li><li>`VARBINARY`</li></ul> |
 | one of the following types: <ul><li>`BINARY`</li><li>`VARBINARY`</li></ul> | `BLOB` |
 | `CLOB` | one of the following types: <ul><li>`CLOB`</li><li>`CHAR`</li><li>`VARCHAR`</li></ul> |
 | one of the following types: <ul><li>`CHAR`</li><li>`VARCHAR`</li></ul> | `CLOB` |
 
 CAST expression chooses appropriate values for successful conversion unless conversion is not possible in principle. For example, values that exceed the range of possible values to be stored in the destination are rounded to the appropriate value near the boundary value.
+
+##### Auto CAST insertion
+
+For ease of use, SQL compiler automatically adds CAST operation to the literal expression in order to modify the type if the target type is apparent from the context. Typical examples of this function are as follows. 
+* `INSERT` statement with `VALUES` clause where the value is given by a single literal expression whose type differs from that of target column. 
+* `UPDATE` statement that assigns a single literal expression to the target column and those types are different. 
 
 #### Implicit conversion
 
