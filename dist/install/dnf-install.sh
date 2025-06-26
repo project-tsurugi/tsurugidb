@@ -19,9 +19,7 @@ dnf install -y \
  icu \
  java-17-openjdk-headless \
  jemalloc-devel \
- json-c-devel \
  json-devel \
- libcurl-devel \
  libjwt-devel \
  mpdecimal-devel \
  ninja-build \
