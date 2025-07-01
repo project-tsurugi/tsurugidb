@@ -17,8 +17,8 @@ Tsurugi officially supports the following operating systems:
 
 - Ubuntu 22.04
 - Ubuntu 24.04
-- AlmaLinux 9.5 (Experimental support)
-- Rocky Linux 9.5 (Experimental support)
+- AlmaLinux 9.6 (Experimental support)
+- Rocky Linux 9.6 (Experimental support)
 
 ## Virtual Machines and Containers
 
