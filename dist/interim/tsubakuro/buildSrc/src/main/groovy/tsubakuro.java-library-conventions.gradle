@@ -1,0 +1,36 @@
+plugins {
+    id 'java-library'
+    id 'com.vanniktech.maven.publish'
+
+    id 'tsubakuro.java-conventions'
+}
+
+import com.vanniktech.maven.publish.SonatypeHost
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+
+mavenPublishing {
+    configure(new JavaLibrary(new JavadocJar.None(), true))
+
+    pom {
+        name = 'Tsubakuro'
+        description = 'Communication library for direct use of lower-level functions of Tsurugi'
+        url = 'https://github.com/project-tsurugi/tsubakuro'
+        licenses {
+            license {
+                name = 'The Apache License, Version 2.0'
+                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+        }
+        developers {
+            developer {
+                id = 'project-tsurugi'
+            }
+        }
+        scm {
+            connection = 'scm:git:https://github.com/project-tsurugi/tsubakuro.git'
+            developerConnection = 'scm:git:https://github.com/project-tsurugi/tsubakuro.git'
+            url = 'https://github.com/project-tsurugi/tsubakuro'
+        }
+    }
+}
