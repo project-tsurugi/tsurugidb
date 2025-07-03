@@ -610,7 +610,7 @@ Tsurugi interpret approximate numeric literals as just `DOUBLE` type.
 ```txt
 <character-string-literal>:
   ' <character-string-character>... '
-  
+
 <character-string-character>:
   any character except for '
   ''
@@ -780,7 +780,7 @@ You can still access such the tables and columns to use delimited identifier wit
 ```txt
 <delimited-identifier>:
   " <delimited-identifier-character>... "
-  
+
 <delimited-identifier-character>:
   any character except for "
   ""
@@ -807,7 +807,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
   * `VALUES` as table reference
   * `SELECT` without `FROM` clause
 * Expressions
-  * `LIKE`
   * `EXISTS`
   * `IN` with sub-queries
 * Types
@@ -931,9 +930,9 @@ CAST expression chooses appropriate values for successful conversion unless conv
 
 ##### Auto CAST insertion
 
-For ease of use, SQL compiler automatically adds CAST operation to the literal expression in order to modify the type if the target type is apparent from the context. Typical examples of this function are as follows. 
-* `INSERT` statement with `VALUES` clause where the value is given by a single literal expression whose type differs from that of target column. 
-* `UPDATE` statement that assigns a single literal expression to the target column and those types are different. 
+For ease of use, SQL compiler automatically adds CAST operation to the literal expression in order to modify the type if the target type is apparent from the context. Typical examples of this function are as follows.
+* `INSERT` statement with `VALUES` clause where the value is given by a single literal expression whose type differs from that of target column.
+* `UPDATE` statement that assigns a single literal expression to the target column and those types are different.
 
 #### Implicit conversion
 
