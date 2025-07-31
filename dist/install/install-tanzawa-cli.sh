@@ -2,10 +2,6 @@
 
 echo -e "\n[Install Tanzawa CLI]"
 
-# apply interim patch START
-cp dist/interim/tsubakuro/buildSrc/src/main/groovy/tsubakuro.java-library-conventions.gradle ${TG_TSUBAKURO_DIR}/buildSrc/src/main/groovy/
-# apply interim patch END
-
 cd ${TG_TSUBAKURO_DIR}
 ./gradlew clean PublishToMavenLocal -PskipBuildNative -x javadoc
 
