@@ -3,7 +3,7 @@
 <Configure id="Server" class="org.eclipse.jetty.server.Server">
     <Call name="addBean">
     <Arg>
-        <New class="org.eclipse.jetty.jaas.JAASLoginService">
+        <New class="org.eclipse.jetty.security.jaas.JAASLoginService">
         <Set name="name">harinoki</Set>
         <Set name="LoginModuleName">harinoki-login</Set>
         </New>
