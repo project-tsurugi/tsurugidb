@@ -37,6 +37,7 @@ apt-get install -y -V \
  lsb-release \
  nlohmann-json3-dev \
  openjdk-17-jdk-headless \
+ openssl \
  pkg-config \
  protobuf-compiler \
  ninja-build \
