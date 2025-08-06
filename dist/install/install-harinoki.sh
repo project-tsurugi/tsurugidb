@@ -22,7 +22,10 @@ mkdir -p ${JETTY_BASE}
 if "${MAKE_TSURUGI_BASE}"; then
   cd ${JETTY_BASE}
   mkdir -p "${JETTY_BASE}/webapps"
+
   mkdir -p "${JETTY_BASE}/etc"
+  chmod 700 "${JETTY_BASE}/etc"
+
   mkdir -p "${JETTY_BASE}/logs"
   if [ "$EUID" -eq 0 ]; then
     chmod -R o+w "${JETTY_BASE}/logs"
@@ -30,32 +33,11 @@ if "${MAKE_TSURUGI_BASE}"; then
 
   java -jar $JETTY_HOME/start.jar --add-module=http,deploy,console-capture,jaas
 
-  cat <<EOF > $JETTY_BASE/etc/jaas-login-service.xml
-<?xml version="1.0"?>
-<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "https://www.eclipse.org/jetty/configure_10_0.dtd">
-<Configure id="Server" class="org.eclipse.jetty.server.Server">
-    <Call name="addBean">
-    <Arg>
-        <New class="org.eclipse.jetty.jaas.JAASLoginService">
-        <Set name="name">harinoki</Set>
-        <Set name="LoginModuleName">harinoki-login</Set>
-        </New>
-    </Arg>
-    </Call>
-</Configure>
-EOF
+  openssl genpkey -quiet -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out "${JETTY_BASE}/etc/harinoki.pem"
 
-cat <<EOF > $JETTY_BASE/etc/login.conf
-harinoki-login {
-    org.eclipse.jetty.jaas.spi.PropertyFileLoginModule required
-    file="etc/harinoki-users.props";
-};
-EOF
+  cp --preserve=timestamps "${_SCRIPTS_DIR}"/harinoki/conf/* ${JETTY_BASE}/etc
 
-cat <<EOF > $JETTY_BASE/etc/harinoki-users.props
-tsurugi: password,harinoki-user
-EOF
-
+  chmod 600 ${JETTY_BASE}/etc/*
 fi
 
 cd ${TG_HARINOKI_DIR}
@@ -63,6 +45,7 @@ cd ${TG_HARINOKI_DIR}
 
 cp -a ${TG_HARINOKI_DIR}/build/libs/harinoki.war ${TSURUGI_BASE}/auth/webapps
 
-cp -r --preserve=timestamps "${_SCRIPTS_DIR}/bin/authentication-server" ${TG_INSTALL_DIR}/bin
+mkdir -p ${TG_INSTALL_DIR}/bin
+cp --preserve=timestamps "${_SCRIPTS_DIR}/harinoki/bin/authentication-server" ${TG_INSTALL_DIR}/bin
 
 echo "$(basename $0) successful."

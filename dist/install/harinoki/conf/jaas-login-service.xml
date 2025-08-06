@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "https://www.eclipse.org/jetty/configure_10_0.dtd">
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+    <Call name="addBean">
+    <Arg>
+        <New class="org.eclipse.jetty.jaas.JAASLoginService">
+        <Set name="name">harinoki</Set>
+        <Set name="LoginModuleName">harinoki-login</Set>
+        </New>
+    </Arg>
+    </Call>
+</Configure>

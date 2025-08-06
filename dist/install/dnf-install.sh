@@ -24,6 +24,7 @@ dnf install -y \
  mpdecimal-devel \
  ninja-build \
  numactl-devel \
+ openssl \
  protobuf-devel \
  rocksdb-devel \
  tbb-devel \

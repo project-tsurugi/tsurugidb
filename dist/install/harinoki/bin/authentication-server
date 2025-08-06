@@ -2,12 +2,6 @@
 
 _SCRIPTS_DIR=$(cd "$(dirname $0)" && pwd)
 
-if [ -z "${TSURUGI_JWT_SECRET_KEY}" ]; then
-    echo "[ERROR] environment variable '\${TSURUGI_JWT_SECRET_KEY}' does not defined." 1>&2
-    echo "See: https://github.com/project-tsurugi/harinoki/blob/master/docs/token-ja.md#%E8%A8%AD%E5%AE%9A%E6%83%85%E5%A0%B1%E4%B8%80%E8%A6%A7" 1>&2
-    exit 1
-fi
-
 export JETTY_HOME=${_SCRIPTS_DIR}/../lib/jetty
 export JETTY_BASE=${_SCRIPTS_DIR}/../var/auth
 if [ "${TSURUGI_AUTH_STOP_PORT}" = "" ]; then
