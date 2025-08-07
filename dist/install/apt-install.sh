@@ -17,6 +17,7 @@ apt-get install -y -V \
  flex \
  libboost-container-dev \
  libboost-filesystem-dev \
+ libboost-regex-dev \
  libboost-serialization-dev \
  libboost-stacktrace-dev \
  libboost-system-dev \
