@@ -14,8 +14,7 @@ function get_downstream() {
       shirakami ) dss=sharksfin ;;
       sharksfin ) dss=tateyama ;;
       tateyama ) dss=jogasaki ;;
-      jogasaki ) dss=ogawayama ;;
-      ogawayama ) dss=tateyama-bootstrap ;;
+      jogasaki ) dss=tateyama-bootstrap ;;
       tateyama-bootstrap ) dss="" ;;
       tsubakuro ) dss=tanzawa ;;
       tanzawa ) dss="" ;;

@@ -22,7 +22,6 @@ BUILD_TIMESTAMP:${BUILD_TIMESTAMP}
 
 - tateyama-bootstrap $(git -C ${TG_TATEYAMA_BOOTSTRAP_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/tateyama-bootstrap/commit/%H)" -1 HEAD)
 - jogasaki $(git -C ${TG_JOGASAKI_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/jogasaki/commit/%H)" -1 HEAD)
-- ogawayama $(git -C ${TG_OGAWAYAMA_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/ogawayama/commit/%H)" -1 HEAD)
 - limestone $(git -C ${TG_LIMESTONE_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/limestone/commit/%H)" -1 HEAD)
 - shirakami $(git -C ${TG_SHIRAKAMI_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/shirakami/commit/%H)" -1 HEAD)
 - yakushima $(git -C ${TG_YAKUSHIMA_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/yakushima/commit/%H)" -1 HEAD)

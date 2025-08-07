@@ -515,62 +515,6 @@ jobs:
         with:
           ctest_input: 'jogasaki/build/**/*_gtest_result.xml'
 
-  Ogawayama:
-    needs: Extract_Target
-    if: contains(needs.Extract_Target.outputs.target, '@ogawayama@') || contains(needs.Extract_Target.outputs.target, '@all@')
-    runs-on: [self-hosted, docker]
-    permissions:
-      checks: write
-    timeout-minutes: 30
-    container:
-      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
-      volumes:
-        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
-    defaults:
-      run:
-        shell: bash
-    env:
-      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
-      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Install_Dependencies
-        uses: ./ogawayama/.github/actions/install-dependencies
-        with:
-          checkout: false
-          path: '.'
-          bridge-only: 'on'
-
-      - name: CMake_Build
-        working-directory: ogawayama
-        run: |
-          rm -rf build
-          mkdir build
-          cd build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DBUILD_EXAMPLES=OFF -DBUILD_BRIDGE_ONLY=ON -DSHARKSFIN_IMPLEMENTATION=shirakami -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_TESTS=ON ..
-          cmake --build . --target all --clean-first
-
-      - name: CTest
-        working-directory: ogawayama
-        env:
-          GTEST_OUTPUT: xml
-          ASAN_OPTIONS: detect_odr_violation=0
-        run: |
-          export LD_LIBRARY_PATH=${GITHUB_WORKSPACE}/.local/lib
-          cd build
-          ctest --verbose -j 16
-
-      - name: Verify
-        uses: project-tsurugi/tsurugi-annotations-action@v1
-        if: always()
-        with:
-          ctest_input: 'ogawayama/build/**/*_gtest_result.xml'
-
   Tateyama_Bootstrap:
     needs: Extract_Target
     if: contains(needs.Extract_Target.outputs.target, '@tateyama-bootstrap@') || contains(needs.Extract_Target.outputs.target, '@all@')
@@ -607,7 +551,7 @@ jobs:
           rm -rf build
           mkdir build
           cd build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DSHARKSFIN_IMPLEMENTATION=shirakami -DOGAWAYAMA=ON -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/.local ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DSHARKSFIN_IMPLEMENTATION=shirakami -DOGAWAYAMA=OFF -DBUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/.local ..
           cmake --build . --target install --clean-first
 
       - name: CTest
