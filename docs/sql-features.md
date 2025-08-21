@@ -6,9 +6,11 @@ The planned features are listed [here](#planned-features).
 ## Definitions (DDL)
 
 * [CREATE TABLE](#create-table)
-* [CREATE INDEX](#create-table)
+* [CREATE INDEX](#create-index)
 * [DROP TABLE](#drop-table)
-* [DROP INDEX](#drop-table)
+* [DROP INDEX](#drop-index)
+* [GRANT PRIVILEGE](#grant-privilege)
+* [REVOKE PRIVILEGE](#revoke-privilege)
 
 ```txt
 <ddl-statement>:
@@ -16,6 +18,8 @@ The planned features are listed [here](#planned-features).
   <index-definition>
   <drop-table>
   <drop-index>
+  <grant-privilege>
+  <revoke-privilege>
 ```
 
 ----
@@ -140,6 +144,47 @@ Limitation: index name must be specified, and it must not be empty.
 
 <drop-index-behavior>:
   RESTRICT
+```
+
+### GRANT PRIVILEGE
+
+```txt
+<grant-privilege-statement>:
+    GRANT <privilege-list> ON <object-name> [,...] TO <grantee> [,...]
+
+<privilege-list>:
+    ALL PRIVILEGES
+    <privilege-action> [,...]
+  
+<privilege-action>:
+    SELECT
+    INSERT
+    UPDATE
+    DELETE
+
+<object-name>:
+    [TABLE] <table-name>
+
+<grantee>:
+    PUBLIC
+    <authorization-identifier>
+
+<authorization-identifier>:
+    <user-name>
+```
+
+----
+note:
+
+`<user-name>` must be a valid SQL identifier (see [Names](#names)).
+If you want to use characters outside of the standard identifier set,
+you can enclose the user name in double quotes (e.g., `"user@domain.name"`).
+
+### REVOKE PRIVILEGE
+
+```txt
+<revoke-privilege-statement>:
+    REVOKE <privilege-list> ON <object-name> [,...] FROM <grantee> [,...]
 ```
 
 ## Statements (DML)
@@ -849,7 +894,7 @@ The below reserved words are not allowed to use as regular identifiers.
 * `O`
   * `OBJECT`, `OCTET_LENGTH`, `OF`, `OLD`, `ON`, `ONLY`, `OPEN`, `OR`, `ORDER`, `OUT`, `OUTER`, `OVERLAPS`, `OVERLAY`, `OWNED`
 * `P`
-  * `PARAMETER`, `PLACING`, `POSITION`, `PRECISION`, `PREPARE`, `PRIMARY`, `PROCEDURE`
+  * `PARAMETER`, `PLACING`, `POSITION`, `PRECISION`, `PREPARE`, `PRIMARY`, `PRIVILEGES`, `PROCEDURE`, `PUBLIC`
 * `Q`
 * `R`
   * `REAL`, `RECURSIVE`, `REF`, `REFERENCES`, `REFERENCING`, `REPLACE`, `RESULT`, `RETURN`, `RETURNS`, `REVOKE`, `RIGHT`, `ROLE`, `ROLLBACK`, `ROLLUP`, `ROW`, `ROWS`
