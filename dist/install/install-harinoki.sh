@@ -2,18 +2,20 @@
 
 echo -e "\n[Install Tsurugi Authentication Server]"
 
+JETTY_VERSION="12.0.25"
+
 _SCRIPTS_DIR=$(cd "$(dirname $0)" && pwd)
 JETTY_HOME="${TG_INSTALL_DIR}/lib/jetty"
 
-if [ ! -f "${TG_INSTALL_BASE_DIR}/third_party/jetty-home-11.0.16.tar.gz" ]; then
+if [ ! -f "${TG_INSTALL_BASE_DIR}/third_party/jetty-home-${JETTY_VERSION}.tar.gz" ]; then
   cd ${TG_INSTALL_BASE_DIR}/third_party
-  curl --retry 3 --retry-all-errors -OL https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/11.0.16/jetty-home-11.0.16.tar.gz
+  curl --retry 3 --retry-all-errors -OL "https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-home/${JETTY_VERSION}/jetty-home-${JETTY_VERSION}.tar.gz"
   cd $OLDPWD
 fi
 
 mkdir -p ${JETTY_HOME}
 cd ${JETTY_HOME}
-tar xf ${TG_INSTALL_BASE_DIR}/third_party/jetty-home-*.tar.gz --strip-components 1
+tar xf "${TG_INSTALL_BASE_DIR}/third_party/jetty-home-${JETTY_VERSION}.tar.gz" --strip-components 1
 cd $OLDPWD
 
 JETTY_BASE="${TSURUGI_BASE}/auth"
@@ -31,7 +33,7 @@ if "${MAKE_TSURUGI_BASE}"; then
     chmod -R o+w "${JETTY_BASE}/logs"
   fi
 
-  java -jar $JETTY_HOME/start.jar --add-module=http,deploy,console-capture,jaas
+  java -jar $JETTY_HOME/start.jar --add-module=http,ee9-deploy,console-capture,jaas
 
   openssl genpkey -quiet -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out "${JETTY_BASE}/etc/harinoki.pem"
 

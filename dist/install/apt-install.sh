@@ -49,7 +49,7 @@ apt-get install -y -V libmpdec-dev || true
 curl --retry 3 --retry-all-errors -OL https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb"
 apt-get install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
 apt-get update -y
-apt-get install -y -V libparquet-dev=16.1.0-1 libparquet1600=16.1.0-1 libarrow-dev=16.1.0-1 libarrow1600=16.1.0-1
+apt-get install -y -V --allow-downgrades libparquet-dev=16.1.0-1 libparquet1600=16.1.0-1 libarrow-dev=16.1.0-1 libarrow1600=16.1.0-1
 rm -f ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
 
 echo "$(basename $0) successful."
