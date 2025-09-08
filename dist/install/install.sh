@@ -109,7 +109,7 @@ if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
   if "${MAKE_TSURUGI_BASE}"; then
     mkdir -p "${TSURUGI_BASE}/etc"
     cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc/
-    replace_config "${TSURUGI_BASE}/etc/tsurugi.ini" zone_offset="$(date +%:z),${_REPLACE_CONFIG}"
+    replace_config "${TSURUGI_BASE}/etc/tsurugi.ini" session.zone_offset="$(date +%:z),${_REPLACE_CONFIG}"
 
     mkdir -p "${TSURUGI_BASE}/data"
     if [ "$EUID" -eq 0 ]; then
