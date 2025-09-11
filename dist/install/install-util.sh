@@ -17,17 +17,16 @@ function replace_config() {
 
     for ((_i=0; _i<${#_REPLACE_CONFIG}; _i++)); do
         _char="${_REPLACE_CONFIG:_i:1}"
-
         case "$_char" in
             "'")
                 if [[ $_in_double_quote -eq 0 ]]; then
-                    _in_single_quote=$(( 1 - _in_single_quote ))
+                    _in_single_quote=$((1 - _in_single_quote))
                 fi
                 _current+="$_char"
                 ;;
             '"')
                 if [[ $_in_single_quote -eq 0 ]]; then
-                    _in_double_quote=$(( 1 - _in_double_quote ))
+                    _in_double_quote=$((1 - _in_double_quote))
                 fi
                 _current+="$_char"
                 ;;
@@ -57,6 +56,18 @@ function replace_config() {
 
         IFS='=' read -r _KEY_FULL _VALUE <<< "$_KEYVALUE"
 
+        _VALUE="${_VALUE#"${_VALUE%%[![:space:]]*}"}"
+        _VALUE="${_VALUE%"${_VALUE##*[![:space:]]}"}"
+
+        local _first="${_VALUE:0:1}"
+        local _last="${_VALUE: -1}"
+        if { [[ "$_first" == "'" && "$_last" == "'" ]] || [[ "$_first" == '"' && "$_last" == '"' ]]; } && [[ ${#_VALUE} -ge 2 ]]; then
+            _VALUE="${_VALUE:1:${#_VALUE}-2}"
+        fi
+
+        local _VALUE_ESCAPED
+        _VALUE_ESCAPED=$(printf '%s' "$_VALUE" | sed -e 's/[&|]/\\&/g')
+
         if [[ "$_KEY_FULL" == *.* ]]; then
             local _SECTION="${_KEY_FULL%%.*}"
             local _KEY="${_KEY_FULL#*.}"
@@ -76,7 +87,7 @@ function replace_config() {
                 _SECTION_END=$(wc -l < "$_CONFIG_FILE")
             fi
 
-            if ! sed -i "${_SECTION_START},${_SECTION_END}s|^\\([[:space:]]*\\)#*[[:space:]]*\\(${_KEY}\\)[[:space:]]*=.*|\\1\\2=${_VALUE}|g" "$_CONFIG_FILE"; then
+            if ! sed -i "${_SECTION_START},${_SECTION_END}s|^\\([[:space:]]*\\)#*[[:space:]]*\\(${_KEY}\\)[[:space:]]*=.*|\\1\\2=${_VALUE_ESCAPED}|g" "$_CONFIG_FILE"; then
                 echo "Error: Failed to update $_KEY in section [$_SECTION]" >&2
                 return 1
             fi
@@ -86,4 +97,3 @@ function replace_config() {
         fi
     done
 }
-
