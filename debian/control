@@ -1,0 +1,43 @@
+Source: tsurugidb-internal
+Build-Depends: debhelper-compat (= 11),
+ build-essential,
+ cmake,
+ curl,
+ doxygen,
+ flex,
+ libboost-container-dev,
+ libboost-filesystem-dev,
+ libboost-regex-dev,
+ libboost-serialization-dev,
+ libboost-stacktrace-dev,
+ libboost-system-dev,
+ libboost-thread-dev,
+ libgflags-dev,
+ libgoogle-glog-dev,
+ libicu-dev,
+ libjemalloc-dev,
+ libjwt-dev,
+ libleveldb-dev,
+ libmsgpack-dev,
+ libnuma-dev,
+ libpq-dev,
+ libprotobuf-dev,
+ librocksdb-dev,
+ libssl-dev,
+ libtbb-dev,
+ lsb-release,
+ nlohmann-json3-dev,
+ openjdk-17-jdk-headless,
+ openssl,
+ pkg-config,
+ protobuf-compiler,
+ ninja-build,
+ uuid-dev,
+ libparquet-dev, libarrow-dev
+
+Package: tsurugidb-internal
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: tsurugidb binary package for internal use
+ tsurugidb binary package
+ 

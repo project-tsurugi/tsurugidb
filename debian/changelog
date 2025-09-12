@@ -1,0 +1,5 @@
+tsurugidb-internal (1.6.0~snapshot-202509071621-51aa839) UNRELEASED; urgency=medium
+
+  * Initial packaging.
+
+ -- Nobuhiro Ban <ban@nautilus-technologies.com>  Thu, 11 Sep 2025 20:42:31 +0900

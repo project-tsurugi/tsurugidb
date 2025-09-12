@@ -1,0 +1,18 @@
+#! /usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	rm -fr */build/ */build-shirakami/ build-*/
+
+override_dh_auto_build:
+	true
+
+override_dh_auto_install:
+	mkdir debian/tsurugidb-internal debian/tsurugidb-internal/opt
+	GRADLE_USER_HOME=$(pwd)/gradle-work GRADLE_OPTS="-Dmaven.repo.local=$(shell pwd)/repo" \
+		./install.sh --prefix=$(shell pwd)/debian/tsurugidb-internal/opt/
+
+override_dh_strip_nondeterminism:
+	true
