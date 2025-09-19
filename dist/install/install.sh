@@ -117,15 +117,6 @@ if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
 
   ${_SCRIPTS_DIR}/install-server.sh
 
-  mkdir -p "${TSURUGI_BASE}/etc"
-  cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc/
-  replace_config "${TSURUGI_BASE}/etc/tsurugi.ini" session.zone_offset="$(date +%:z),${_REPLACE_CONFIG}"
-
-  mkdir -p "${TSURUGI_BASE}/data"
-  if [ "$EUID" -eq 0 ]; then
-    chmod -R o+w "${TSURUGI_BASE}/data"
-  fi
-
   mkdir -p "${TG_INSTALL_DIR}/lib"
   if [ -f "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" ]; then
     cp -a "${TG_INSTALL_BASE_DIR}/.install/tsurugi-info.json" "${TG_INSTALL_DIR}/lib/"
@@ -152,6 +143,17 @@ fi
 
 if [[ ! ${TG_SKIP_INSTALL} == *"tanzawa"* ]]; then
   ${_SCRIPTS_DIR}/install-tanzawa-cli.sh
+fi
+
+if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
+  mkdir -p "${TSURUGI_BASE}/etc"
+  cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc/
+  replace_config "${TSURUGI_BASE}/etc/tsurugi.ini" session.zone_offset="$(date +%:z),${_REPLACE_CONFIG}"
+
+  mkdir -p "${TSURUGI_BASE}/data"
+  if [ "$EUID" -eq 0 ]; then
+    chmod -R o+w "${TSURUGI_BASE}/data"
+  fi
 fi
 
 if [[ ! ${TG_SKIP_INSTALL} == *"harinoki"* ]]; then
