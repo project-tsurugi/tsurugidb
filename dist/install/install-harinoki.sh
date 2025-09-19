@@ -21,26 +21,24 @@ cd $OLDPWD
 JETTY_BASE="${TSURUGI_BASE}/auth"
 mkdir -p ${JETTY_BASE}
 
-if "${MAKE_TSURUGI_BASE}"; then
-  cd ${JETTY_BASE}
-  mkdir -p "${JETTY_BASE}/webapps"
+cd ${JETTY_BASE}
+mkdir -p "${JETTY_BASE}/webapps"
 
-  mkdir -p "${JETTY_BASE}/etc"
-  chmod 700 "${JETTY_BASE}/etc"
+mkdir -p "${JETTY_BASE}/etc"
+chmod 700 "${JETTY_BASE}/etc"
 
-  mkdir -p "${JETTY_BASE}/logs"
-  if [ "$EUID" -eq 0 ]; then
-    chmod -R o+w "${JETTY_BASE}/logs"
-  fi
-
-  java -jar $JETTY_HOME/start.jar --add-module=http,ee9-deploy,console-capture,jaas
-
-  openssl genpkey -quiet -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out "${JETTY_BASE}/etc/harinoki.pem"
-
-  cp --preserve=timestamps "${_SCRIPTS_DIR}"/harinoki/conf/* ${JETTY_BASE}/etc
-
-  chmod 600 ${JETTY_BASE}/etc/*
+mkdir -p "${JETTY_BASE}/logs"
+if [ "$EUID" -eq 0 ]; then
+  chmod -R o+w "${JETTY_BASE}/logs"
 fi
+
+java -jar $JETTY_HOME/start.jar --add-module=http,ee9-deploy,console-capture,jaas
+
+openssl genpkey -quiet -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out "${JETTY_BASE}/etc/harinoki.pem"
+
+cp --preserve=timestamps "${_SCRIPTS_DIR}"/harinoki/conf/* ${JETTY_BASE}/etc
+
+chmod 600 ${JETTY_BASE}/etc/*
 
 cd ${TG_HARINOKI_DIR}
 ./gradlew clean assemble
