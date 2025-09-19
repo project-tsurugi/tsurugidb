@@ -160,10 +160,6 @@ if [[ ! ${TG_SKIP_INSTALL} == *"harinoki"* ]]; then
   ${_SCRIPTS_DIR}/install-harinoki.sh
 fi
 
-if [ -f "${_SCRIPTS_DIR}/install-dist-java.sh" ]; then
-  ${_SCRIPTS_DIR}/install-dist-java.sh
-fi
-
 if [ -d "${TG_INSTALL_DIR}/bin" ]; then
   chmod +x ${TG_INSTALL_DIR}/bin/*
 fi
