@@ -11,7 +11,30 @@ if [ "${TSURUGI_AUTH_STOP_KEY}" = "" ]; then
   export TSURUGI_AUTH_STOP_KEY="tsurugi-auth-server"
 fi
 
+function validate_env_harinoki_properties() {
+    if [[ -n "${HARINOKI_PROPERTIES}" ]]; then
+        props_file="${HARINOKI_PROPERTIES}"
+        # If relative path, treat as absolute path from root
+        if [[ "${props_file}" != /* ]]; then
+            props_file="/${props_file}"
+        fi
+    else
+        if [[ -z "${TSURUGI_HOME}" ]]; then
+            echo "Error: both HARINOKI_PROPERTIES and TSURUGI_HOME are not set" >&2
+            exit 1
+        fi
+        props_file="${TSURUGI_HOME%/}/var/auth/etc/harinoki.properties"
+    fi
+
+    if [[ ! -f "${props_file}" ]]; then
+        echo "Error: harinoki.properties file not found: ${props_file}" >&2
+        exit 1
+    fi
+}
+
 function start_server() {
+    validate_env_harinoki_properties
+
     echo start_server
     cd ${JETTY_BASE} && java -jar $JETTY_HOME/start.jar \
       jetty.home=${JETTY_HOME} \
