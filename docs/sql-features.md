@@ -150,12 +150,12 @@ Limitation: index name must be specified, and it must not be empty.
 
 ```txt
 <grant-privilege-statement>:
-    GRANT <privilege-list> ON <object-name> [,...] TO <grantee> [,...]
+    GRANT <privilege-list> ON <object-name> [,...] TO <grant-grantee> [,...]
 
 <privilege-list>:
     ALL PRIVILEGES
     <privilege-action> [,...]
-  
+
 <privilege-action>:
     SELECT
     INSERT
@@ -165,13 +165,19 @@ Limitation: index name must be specified, and it must not be empty.
 <object-name>:
     [TABLE] <table-name>
 
-<grantee>:
+<grant-grantee>:
     PUBLIC
+    CURRENT_USER
     <authorization-identifier>
 
 <authorization-identifier>:
     <user-name>
 ```
+
+* each `<grant-grantee>` is interpreted as follows:
+  * `PUBLIC` - grant the default table privileges to all users
+  * `CURRENT_USER` - interpret as the user name of the current session
+  * `<authorization-identifier>` - the target user name to grant the table privileges
 
 ----
 note:
@@ -184,8 +190,20 @@ you can enclose the user name in double quotes (e.g., `"user@domain.name"`).
 
 ```txt
 <revoke-privilege-statement>:
-    REVOKE <privilege-list> ON <object-name> [,...] FROM <grantee> [,...]
+    REVOKE <privilege-list> ON <object-name> [,...] FROM <revoke-grantee> [,...]
+
+<revoke-grantee>:
+    *
+    PUBLIC
+    CURRENT_USER
+    <authorization-identifier>
 ```
+
+* each `<revoke-grantee>` is interpreted as follows:
+  * `*` - revoke the table privileges from all users except the current user
+  * `PUBLIC` - revoke the default table privileges from all users
+  * `CURRENT_USER` - interpret as the user name of the current session
+  * `<authorization-identifier>` - the target user name to revoke the table privileges
 
 ## Statements (DML)
 
