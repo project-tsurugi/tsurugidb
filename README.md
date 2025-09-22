@@ -36,12 +36,6 @@ It focused for the following features:
   * You can find more documents in the [docs](docs/) directory.
   * The `docs` directory of the [Sub projects](#sub-projects) contains detailed information for each component.
 
-## Limitations
-
-This includes the below significant limitations as below:
-
-* User control does not work, including authentications and authorizations.
-
 ## Sub projects
 
 ### Transaction engine
