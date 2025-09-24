@@ -27,6 +27,7 @@ It focused for the following features:
 
 * Runtime Environments
   * [Supported Platforms](docs/supported-platforms.md)
+  * [Tsurugi Command Line Tools](docs/cli/README.md)
 * Support SQL
   * [Available SQL features in Tsurugi](docs/sql-features.md)
 * External Interfaces
