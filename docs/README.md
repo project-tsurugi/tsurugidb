@@ -8,6 +8,8 @@
 * [Tsurugi Command Line Tools](./cli/README.md)
 * [Tsurugi Upgrade Guide](./upgrade-guide.md)
 * [Tsurugi Troubleshooting Guide](./troubleshooting-guide.md)
+* Tsurugi Authentication and Table Privileges
+  * [Tsurugi のユーザー認証とテーブル権限 (ja)](./auth-overview_ja.md)
 * [Service Message Version (SMV) Compatibility](./service-message-compatibilities.md)
 * [Error Code of Tsurugi Services](./error-code-tsurugi-services.md)
 * [Available SQL features in Tsurugi](./sql-features.md)
