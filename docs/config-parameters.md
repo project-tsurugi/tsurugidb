@@ -19,6 +19,18 @@ Target component
 |---:| :---: | :--- |---|
 | `log_location` | String | Path to the directory where the log is stored | This is a required parameter, and if it is not set, DB fails to start. |
 
+## `authentication` section
+
+Target component
+  - authentication(tateyama)
+
+| Parameter name | Type | Value | Remarks |
+|---:| :---: | :--- |---|
+| `enabled` | Boolean(true/false) | Whether to enable the certification mechanism. The default value is `false`. |
+| `url` | String | URL of the authentication service. The default value is `http://localhost:8080/harinoki` |
+| `request_timeout` | Number | Authentication service timeout in seconds, `0` for no timeout. The default value is `0`. |
+| `administrators` | String | List of administrative users, separated by `,` (comma). `*` means all login users are treated as an administrative user. Default value is `*`. |
+
 ## `cc` section
 
 Target component
@@ -93,18 +105,6 @@ Target component
 | Parameter name | Type | Value | Remarks |
 |---:| :---: | :--- |---|
 | `pid_directory` | String | Temporary directory location to create lock files such as .pid files (see [process mutex](https://github.com/project-tsurugi/tateyama/blob/master/docs/process-mutex-ja.md)). The default value is /var/lock. | If you run multiple tsurugidb instances on the same server, you need to set the same value for this parameter in the configuration file of all tsurugidb instances. The lock files are also accessed from IPC connections from tsubakuro and others in order to monitor the server's dead/alive status. |
-
-## `authentication` section
-
-Target component
-  - authentication(tateyama)
-
-| Parameter name | Type | Value | Remarks |
-|---:| :---: | :--- |---|
-| enabled | Boolean(true/false) | Whether to enable the certification mechanism. The default value is false. |
-| url | String | URL of the authentication service. The default value is 'http://localhost:8080/harinoki' |
-| request_timeout | Number | Authentication service timeout in seconds, 0 for no timeout. The default value is 0. |
-| administrators | String | List of administrative users, separated by ','. `*` means all login users are treated as an administrative user. Default value is `*`. |
 
 ## `glog` section
 
