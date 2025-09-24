@@ -175,7 +175,7 @@ Limitation: index name must be specified, and it must not be empty.
 ```
 
 * each `<grant-grantee>` is interpreted as follows:
-  * `PUBLIC` - grant the default table privileges to all users
+  * `PUBLIC` - grants the default table privileges for all users
   * `CURRENT_USER` - interpret as the user name of the current session
   * `<authorization-identifier>` - the target user name to grant the table privileges
 
@@ -201,7 +201,7 @@ you can enclose the user name in double quotes (e.g., `"user@domain.name"`).
 
 * each `<revoke-grantee>` is interpreted as follows:
   * `*` - revoke the table privileges from all users except the current user
-  * `PUBLIC` - revoke the default table privileges from all users
+  * `PUBLIC` - revoke the default table privileges for all users
   * `CURRENT_USER` - interpret as the user name of the current session
   * `<authorization-identifier>` - the target user name to revoke the table privileges
 
