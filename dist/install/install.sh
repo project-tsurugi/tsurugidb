@@ -63,10 +63,20 @@ fi
 export TG_INSTALL_DIR=${_INSTALL_PREFIX}/tsurugi-${TSURUGI_VERSION}
 
 export TSURUGI_BASE=${TG_INSTALL_DIR}/var
-if [ -d ${TSURUGI_BASE} ]; then
-  export MAKE_TSURUGI_BASE=false
-else
-  export MAKE_TSURUGI_BASE=true
+if [ -d "${TSURUGI_BASE}" ]; then
+  _WARNMSG=$(cat <<EOF
+
+[WARNING] The existing ${TG_INSTALL_DIR}/var was retained.
+Default configuration files were generated under:
+  ${TG_INSTALL_DIR}/var_default_${TSURUGI_VERSION}
+
+Please migrate any required configuration files from the default directory
+to your existing ${TG_INSTALL_DIR}/var as needed.
+
+EOF
+  )
+  _INSTALL_WARNING_MESSAGES="${_INSTALL_WARNING_MESSAGES}${_WARNMSG}"
+  export TSURUGI_BASE=${TG_INSTALL_DIR}/var_default_${TSURUGI_VERSION}
 fi
 
 export TG_COMMON_CMAKE_BUILD_OPTIONS="${TG_COMMON_CMAKE_BUILD_OPTIONS}"
@@ -95,8 +105,6 @@ fi
 
 export TG_SHIRAKAMI_OPTIONS="${TG_SHIRAKAMI_OPTIONS}"
 
-_INSTALL_WARNING_MESSAGES=""
-
 echo -e "\n[Install Tsurugi]"
 echo "------------------------------------"
 cat ${TG_INSTALL_BASE_DIR}/BUILDINFO.md
@@ -106,16 +114,6 @@ mkdir -p "${TG_INSTALL_DIR}"
 cp --preserve=timestamps "${TG_INSTALL_BASE_DIR}/BUILDINFO.md" ${TG_INSTALL_DIR}/
 
 if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
-  if "${MAKE_TSURUGI_BASE}"; then
-    mkdir -p "${TSURUGI_BASE}/etc"
-    cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc/
-    replace_config "${TSURUGI_BASE}/etc/tsurugi.ini" session.zone_offset="$(date +%:z),${_REPLACE_CONFIG}"
-
-    mkdir -p "${TSURUGI_BASE}/data"
-    if [ "$EUID" -eq 0 ]; then
-      chmod -R o+w "${TSURUGI_BASE}/data"
-    fi
-  fi
 
   ${_SCRIPTS_DIR}/install-server.sh
 
@@ -147,12 +145,19 @@ if [[ ! ${TG_SKIP_INSTALL} == *"tanzawa"* ]]; then
   ${_SCRIPTS_DIR}/install-tanzawa-cli.sh
 fi
 
-if [[ ! ${TG_SKIP_INSTALL} == *"harinoki"* ]]; then
-  ${_SCRIPTS_DIR}/install-harinoki.sh
+if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
+  mkdir -p "${TSURUGI_BASE}/etc"
+  cp --preserve=timestamps "${_SCRIPTS_DIR}/conf/tsurugi.ini" ${TSURUGI_BASE}/etc/
+  replace_config "${TSURUGI_BASE}/etc/tsurugi.ini" session.zone_offset="$(date +%:z),${_REPLACE_CONFIG}"
+
+  mkdir -p "${TSURUGI_BASE}/data"
+  if [ "$EUID" -eq 0 ]; then
+    chmod -R o+w "${TSURUGI_BASE}/data"
+  fi
 fi
 
-if [ -f "${_SCRIPTS_DIR}/install-dist-java.sh" ]; then
-  ${_SCRIPTS_DIR}/install-dist-java.sh
+if [[ ! ${TG_SKIP_INSTALL} == *"harinoki"* ]]; then
+  ${_SCRIPTS_DIR}/install-harinoki.sh
 fi
 
 if [ -d "${TG_INSTALL_DIR}/bin" ]; then
