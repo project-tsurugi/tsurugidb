@@ -25,9 +25,6 @@
 [submodule "jogasaki"]
 	path = jogasaki
 	url = https://github.com/project-tsurugi/jogasaki.git
-[submodule "ogawayama"]
-	path = ogawayama
-	url = https://github.com/project-tsurugi/ogawayama.git
 [submodule "tateyama-bootstrap"]
 	path = tateyama-bootstrap
 	url = https://github.com/project-tsurugi/tateyama-bootstrap.git
