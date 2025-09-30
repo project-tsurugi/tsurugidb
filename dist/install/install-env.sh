@@ -9,7 +9,6 @@ fi
 
 _TATEYAMA_BOOTSTRAP_DIR="${TG_INSTALL_BASE_DIR}/tateyama-bootstrap"
 _JOGASAKI_DIR="${TG_INSTALL_BASE_DIR}/jogasaki"
-_OGAWAYAMA_DIR="${TG_INSTALL_BASE_DIR}/ogawayama"
 _TATEYAMA_DIR="${TG_INSTALL_BASE_DIR}/tateyama"
 _SHARKSFIN_DIR="${TG_INSTALL_BASE_DIR}/sharksfin"
 _SHIRAKAMI_DIR="${TG_INSTALL_BASE_DIR}/shirakami"
@@ -43,14 +42,6 @@ if [ "${TG_JOGASAKI_DIR}" = "" ]; then
 fi
 if [ ! -d "${TG_JOGASAKI_DIR}" ]; then
   echo "TG_JOGASAKI_DIR (${TG_JOGASAKI_DIR}) is not exist" 1>&2
-  exit 1
-fi
-
-if [ "${TG_OGAWAYAMA_DIR}" = "" ]; then
-  export TG_OGAWAYAMA_DIR="${_OGAWAYAMA_DIR}"
-fi
-if [ ! -d "${TG_OGAWAYAMA_DIR}" ]; then
-  echo "TG_OGAWAYAMA_DIR (${TG_OGAWAYAMA_DIR}) is not exist" 1>&2
   exit 1
 fi
 
