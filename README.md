@@ -95,10 +95,6 @@ It focused for the following features:
 
   SQL console (Java)
 
-* [ogawayama](https://github.com/project-tsurugi/ogawayama)
-
-  Communication library for PostgreSQL
-
 ### Peripherals
 
 * [harinoki](https://github.com/project-tsurugi/harinoki)
