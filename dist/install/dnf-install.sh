@@ -33,7 +33,7 @@ dnf install -y \
 
 dnf install -y https://apache.jfrog.io/artifactory/arrow/almalinux/"$(cut -d: -f5 /etc/system-release-cpe | cut -d. -f1)"/apache-arrow-release-latest.rpm
 dnf install -y \
- arrow-devel-16.1.0-1.el9.x86_64 \
- parquet-devel-16.1.0-1.el9.x86_64
+ arrow-devel-21.0.0-1.el9.x86_64 \
+ parquet-devel-21.0.0-1.el9.x86_64
 
 echo "$(basename $0) successful."
