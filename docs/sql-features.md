@@ -394,6 +394,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 <comparison-expression>:
   <value-expression> = <value-expression>
   <value-expression> <> <value-expression>
+  <value-expression> != <value-expression>
   <value-expression> < <value-expression>
   <value-expression> <= <value-expression>
   <value-expression> > <value-expression>
