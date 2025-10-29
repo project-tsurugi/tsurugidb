@@ -43,6 +43,7 @@ tgctl shutdown
   * [`tgctl session set`](./tgctl-session-set_ja.md)
 * その他
   * [`tgctl credentials`](./tgctl-credentials_ja.md)
+  * [`tgctl config`](./tgctl-config_ja.md)
 
 <!--
 * データベースメトリクス
