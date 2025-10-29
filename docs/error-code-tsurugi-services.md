@@ -1,6 +1,6 @@
 # Error Code of Tsurugi Services
 
-Client library (Tsubakuro) version: `1.11.0`.
+Client library (Tsubakuro) version: `1.12.0`.
 
 This document presents a comprehensive list of error codes that can be transmitted from each Tsurugi service to the client.
 
@@ -269,6 +269,10 @@ the tag name is too long.
 ## `SqlServiceCode`
 
 SQL service is designed to access the database with SQL.
+
+| property name | value |
+| ------------- | ----- |
+| diagnostic type code | 2 |
 
 ### `SQL-00100`
 
@@ -621,6 +625,10 @@ OCC (early) aborted because it read other LTX's write preserve
 ## `CoreServiceCode`
 
 diagnostics of the service infrastructure.
+
+| property name | value |
+| ------------- | ----- |
+| diagnostic type code | 1 |
 
 ### `SCD-00000`
 
