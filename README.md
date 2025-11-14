@@ -1,7 +1,7 @@
 # Tsurugi - next generation RDB for the new era
 
 Tsurugi is an open-source relational database system designed for modern computer architectures that have hundreds of CPU cores and huge memory capacity.
-It focused for the following features:
+It focuses on the following features:
 
 1. Designed for a Many-Core/In-Memory Environment
 2. Ensuring Consistency
@@ -10,95 +10,112 @@ It focused for the following features:
 5. Excellence in Batch Processing and Long Transactions
 6. Developed as Open Source
 
-- More: [about.md](about.md)
-- More : Detailed Information is offered in the Handbook (only in Japanese)
-  - https://nkbp.jp/lin-tsurugi
+* More: [about.md](about.md)
+* More: Detailed Information is offered in the Handbook (only in Japanese)
+  * https://nkbp.jp/lin-tsurugi
 
 ## Getting started
 
 * Installation
-  * [Tsurugi Getting Started](docs/getting-started.md)
-    * [Tsurugi Getting Started (ja)](docs/getting-started_ja.md)
+  * [Tsurugi Getting Started](docs/getting-started.md) ([日本語版](docs/getting-started_ja.md))
 * Use official Docker Image
-  * [Tsurugi Docker User Guide](docs/docker-tsurugi.md)
-    * [Tsurugi Dockerユーザガイド (ja)](docs/docker-tsurugi_ja.md)
+  * [Tsurugi Docker User Guide](docs/docker-tsurugi.md) ([日本語版](docs/docker-tsurugi_ja.md))
+
+## Client Libraries
+
+* **Java - Tsurugi-specific API**
+  * [Iceaxe](https://github.com/project-tsurugi/iceaxe) - High-Level Java API
+  * [Tsubakuro](https://github.com/project-tsurugi/tsubakuro) - Low-Level Java API
+* **Java - JDBC Driver**
+  * [Tsurugi JDBC](https://github.com/project-tsurugi/tsurugi-jdbc) - JDBC Driver
+* **Java - ORM Integration**
+  * [Tsurugi Hibernate](https://github.com/project-tsurugi/tsurugi-jdbc/tree/master/modules/tsurugi-hibernate) - Hibernate ORM Dialect
+* **Rust**
+  * [tsubakuro-rust-core](https://github.com/project-tsurugi/tsubakuro-rust/tree/master/tsubakuro-rust-core) - Rust API ([crates.io](https://crates.io/crates/tsubakuro-rust-core))
+* **C**
+  * [tsubakuro-rust-ffi](https://github.com/project-tsurugi/tsubakuro-rust/tree/master/tsubakuro-rust-ffi) - C API (Rust FFI bindings to C)
+* **ODBC Driver**
+  * [Tsurugi ODBC Driver](https://github.com/project-tsurugi/tsubakuro-rust/tree/master/tsubakuro-rust-odbc) - ODBC Driver ([Installer](https://github.com/project-tsurugi/tsubakuro-rust/releases))
+
+## Tools and Integrations
+
+* **Basic CLI**
+  * [tgctl](docs/cli/tgctl_ja.md) - Database management tool for Tsurugi
+  * [tgsql](docs/cli/tgsql_ja.md) - SQL console for Tsurugi
+  * [tgdump](docs/cli/tgdump_ja.md) - Database dump tool for Tsurugi
+* **UDF**
+  * Coming soon...
+* **Web Admin API**
+  * [Belayer Web-API](https://github.com/project-tsurugi/belayer-webapi) - Web Administration API for Tsurugi
+* **PostgreSQL Integration**
+  * [tsurugi-fdw](https://github.com/project-tsurugi/tsurugi_fdw) - PostgreSQL Foreign Data Wrapper for Tsurugi
+* **MCP**
+  * [Tsurugi MCP Server](https://github.com/project-tsurugi/tsurugi-mcp-server) - MCP Server for Tsurugi
 
 ## Documentation
 
 * Runtime Environments
   * [Supported Platforms](docs/supported-platforms.md)
-  * [Tsurugi Command Line Tools](docs/cli/README.md)
-* Support SQL
+* Supported SQL
   * [Available SQL features in Tsurugi](docs/sql-features.md)
-* External Interfaces
-  * [External interfaces for Tsurugi](docs/getting-started.md#external-interfaces-for-tsurugi)
-    * [Tsurugiが提供する外部インターフェース群 (ja)](docs/getting-started_ja.md#tsurugiが提供する外部インターフェース群)
-* Miscellaneous
-  * You can find more documents in the [docs](docs/) directory.
-  * The `docs` directory of the [Sub projects](#sub-projects) contains detailed information for each component.
+* Configuration
+  * [Configuration file parameters](docs/config-parameters.md)
+* Authentication and Authorization
+  * [Tsurugi User Authentication and Table Permissions (ja)](docs/auth-overview_ja.md)
+* Additional Resources
+  * [docs](docs/) directory contains more documents.
+  * [GitHub Discussions](https://github.com/project-tsurugi/tsurugidb/discussions) provides release information and additional guidance documents for release features.
+  * [Sub projects](#sub-projects) have their own `docs` directories with detailed information for each component.
 
 ## Sub projects
 
 ### Transaction engine
 
 * [shirakami](https://github.com/project-tsurugi/shirakami)
-
   Concurrency control system
 
 * [yakushima](https://github.com/project-tsurugi/yakushima)
-
   In-memory index
 
 * [limestone](https://github.com/project-tsurugi/limestone)
-
   Data store for transaction logs
 
 * [sharksfin](https://github.com/project-tsurugi/sharksfin)
-
   KVS adapter for transaction engine
 
 ### SQL execution engine
 
 * [jogasaki](https://github.com/project-tsurugi/jogasaki)
-
   SQL job scheduler and interpreter
 
 * [mizugaki](https://github.com/project-tsurugi/mizugaki)
-
   SQL compiler front-end including SQL parser
 
 * [yugawara](https://github.com/project-tsurugi/yugawara)
-
   SQL semantic analyzer and optimizer
 
 * [takatori](https://github.com/project-tsurugi/takatori)
-
   SQL intermediate representations and utilities
 
 ### Database framework
 
 * [tateyama](https://github.com/project-tsurugi/tateyama)
-
   Database component framework including messaging service
 
 * [tateyama-bootstrap](https://github.com/project-tsurugi/tateyama-bootstrap)
-
   Database service bootstrap
 
 ### Database clients
 
 * [tsubakuro](https://github.com/project-tsurugi/tsubakuro)
-
   Client library (Java)
 
 * [tanzawa](https://github.com/project-tsurugi/tanzawa)
-
   SQL console (Java)
 
 ### Peripherals
 
 * [harinoki](https://github.com/project-tsurugi/harinoki)
-
   Tiny authentication service
 
 ## Resources
@@ -112,7 +129,7 @@ It focused for the following features:
 
 * For any other questions or feedback, please post to [tsurugidb discussions forum](https://github.com/project-tsurugi/tsurugidb/discussions)
 
-* This repository is a collection of submodules of each [Sub Project](#sub-projects). Therefore, please send Pull Reuqeset to the repository of [Sub project](#sub-projects), not to this repository.
+* This repository is a collection of submodules of each [Sub projects](#sub-projects). Therefore, please send Pull Request to the repository of [Sub projects](#sub-projects), not to this repository.
 
 ## License
 
