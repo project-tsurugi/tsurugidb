@@ -451,6 +451,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 ```txt
 <function>:
   <builtin-function>
+  <user-defined-function>
 
 <builtin-function>:
   ABS(<value-expression>)
@@ -472,7 +473,12 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   SUBSTR(<value-expression> , <value-expression> [, <value-expression>])
   SUBSTRING(<value-expression> FROM <value-expression> [FOR <value-expression>])
   UPPER(<value-expression>)
+
+<user-defined-function>:
+  <function-name> ( [<value-expression> [, ...]] )
 ```
+
+* `<function-name>` - see [Names](#names)
 
 ### Aggregation functions
 
