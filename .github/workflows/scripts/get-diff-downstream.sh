@@ -13,6 +13,7 @@ function get_downstream() {
       yakushima ) dss=shirakami ;;
       shirakami ) dss=sharksfin ;;
       sharksfin ) dss=tateyama ;;
+      data-relay-grpc ) dss=tateyama ;;
       tateyama ) dss=jogasaki ;;
       jogasaki ) dss=tateyama-bootstrap ;;
       tateyama-bootstrap ) dss="" ;;
