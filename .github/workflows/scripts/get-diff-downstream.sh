@@ -6,7 +6,7 @@ function get_downstream() {
   items=$1
   for item in $items; do
     case "$item" in
-      takatori ) dss="yugawara tatetama" ;;
+      takatori ) dss="yugawara tateyama" ;;
       yugawara ) dss=mizugaki ;;
       mizugaki ) dss=jogasaki ;;
       limestone ) dss=shirakami ;;

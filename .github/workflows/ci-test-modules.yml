@@ -388,7 +388,7 @@ jobs:
           rm -fr build
           mkdir build
           cd build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_TESTS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_TESTS=ON ..
           cmake --build . --target all --clean-first
 
       - name: CTest
