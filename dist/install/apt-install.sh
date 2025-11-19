@@ -15,6 +15,7 @@ apt-get install -y -V \
  curl \
  doxygen \
  flex \
+ libabsl-dev \
  libboost-container-dev \
  libboost-filesystem-dev \
  libboost-regex-dev \
@@ -24,6 +25,8 @@ apt-get install -y -V \
  libboost-thread-dev \
  libgflags-dev \
  libgoogle-glog-dev \
+ libgrpc-dev \
+ libgrpc++-dev \
  libicu-dev \
  libjemalloc-dev \
  libjwt-dev \
@@ -41,6 +44,7 @@ apt-get install -y -V \
  openssl \
  pkg-config \
  protobuf-compiler \
+ protobuf-compiler-grpc \
  ninja-build \
  uuid-dev
 
