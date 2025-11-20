@@ -10,6 +10,7 @@ fi
 _TATEYAMA_BOOTSTRAP_DIR="${TG_INSTALL_BASE_DIR}/tateyama-bootstrap"
 _JOGASAKI_DIR="${TG_INSTALL_BASE_DIR}/jogasaki"
 _TATEYAMA_DIR="${TG_INSTALL_BASE_DIR}/tateyama"
+_DATA_RELAY_GRPC_DIR="${TG_INSTALL_BASE_DIR}/data-relay-grpc"
 _SHARKSFIN_DIR="${TG_INSTALL_BASE_DIR}/sharksfin"
 _SHIRAKAMI_DIR="${TG_INSTALL_BASE_DIR}/shirakami"
 _YAKUSHIMA_DIR="${TG_INSTALL_BASE_DIR}/yakushima"
@@ -50,6 +51,14 @@ if [ "${TG_TATEYAMA_DIR}" = "" ]; then
 fi
 if [ ! -d "${TG_TATEYAMA_DIR}" ]; then
   echo "TG_TATEYAMA_DIR (${TG_TATEYAMA_DIR}) is not exist" 1>&2
+  exit 1
+fi
+
+if [ "${TG_DATA_RELAY_GRPC_DIR}" = "" ]; then
+  export TG_DATA_RELAY_GRPC_DIR="${_DATA_RELAY_GRPC_DIR}"
+fi
+if [ ! -d "${TG_DATA_RELAY_GRPC_DIR}" ]; then
+  echo "TG_DATA_RELAY_GRPC_DIR (${TG_DATA_RELAY_GRPC_DIR}) is not exist" 1>&2
   exit 1
 fi
 

@@ -29,6 +29,7 @@ BUILD_TIMESTAMP:${BUILD_TIMESTAMP}
 - takatori $(git -C ${TG_TAKATORI_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/takatori/commit/%H)" -1 HEAD)
 - yugawara $(git -C ${TG_YUGAWARA_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/yugawara/commit/%H)" -1 HEAD)
 - mizugaki $(git -C ${TG_MIZUGAKI_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/mizugaki/commit/%H)" -1 HEAD)
+- data-relay-grpc $(git -C ${TG_DATA_RELAY_GRPC_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/data-relay-grpc/commit/%H)" -1 HEAD)
 - tateyama $(git -C ${TG_TATEYAMA_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/tateyama/commit/%H)" -1 HEAD)
 - tsubakuro $(git -C ${TG_TSUBAKURO_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/tsubakuro/commit/%H)" -1 HEAD)
 - tanzawa $(git -C ${TG_TANZAWA_DIR} log --pretty="format:[%h - %s](${PROJECT_URL}/tanzawa/commit/%H)" -1 HEAD)

@@ -16,6 +16,9 @@ dnf install -y \
  gcc-toolset-13-libatomic-devel \
  gcc-toolset-14-libatomic-devel \
  glog-devel \
+ grpc-cli \
+ grpc-devel \
+ grpc-plugins \
  icu \
  java-17-openjdk-headless \
  jemalloc-devel \

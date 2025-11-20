@@ -388,7 +388,7 @@ jobs:
           rm -fr build
           mkdir build
           cd build
-          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_TESTS=ON -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local ..
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_TESTS=ON ..
           cmake --build . --target all --clean-first
 
       - name: CTest
@@ -405,6 +405,60 @@ jobs:
         if: always()
         with:
           ctest_input: 'sharksfin/build/**/*_gtest_result.xml'
+
+  Data_Relay_gRPC:
+    needs: Extract_Target
+    if: contains(needs.Extract_Target.outputs.target, '@data-relay-grpc@') || contains(needs.Extract_Target.outputs.target, '@all@')
+    runs-on: [self-hosted, docker]
+    permissions:
+      checks: write
+    timeout-minutes: 30
+    container:
+      image: ghcr.io/project-tsurugi/tsurugi-ci:ubuntu-22.04
+      volumes:
+        - ${{ vars.ccache_dir }}:${{ vars.ccache_dir }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      CCACHE_CONFIGPATH: ${{ vars.ccache_dir }}/ccache.conf
+      CCACHE_DIR: ${{ vars.ccache_dir }}/ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install_Dependencies
+        uses: ./data-relay-grpc/.github/actions/install-dependencies
+        with:
+          checkout: false
+          path: '.'
+
+      - name: CMake_Build
+        working-directory: data-relay-grpc/server
+        run: |
+          rm -fr build
+          mkdir build
+          cd build
+          cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_PREFIX_PATH=${GITHUB_WORKSPACE}/.local -DBUILD_TESTS=ON ..
+          cmake --build . --target all --clean-first
+
+      - name: CTest
+        working-directory: data-relay-grpc/server
+        env:
+          GTEST_OUTPUT: xml
+          ASAN_OPTIONS: detect_stack_use_after_return=true
+        run: |
+          cd build
+          ctest --verbose
+
+      - name: Verify
+        uses: project-tsurugi/tsurugi-annotations-action@v1
+        if: always()
+        with:
+          ctest_input: 'data-relay-grpc/server/build/**/*_gtest_result.xml'
 
   Tateyama:
     needs: Extract_Target
