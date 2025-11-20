@@ -452,7 +452,7 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose -j 16
+          ctest --verbose
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v1
