@@ -852,7 +852,7 @@ You can still access such the tables and columns to use delimited identifier wit
   " <delimited-identifier-character>... "
 
 <delimited-identifier-character>:
-  any character except for "
+  any UTF-8 character U+0020 .. except for "
   ""
 ```
 
@@ -862,9 +862,6 @@ note:
 If you want to use a reserved word as an identifier, you can use delimited identifiers.
 
 Identifiers cannot start with two consecutive underscores (`"__..."`), they are reserved for system use.
-
-Tsurugi currently accepts any characters in delimited identifiers.
-We now plan to disallow using non-UTF-8 characters and ASCII control characters in the future.
 
 The `sql.lowercase_regular_identifier` does not affect to delimited identifiers in contrast of regular identifiers.
 
