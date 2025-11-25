@@ -846,7 +846,7 @@ You can still access such the tables and columns to use delimited identifier wit
   " <delimited-identifier-character>... "
 
 <delimited-identifier-character>:
-  any UTF-8 character U+0020 .. except for "
+  any UTF-8 character except U+0000-U+001F, U+0022("), and U+007F(DEL)
   ""
 ```
 
