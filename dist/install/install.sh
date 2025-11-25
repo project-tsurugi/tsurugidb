@@ -154,6 +154,8 @@ if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
   if [ "$EUID" -eq 0 ]; then
     chmod -R o+w "${TSURUGI_BASE}/data"
   fi
+
+  mkdir -p "${TSURUGI_BASE}/blob/sessions"
 fi
 
 if [[ ! ${TG_SKIP_INSTALL} == *"harinoki"* ]]; then

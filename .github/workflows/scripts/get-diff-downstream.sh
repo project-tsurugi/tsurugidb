@@ -9,7 +9,7 @@ function get_downstream() {
       takatori ) dss="yugawara tateyama" ;;
       yugawara ) dss=mizugaki ;;
       mizugaki ) dss=jogasaki ;;
-      limestone ) dss=shirakami ;;
+      limestone ) dss="shirakami data-relay-grpc";;
       yakushima ) dss=shirakami ;;
       shirakami ) dss=sharksfin ;;
       sharksfin ) dss=tateyama ;;
