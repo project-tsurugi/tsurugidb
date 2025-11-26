@@ -6,13 +6,14 @@ function get_downstream() {
   items=$1
   for item in $items; do
     case "$item" in
-      takatori ) dss="yugawara tatetama" ;;
+      takatori ) dss="yugawara tateyama" ;;
       yugawara ) dss=mizugaki ;;
       mizugaki ) dss=jogasaki ;;
-      limestone ) dss=shirakami ;;
+      limestone ) dss="shirakami data-relay-grpc";;
       yakushima ) dss=shirakami ;;
       shirakami ) dss=sharksfin ;;
       sharksfin ) dss=tateyama ;;
+      data-relay-grpc ) dss=tateyama ;;
       tateyama ) dss=jogasaki ;;
       jogasaki ) dss=tateyama-bootstrap ;;
       tateyama-bootstrap ) dss="" ;;

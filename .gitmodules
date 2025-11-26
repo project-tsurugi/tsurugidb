@@ -43,3 +43,6 @@
 [submodule "third_party/concurrentqueue"]
 	path = third_party/concurrentqueue
 	url = https://github.com/cameron314/concurrentqueue.git
+[submodule "data-relay-grpc"]
+	path = data-relay-grpc
+	url = https://github.com/project-tsurugi/data-relay-grpc.git
