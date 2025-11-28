@@ -17,7 +17,7 @@ if [ "${TSURUGI_VERSION}" = "" ]; then
     _TSURUGI_TAG=$(git tag -l --contains ${_TSURUGIDB_SHA} | tail -1)
   fi
   if [ "${_TSURUGI_TAG}" = "" ]; then
-    TSURUGI_VERSION="snapshot-${_BUILD_TIMESTAMP//[TZ:-]/}-${_TSURUGIDB_SHORT_SHA}"
+    TSURUGI_VERSION="$(cat ${TG_INSTALL_BASE_DIR}/VERSION)-SNAPSHOT-${_BUILD_TIMESTAMP//[TZ:-]/}-${_TSURUGIDB_SHORT_SHA}"
   else
     TSURUGI_VERSION="${_TSURUGI_TAG}"
   fi
