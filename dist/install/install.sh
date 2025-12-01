@@ -159,6 +159,11 @@ if [[ ! ${TG_SKIP_INSTALL} == *"server"* ]]; then
   if [ "$EUID" -eq 0 ]; then
     chmod -R o+w "${TSURUGI_BASE}/blob"
   fi
+
+  mkdir -p "${TSURUGI_BASE}/plugins"
+  if [ "$EUID" -eq 0 ]; then
+    chmod -R o+w "${TSURUGI_BASE}/plugins"
+  fi
 fi
 
 if [[ ! ${TG_SKIP_INSTALL} == *"harinoki"* ]]; then
