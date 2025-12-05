@@ -48,7 +48,7 @@ apt-get install -y -V \
  ninja-build \
  uuid-dev
 
-apt-get install -y -V libmpdec-dev || true
+apt-get install -y -V '^libmpdec\+\+-dev$' || apt-get install -y -V libmpdec-dev || true
 
 curl --retry 3 --retry-all-errors -OL https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb"
 apt-get install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
