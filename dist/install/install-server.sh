@@ -5,7 +5,7 @@ if [ "${TG_VERBOSE_INSTALL}" = "ON" ]; then
   export VERBOSE=1
 fi
 
-if [ "${TG_FORCE_INSTALL_MPDECIMAL}" != "ON" ] && ldconfig -p | grep -F --quiet libmpdec++; then
+if [ "${TG_FORCE_INSTALL_MPDECIMAL}" != "ON" ] && /sbin/ldconfig -p | grep -F --quiet libmpdec++; then
   echo -e "\n[SKIPPED Install_mpdecimal]"
 else
   echo -e "\n[Install mpdecimal]"
