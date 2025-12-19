@@ -107,6 +107,38 @@ Target component
 |---:| :---: | :--- |---|
 | `pid_directory` | String | Temporary directory location to create lock files such as .pid files (see [process mutex](https://github.com/project-tsurugi/tateyama/blob/master/docs/process-mutex-ja.md)). The default value is /var/lock. | If you run multiple tsurugidb instances on the same server, you need to set the same value for this parameter in the configuration file of all tsurugidb instances. The lock files are also accessed from IPC connections from tsubakuro and others in order to monitor the server's dead/alive status. |
 
+## `grpc` section
+
+Section name
+  - grpc
+
+Target component
+  - grpc(tateyama)
+
+| Parameter name | Type | Value | Remarks |
+|---:| :---: | :--- |---|
+| `enabled` | Boolean(true/false) | Whether to enable the gRPC server. The default value is true. |
+| `listen_address` | String | The address and port the server listens on. The default value is '0.0.0.0:52345' |
+| `endpoint` | String | Remote View of gRPC Server Endpoint URI. The default value is 'dns:///localhost:52345' |
+| `secure` | Boolean(true/false) | Whether to enable secure ports for gRPC servers. The default value is false. |
+
+## `blob_relay` section
+
+Section name
+  - blob_relay
+
+Target component
+  - blob_relay(data-relay-grpc/server)
+
+| Parameter name | Type | Value | Remarks |
+|---:| :---: | :--- |---|
+| `enabled` | Boolean(true/false) | Whether to enable the BLOB relay service. The default value is true |
+| `session_store` | String | Session storage root directory. The default value is '$TSURUGI_HOME/var/blob/sessions' (relative path from $TSURUGI_HOME) |
+| `session_quota_size` | Integer | Session storage quota size. If not specified, unlimited. The default value is 'not specified' |
+| `local_enabled` | Boolean(true/false) | Whether to enable data transfer using the file system. The default value is true. |
+| `local_upload_copy_file` | Boolean(true/false)  | Whether to copy the original file when uploading using the file system. The default value is false. |
+| `stream_chunk_size` | Integer | Chunk size (in bytes) when transferring data in chunks during download in gRPC streaming. The default value is 1048576. |
+
 ## `glog` section
 
 Target component
