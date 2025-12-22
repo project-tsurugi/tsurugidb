@@ -319,6 +319,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   (<query-expression>) [AS] <relation-name>
   <table-reference> CROSS JOIN <table-reference>
   <table-reference> [<join-type>] JOIN <table-reference> <join-specification>
+  <table-reference> [<apply-type>] APPLY <user-defined-function> [AS] <relation-name>
 
 <join-type>:
   INNER
@@ -330,11 +331,32 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   ON <value-expression>
   USING (<column-name> [, ...])
 
+<apply-type>:
+  CROSS
+  OUTER
+
 <order-by-element>:
   <value-expression>
   <value-expression> ASC
   <value-expression> DESC
 ```
+
+* The `APPLY` is a relational operator for calling table-valued functions
+  * `APPLY` is an extended syntax specific to Tsurugi and is not included in the SQL standard (borrowed from T-SQL dialects)
+    * In the standard SQL, `FROM <left-hand-side> APPLY <user-defined-function> AS <relation-name>` is equivalent to the following syntax:
+
+      ```sql
+      FROM <left-hand-side>
+      JOIN LATERAL TABLE(<user-defined-function>) AS <relation-name> ON TRUE
+      ```
+
+  * `APPLY` evaluates the function for each row of the left-hand side and joins the returned rows as the right-hand side result.
+    * In `<user-defined-function>`, function arguments can contain columns from the left-hand side
+  * `<apply-type>` is optional, and defaults to `CROSS APPLY`
+    * In the case of `CROSS APPLY`, if the table-valued function returns an empty result, each row from the left-hand side is discarded
+      * This is equivalent to standard SQL `INNER JOIN LATERAL ... ON TRUE`
+    * In the case of `OUTER APPLY`, if the table-valued function returns an empty result, each row from the left-hand side is preserved, and the columns from the function result are set to `NULL`
+      * This is equivalent to standard SQL `LEFT OUTER JOIN LATERAL ... ON TRUE`
 
 ## Value expressions
 
@@ -887,7 +909,7 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 The below reserved words are not allowed to use as regular identifiers.
 
 * `A`
-  * `ABS`, `ABSOLUTE`, `ACTION`, `ADD`, `ADMIN`, `AFTER`, `ALIAS`, `ALL`, `ALTER`, `ALWAYS`, `AND`, `ANY`, `ARE`, `ARRAY`, `AS`, `ASSERTION`, `ASYMMETRIC`, `AT`, `AUTHORIZATION`, `AVG`
+  * `ABS`, `ABSOLUTE`, `ACTION`, `ADD`, `ADMIN`, `AFTER`, `ALIAS`, `ALL`, `ALTER`, `ALWAYS`, `AND`, `ANY`, `APPLY`, `ARE`, `ARRAY`, `AS`, `ASSERTION`, `ASYMMETRIC`, `AT`, `AUTHORIZATION`, `AVG`
 * `B`
   * `BEFORE`, `BEGIN`, `BETWEEN`, `BIGINT`, `BINARY`, `BIT`, `BIT_AND`, `BIT_LENGTH`, `BIT_OR`, `BITVAR`, `BLOB`, `BOOL_AND`, `BOOL_OR`, `BOOLEAN`, `BOTH`, `BY`
 * `C`
