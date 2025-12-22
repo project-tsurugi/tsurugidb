@@ -134,7 +134,7 @@ Target component
 |---:| :---: | :--- |---|
 | `enabled` | Boolean(true/false) | Whether to enable the BLOB relay service. The default value is `true` |
 | `session_store` | String | Session storage root directory. The default value is `var/blob/sessions` (relative path from $TSURUGI_HOME) |
-| `session_quota_size` | Integer | Session storage quota size. If not specified, unlimited. The default value is ``, means not specified |
+| `session_quota_size` | Integer | Session storage quota size. If not specified, unlimited. The default value is ` `, means not specified |
 | `local_enabled` | Boolean(true/false) | Whether to enable data transfer using the file system. The default value is `true`. |
 | `local_upload_copy_file` | Boolean(true/false)  | Whether to copy the original file when uploading using the file system. The default value is `false`. |
 | `stream_chunk_size` | Integer | Chunk size (in bytes) when transferring data in chunks during download in gRPC streaming. The default value is `1048576`. |
