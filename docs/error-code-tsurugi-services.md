@@ -1,6 +1,6 @@
 # Error Code of Tsurugi Services
 
-Client library (Tsubakuro) version: `1.12.0`.
+Client library (Tsubakuro) version: `1.13.0`.
 
 This document presents a comprehensive list of error codes that can be transmitted from each Tsurugi service to the client.
 
@@ -215,6 +215,25 @@ several columns were not specified in PUT operation.
 symbolic name: `INTEGRITY_CONSTRAINT_VIOLATION`.
 
 operations was failed by integrity constraint violation.
+
+## `SystemServiceCode`
+
+System service is designed for external use of Tsurugi's system information provider service.
+
+### `SYS-00000`
+
+symbolic name: `UNKNOWN`.
+
+unknown error was occurred in the system service.
+
+### `SYS-00101`
+
+symbolic name: `NOT_FOUND`.
+
+system information is not found in this session.
+
+>[!NOTE]
+> system information may not be available when the system is booting or the requested information is missing.
 
 ## `AuthServiceCode`
 
