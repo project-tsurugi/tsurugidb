@@ -343,7 +343,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 
 * The `APPLY` is a relational operator for calling table-valued functions
   * `APPLY` is an extended syntax specific to Tsurugi and is not included in the SQL standard (borrowed from T-SQL dialects)
-    * In the standard SQL, `FROM <left-hand-side> APPLY <user-defined-function> AS <relation-name>` is equivalent to the following syntax:
+    * In standard SQL, the equivalent syntax for `FROM <left-hand-side> APPLY <user-defined-function> AS <relation-name>` would be:
 
       ```sql
       FROM <left-hand-side>
