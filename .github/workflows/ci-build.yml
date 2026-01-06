@@ -52,27 +52,27 @@ jobs:
           TG_COMMON_CMAKE_BUILD_OPTIONS: '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache'
 
       - name: Upload_Install_Archive
-        if: ${{ inputs.os || 'ubuntu-22.04' }} == 'ubuntu-22.04'
+        if: ${{ (inputs.os || 'ubuntu-22.04') == 'ubuntu-22.04' }}
         uses: actions/upload-artifact@v4
         with:
           name: install-archive
           path: tsurugidb-*.tar.gz
 
       - name: Show_Tsurugi_Version
-        if: ${{ inputs.os || 'ubuntu-22.04' }} == 'ubuntu-22.04'
+        if: ${{ (inputs.os || 'ubuntu-22.04') == 'ubuntu-22.04' }}
         run: |
           cd work-install
           cat BUILDINFO.md >> ${GITHUB_STEP_SUMMARY}
 
       - name: Generate_Binary_Archive
-        if: ${{ inputs.os || 'ubuntu-22.04' }} == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
+        if: ${{ ((inputs.os || 'ubuntu-22.04') == 'ubuntu-22.04') && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master')) }}
         run: |
           cd build-install-test
           TSURUGI_VERSION=$(grep -oP '(?<=^TSURUGI_VERSION:).*' tsurugi/BUILDINFO.md)
           tar -czf ../tsurugidb-bin-${{ inputs.os || 'ubuntu-22.04' }}-${TSURUGI_VERSION}.tar.gz *
 
       - name: Upload_Binary_Archive
-        if: ${{ inputs.os || 'ubuntu-22.04' }} == 'ubuntu-22.04' && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master'))
+        if: ${{ ((inputs.os || 'ubuntu-22.04') == 'ubuntu-22.04') && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master')) }}
         uses: actions/upload-artifact@v4
         with:
           name: binary-archive-${{ inputs.os || 'ubuntu-22.04' }}
