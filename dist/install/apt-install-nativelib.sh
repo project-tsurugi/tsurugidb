@@ -12,7 +12,7 @@ apt-get install -y -V \
  build-essential \
  cmake \
  libboost-system-dev \
- openjdk-11-jdk-headless \
+ openjdk-17-jdk-headless \
  ninja-build
 
 echo "$(basename $0) successful."
