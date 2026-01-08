@@ -466,12 +466,14 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   LOCALTIME
   LOCALTIMESTAMP
   LOWER(<value-expression>)
+  LTRIM(<value-expression>)
   MOD(<value-expression> , <value-expression>)
   OCTET_LENGTH(<value-expression>)
   POSITION(<value-expression> IN <value-expression>)
   ROUND(<value-expression> [, <value-expression>])
   SUBSTR(<value-expression> , <value-expression> [, <value-expression>])
   SUBSTRING(<value-expression> FROM <value-expression> [FOR <value-expression>])
+  RTRIM(<value-expression>)
   UPPER(<value-expression>)
 
 <user-defined-function>:
