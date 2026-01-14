@@ -20,7 +20,7 @@ dnf install -y \
  grpc-devel \
  grpc-plugins \
  icu \
- java-17-openjdk-headless \
+ java-17-openjdk-devel \
  jemalloc-devel \
  json-devel \
  libjwt-devel \
