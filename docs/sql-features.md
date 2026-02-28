@@ -1,7 +1,7 @@
 # Available SQL features in Tsurugi
 
 In the latest release, Tsurugi SQL features are very limited.
-The planned features are listed [here](#planned-features).
+See [planned features section](#planned-features) for the features we are planning to support in the future.
 
 ## Definitions (DDL)
 
@@ -374,6 +374,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 * [Functions](#functions)
 * [Aggregation functions](#aggregation-functions)
 * [CAST](#cast)
+* [Scalar subqueries](#scalar-subqueries)
 * [Placeholders](#placeholders)
 
 ```txt
@@ -387,6 +388,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <function>
   <aggregation-function>
   <cast-expression>
+  <scalar-subquery>
   <placeholder>
 ```
 
@@ -537,6 +539,21 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 note:
 
 `expression::type` is a PostgreSQL-style cast expression.
+
+### Scalar subqueries
+
+```txt
+<scalar-subquery>:
+  ( <query-expression> )
+```
+
+----
+Limitation:
+
+* Correlated subqueries are currently not supported.
+  * That is, a subquery cannot refer to columns outside the subquery.
+* Subqueries cannot be used in join conditions (`JOIN ... ON ...`).
+  * For `INNER JOIN`, this can be worked around by moving the condition into the `WHERE` clause.
 
 ### Placeholders
 
@@ -897,12 +914,12 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 ## Planned features
 
 * Queries
-  * Scalar sub-queries
+  * Correlated subqueries
   * `VALUES` as table reference
   * `SELECT` without `FROM` clause
 * Expressions
   * `EXISTS`
-  * `IN` with sub-queries
+  * `IN` with subqueries
 * Types
   * `BOOLEAN`
   * `TINYINT`/`SMALLINT`
