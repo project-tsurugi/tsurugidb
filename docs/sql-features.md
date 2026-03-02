@@ -300,7 +300,8 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
       [HAVING <value-expression>]
       [ORDER BY <order-by-element> [, ...]]
       [LIMIT <integer>]
-  TABLE <table-name>
+  WITH <query-name> AS ( <query-expression> ) [, ...] <query-expression>
+  TABLE <declared-relation-name>
   <query-expression> UNION [<set-quantifier>] <query-expression>
   <query-expression> EXCEPT [DISTINCT] <query-expression>
   <query-expression> INTERSECT [DISTINCT] <query-expression>
@@ -315,10 +316,14 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <relation-name> .*
 
 <table-reference>:
-  <table-name> [[AS] <relation-name>]
+  <declared-relation-name> [[AS] <relation-name>]
   (<query-expression>) [AS] <relation-name>
   <table-reference> CROSS JOIN <table-reference>
   <table-reference> [<join-type>] JOIN <table-reference> <join-specification>
+
+<declared-relation-name>:
+  <table-name>
+  <query-name>
 
 <join-type>:
   INNER
