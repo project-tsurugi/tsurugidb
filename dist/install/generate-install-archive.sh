@@ -32,7 +32,7 @@ ARCHIVE_FILE_NAME="${ARCHIVE_DIR_NAME}.tar.gz"
 mkdir "$BUILD_WORK_DIR"
 INSTALL_ARCHIVE_PATH="$BUILD_WORK_DIR/$ARCHIVE_FILE_NAME"
 
-tar --exclude-vcs --exclude='.github' --exclude='*/third_party/googletest' -czf "${INSTALL_ARCHIVE_PATH}"  -C . --transform "s,^,${ARCHIVE_DIR_NAME}/," .install *
+tar --exclude-vcs --exclude='.github' --exclude='*/third_party/googletest' -czf "${INSTALL_ARCHIVE_PATH}"  -C . --transform "flags=r;s,^,${ARCHIVE_DIR_NAME}/," .install *
 
 rm -fr .install/
 cd $OLDPWD
