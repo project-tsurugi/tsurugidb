@@ -163,7 +163,7 @@ Target component
 | Parameter name | Type | Value | Remarks |
 |---:| :---: | :--- |---|
 |`endpoint` | String | gRPC server endpoint URI for UDF execution. The default value is `dns:///localhost:50051`.|Specifies the default destination gRPC endpoint that the SQL service connects to when invoking UDFs.|
-|`secure`| Boolean (true/false) | Whether to use a secure communication channel for gRPC by default. The default value is `false`. | **As of the current version, `secure=true` is not supported. This parameter must remain `false`.** |
+|`secure`| Boolean (true/false) | Whether to use a secure communication channel for gRPC by default. The default value is `false`. | |
 | `plugin_directory` |String| Directory path where UDF plugins are located. The default value is `$TSURUGI_HOME/var/plugins/`. | This directory is scanned at startup to load available UDF plugins.|
 
 
