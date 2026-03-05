@@ -50,6 +50,11 @@ tgsql --script -c tcp://localhost:12345 /path/to/script.sql
 * `-c, --connection <connection-uri>` : 接続先TsurugiサーバーのURI
   * 例: `ipc:tsurugi`, `tcp://localhost:12345`
 * `--connection-label <label>` : セッションラベル
+* `--shutdown-type` : コネクションクローズ時のシャットダウン方法
+  * `NOTHING` - シャットダウンを行わない
+  * `GRACEFUL` - GRACEFULシャットダウンを行う（デフォルト）
+  * `FORCEFUL` - FORCEFULシャットダウンを行う
+* `--shutdown-timeout` : シャットダウンのタイムアウト時間（単位: 秒）（デフォルト: 5秒）
 
 ### 認証
 
