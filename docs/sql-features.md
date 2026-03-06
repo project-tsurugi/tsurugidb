@@ -430,6 +430,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <value-expression> >= <value-expression
   <value-expression> [NOT] BETWEEN [<between-type>] <value-expression> AND <value-expression>
   <value-expression> [NOT] IN ( <value-expression> [, <value-expression> ...] )
+  <value-expression> IN ( <query-expression> )
   <value-expression> [NOT] LIKE <value-expression> [ESCAPE <value-expression>]
 
 <between-type>:
@@ -438,6 +439,13 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 ```
 
 * `LIKE` - if `ESCAPE` is not specified, no escape character is available
+
+----
+Limitation:
+
+* `IN` with subqueries has limitations as same as scalar subqueries (see [Scalar subqueries](#scalar-subqueries)), and also it has following additional limitations:
+  * `IN` with subqueries can only be used as a filter that can be separated from the rest of the expression (i.e., it can only be used as an operand of `WHERE` or `HAVING` clause, or combined with other filters using `AND` in those clauses).
+  * `NOT IN` with subqueries is not supported in this version.
 
 ### Boolean expressions
 
@@ -924,7 +932,7 @@ Note that delimited identifiers may not refer the some built-in functions, like 
   * `VALUES` as table reference
   * `SELECT` without `FROM` clause
 * Expressions
-  * `IN` with subqueries
+  * Full support for `IN` / `NOT IN` with subqueries
 * Types
   * `BOOLEAN`
   * `TINYINT`/`SMALLINT`
