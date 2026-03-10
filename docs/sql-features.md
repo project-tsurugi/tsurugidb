@@ -421,21 +421,29 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 
 ```txt
 <comparison-expression>:
-  <value-expression> = <value-expression>
-  <value-expression> <> <value-expression>
-  <value-expression> != <value-expression>
-  <value-expression> < <value-expression>
-  <value-expression> <= <value-expression>
-  <value-expression> > <value-expression>
-  <value-expression> >= <value-expression
+  <value-expression> <comparison-operator> <value-expression>
   <value-expression> [NOT] BETWEEN [<between-type>] <value-expression> AND <value-expression>
   <value-expression> [NOT] IN ( <value-expression> [, <value-expression> ...] )
-  <value-expression> IN ( <query-expression> )
   <value-expression> [NOT] LIKE <value-expression> [ESCAPE <value-expression>]
+  <value-expression> <comparison-operator> <quantifier> ( <query-expression> )
+  <value-expression> IN ( <query-expression> )
+
+<comparison-operator>:
+  =
+  <>
+  !=
+  <
+  <=
+  >
+  >=
 
 <between-type>:
   SYMMETRIC
   ASYMMETRIC
+
+<quantifier>:
+  ANY
+  SOME
 ```
 
 * `LIKE` - if `ESCAPE` is not specified, no escape character is available
@@ -446,6 +454,10 @@ Limitation:
 * `IN` with subqueries has limitations as same as scalar subqueries (see [Scalar subqueries](#scalar-subqueries)), and also it has following additional limitations:
   * `IN` with subqueries can only be used as a filter that can be separated from the rest of the expression (i.e., it can only be used as an operand of `WHERE` or `HAVING` clause, or combined with other filters using `AND` in those clauses).
   * `NOT IN` with subqueries is not supported in this version.
+* quantified comparison (`x = ANY (...)`) has limitations as same as scalar subqueries (see [Scalar subqueries](#scalar-subqueries)), and also it has following additional limitations:
+  * quantified comparison can only be used as a filter that can be separated from the rest of the expression, similar to `IN` with subqueries.
+  * `ALL` quantifier is not supported in this version.
+  * `NOT (x op ANY (...))` is not supported, because it is logically equivalent to `x op ALL (...)` by De Morgan's laws.
 
 ### Boolean expressions
 
