@@ -1,7 +1,7 @@
 # Available SQL features in Tsurugi
 
 In the latest release, Tsurugi SQL features are very limited.
-The planned features are listed [here](#planned-features).
+See [planned features section](#planned-features) for the features we are planning to support in the future.
 
 ## Definitions (DDL)
 
@@ -374,6 +374,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 * [Functions](#functions)
 * [Aggregation functions](#aggregation-functions)
 * [CAST](#cast)
+* [Scalar subqueries](#scalar-subqueries)
 * [Placeholders](#placeholders)
 
 ```txt
@@ -387,6 +388,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <function>
   <aggregation-function>
   <cast-expression>
+  <scalar-subquery>
   <placeholder>
 ```
 
@@ -419,23 +421,43 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 
 ```txt
 <comparison-expression>:
-  <value-expression> = <value-expression>
-  <value-expression> <> <value-expression>
-  <value-expression> != <value-expression>
-  <value-expression> < <value-expression>
-  <value-expression> <= <value-expression>
-  <value-expression> > <value-expression>
-  <value-expression> >= <value-expression
+  <value-expression> <comparison-operator> <value-expression>
   <value-expression> [NOT] BETWEEN [<between-type>] <value-expression> AND <value-expression>
   <value-expression> [NOT] IN ( <value-expression> [, <value-expression> ...] )
   <value-expression> [NOT] LIKE <value-expression> [ESCAPE <value-expression>]
+  <value-expression> <comparison-operator> <quantifier> ( <query-expression> )
+  <value-expression> IN ( <query-expression> )
+
+<comparison-operator>:
+  =
+  <>
+  !=
+  <
+  <=
+  >
+  >=
 
 <between-type>:
   SYMMETRIC
   ASYMMETRIC
+
+<quantifier>:
+  ANY
+  SOME
 ```
 
 * `LIKE` - if `ESCAPE` is not specified, no escape character is available
+
+----
+Limitation:
+
+* `IN` with subqueries has limitations as same as scalar subqueries (see [Scalar subqueries](#scalar-subqueries)), and also it has following additional limitations:
+  * `IN` with subqueries can only be used as a filter that can be separated from the rest of the expression (i.e., it can only be used as an operand of `WHERE` or `HAVING` clause, or combined with other filters using `AND` in those clauses).
+  * `NOT IN` with subqueries is not supported in this version.
+* quantified comparison (`x = ANY (...)`) has limitations as same as scalar subqueries (see [Scalar subqueries](#scalar-subqueries)), and also it has following additional limitations:
+  * quantified comparison can only be used as a filter that can be separated from the rest of the expression, similar to `IN` with subqueries.
+  * `ALL` quantifier is not supported in this version.
+  * `NOT (x op ANY (...))` is not supported, because it is logically equivalent to `x op ALL (...)` by De Morgan's laws.
 
 ### Boolean expressions
 
@@ -448,7 +470,13 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <value-expression> IS [NOT] TRUE
   <value-expression> IS [NOT] FALSE
   <value-expression> IS [NOT] UNKNOWN
+  EXISTS ( <query-expression> )
 ```
+
+----
+Limitation:
+
+* `EXISTS` predicate has limitations as same as scalar subqueries (see [Scalar subqueries](#scalar-subqueries)).
 
 ### Character string expressions
 
@@ -537,6 +565,21 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 note:
 
 `expression::type` is a PostgreSQL-style cast expression.
+
+### Scalar subqueries
+
+```txt
+<scalar-subquery>:
+  ( <query-expression> )
+```
+
+----
+Limitation:
+
+* Correlated subqueries are currently not supported.
+  * That is, a subquery cannot refer to columns outside the subquery.
+* Subqueries cannot be used in join conditions (`JOIN ... ON ...`).
+  * For `INNER JOIN`, this can be worked around by moving the condition into the `WHERE` clause.
 
 ### Placeholders
 
@@ -897,12 +940,11 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 ## Planned features
 
 * Queries
-  * Scalar sub-queries
+  * Correlated subqueries
   * `VALUES` as table reference
   * `SELECT` without `FROM` clause
 * Expressions
-  * `EXISTS`
-  * `IN` with sub-queries
+  * Full support for `IN` / `NOT IN` with subqueries
 * Types
   * `BOOLEAN`
   * `TINYINT`/`SMALLINT`
