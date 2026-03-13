@@ -46,3 +46,6 @@
 [submodule "data-relay-grpc"]
 	path = data-relay-grpc
 	url = https://github.com/project-tsurugi/data-relay-grpc.git
+[submodule "tsurugi-graph"]
+	path = tsurugi-graph
+	url = ./tsurugi-graph
