@@ -44,7 +44,7 @@ It focuses on the following features:
   * [tgsql](docs/cli/tgsql_ja.md) - SQL console for Tsurugi
   * [tgdump](docs/cli/tgdump_ja.md) - Database dump tool for Tsurugi
 * **UDF**
-  * Coming soon...
+  * [Tsurugi UDF](https://github.com/project-tsurugi/tsurugi-udf) - Extension Toolkit that allows user programs created as gRPC services to be called as SQL functions
 * **Web Admin API**
   * [Belayer Web-API](https://github.com/project-tsurugi/belayer-webapi) - Web Administration API for Tsurugi
 * **PostgreSQL Integration**
