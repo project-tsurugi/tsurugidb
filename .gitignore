@@ -16,3 +16,16 @@ tsurugidb-*.tar.gz
 /.build
 /.install
 BUILDINFO.md
+
+# Compiled test/bench binaries (graph-service)
+edge_parser_test
+executor_test
+graph_bench
+label_test
+match_label_test
+parser_full_test
+parser_test
+service_logic_test
+service_logic_standalone_test
+storage_nav_test
+storage_test
