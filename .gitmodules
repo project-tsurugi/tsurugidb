@@ -48,4 +48,4 @@
 	url = https://github.com/project-tsurugi/data-relay-grpc.git
 [submodule "tsurugi-graph"]
 	path = tsurugi-graph
-	url = ./tsurugi-graph
+	url = https://github.com/GodsGolemInc/tsurugi-graph.git
