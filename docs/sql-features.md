@@ -243,7 +243,6 @@ see [Queries](#queries)
   IF NOT EXISTS
 
 <insert-source>:
-  VALUES (<value-expression> [, ...]) [, ...]
   <query-expression>
   DEFAULT VALUES
 ```
@@ -253,6 +252,7 @@ see [Queries](#queries)
   * `INSERT OR REPLACE` - replaces the row even if the primary key already exists
   * `INSERT OR IGNORE` - does nothing if the primary key already exists
   * `INSERT IF NOT EXISTS` - same as `INSERT OR IGNORE`
+* `INSERT INTO ... VALUES (...)` is available via `<query-expression>` with `VALUES` (see [Queries](#queries)).
 
 ----
 note:
@@ -300,8 +300,10 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
       [HAVING <value-expression>]
       [ORDER BY <order-by-element> [, ...]]
       [LIMIT <integer>]
+  SELECT <select-element> [, ...]
   WITH <query-name> AS ( <query-expression> ) [, ...] <query-expression>
   TABLE <declared-relation-name>
+  VALUES (<value-expression> [, ...]) [, ...]
   <query-expression> UNION [<set-quantifier>] <query-expression>
   <query-expression> EXCEPT [DISTINCT] <query-expression>
   <query-expression> INTERSECT [DISTINCT] <query-expression>
@@ -346,6 +348,9 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <value-expression> DESC
 ```
 
+* A `SELECT` statement without `FROM` clause performs as if it had `FROM` provides a single row without any columns
+  * e.g., `SELECT 1` just returns a single row with column value `1`.
+  * In this form, `SELECT *` is not allowed because there is no column to select.
 * The `APPLY` is a relational operator for calling table-valued functions
   * `APPLY` is an extended syntax specific to Tsurugi and is not included in the SQL standard (borrowed from T-SQL dialects)
     * In standard SQL, the equivalent syntax for `FROM <left-hand-side> APPLY <user-defined-function> AS <relation-name>` would be:
@@ -941,8 +946,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 * Queries
   * Correlated subqueries
-  * `VALUES` as table reference
-  * `SELECT` without `FROM` clause
 * Expressions
   * Full support for `IN` / `NOT IN` with subqueries
 * Types
