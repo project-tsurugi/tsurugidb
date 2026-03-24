@@ -36,6 +36,8 @@ It focuses on the following features:
   * [tsubakuro-rust-ffi](https://github.com/project-tsurugi/tsubakuro-rust/tree/master/tsubakuro-rust-ffi) - C API (Rust FFI bindings to C)
 * **ODBC Driver**
   * [Tsurugi ODBC Driver](https://github.com/project-tsurugi/tsubakuro-rust/tree/master/tsubakuro-rust-odbc) - ODBC Driver ([Installer](https://github.com/project-tsurugi/tsubakuro-rust/releases))
+* **Python**
+  * [Tsurugi Python DB-API](https://github.com/project-tsurugi/tsubakuro-rust/tree/master/tsubakuro-rust-python) - Python DB API 2.0 Driver ([PyPI](https://pypi.org/project/tsurugi-dbapi))
 
 ## Tools and Integrations
 
