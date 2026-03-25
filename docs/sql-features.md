@@ -362,6 +362,11 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
       * This is equivalent to standard SQL `INNER JOIN LATERAL ... ON TRUE`
     * In the case of `OUTER APPLY`, if the table-valued function returns an empty result, each row from the left-hand side is preserved, and the columns from the function result are set to `NULL`
       * This is equivalent to standard SQL `LEFT OUTER JOIN LATERAL ... ON TRUE`
+* When binary query operations such as `UNION`, `EXCEPT`, or `INTERSECT` are used, parentheses (`(...)`) can be used to make the grouping explicit, for example:
+  * `(SELECT ... UNION ALL SELECT ...) INTERSECT SELECT ...`
+* When multiple `JOIN` or `APPLY` operations are combined, parentheses (`(...)`) can be used to make the grouping explicit, for example:
+  * `FROM t1 LEFT JOIN (t2 JOIN t3 ON ...) ON ...`
+  * `FROM (t1 OUTER APPLY f(t1.c0) AS x) JOIN t2 ON ...`
 
 ## Value expressions
 
