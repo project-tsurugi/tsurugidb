@@ -120,6 +120,9 @@ Target component
 | `enabled` | Boolean(true/false) | Whether to enable the gRPC server. The default value is `true`. |
 | `listen_address` | String | The address and port the server listens on. The default value is `0.0.0.0:52345` |
 | `endpoint` | String | Remote View of gRPC Server Endpoint URI. The default value is `dns:///localhost:52345` |
+| `secure` | Boolean (true/false) | Whether to enable secure ports for the gRPC server. The default value is false. |
+| `fullchain_crt` | String | Path to the full chain certificate file. No default value, as this must be set when `secure` is true. | Use only when enabling secure ports for the gRPC server.
+| `server_key` | String | The path to the server key file. No default value, as this must be set when `secure` is true. | Use only when enabling secure ports for the gRPC server.
 
 ## `blob_relay` section
 
