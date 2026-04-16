@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -53,7 +53,7 @@ jobs:
 
       - name: Upload_Install_Archive
         if: ${{ (inputs.os || 'ubuntu-22.04') == 'ubuntu-22.04' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: install-archive
           path: tsurugidb-*.tar.gz
@@ -73,7 +73,7 @@ jobs:
 
       - name: Upload_Binary_Archive
         if: ${{ ((inputs.os || 'ubuntu-22.04') == 'ubuntu-22.04') && (contains(github.ref, '/tags/') || contains(github.ref, '/heads/master')) }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: binary-archive-${{ inputs.os || 'ubuntu-22.04' }}
           path: tsurugidb-bin-*.tar.gz
@@ -118,7 +118,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
