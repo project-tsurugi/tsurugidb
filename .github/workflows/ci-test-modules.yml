@@ -120,6 +120,7 @@ jobs:
         with:
           checkout: false
           path: '.'
+          working-directory: yugawara
 
       - name: CMake_Build
         working-directory: yugawara
@@ -489,6 +490,7 @@ jobs:
         with:
           checkout: false
           path: '.'
+          working-directory: tateyama
 
       - name: CMake_Build
         working-directory: tateyama
