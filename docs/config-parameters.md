@@ -168,6 +168,7 @@ Target component
 |`endpoint` | String | gRPC server endpoint URI for UDF execution. The default value is `dns:///localhost:50051`.|Specifies the default destination gRPC endpoint that the SQL service connects to when invoking UDFs.|
 |`secure`| Boolean (true/false) | Whether to use a secure communication channel for gRPC by default. The default value is `false`. | |
 | `plugin_directory` |String| Directory path where UDF plugins are located. The default value is `$TSURUGI_HOME/var/plugins/`. | This directory is scanned at startup to load available UDF plugins.|
+| `timeout` | Integer | UDF RPC call timeout in seconds. If this parameter is not specified, no timeout is set. If set to `0`, timeout is disabled. | |
 
 
 ## specifying relative path for directory parameters
