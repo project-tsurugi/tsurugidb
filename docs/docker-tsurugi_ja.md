@@ -122,6 +122,7 @@ section|parameter|default value
 `datastore`|`log_location`|`/opt/tsurugi/var/data/log`
 `stream_endpoint`|`enabled`|`true`
 `stream_endpoint`|`allow_blob_privileged`|`true`
+`grpc_server`|`enabled`|`true`
 
 ## Tsurugi Dockerコンテナの様々な実行方法
 
@@ -145,3 +146,12 @@ $ docker container run -d -v $HOME/tsurugi-conf:/usr/lib/tsurugi/var/etc --name 
 > [!IMPORTANT]
 > 「Tsurugi Dockerコンテナの設定」で説明した通り、Tsurugi Dockerコンテナではいくつかのデフォルト値をDockerコンテナ向けに変更しています。
 > 設定ファイルを指定する際には、これらの設定項目について適切な値を設定しているか確認してください。
+
+### BLOB中継サービスの利用
+
+BLOB, CLOB型を標準の方法で利用する場合、Tsurugiサーバ上で動作するBLOB中継サービスを利用する必要があります。
+デフォルトの設定では、BLOB中継サービスは、ポート `52345` でTCP接続を受け付けるため、Dockerコンテナ起動時にこのポートをホスト側にマッピングして起動します。
+
+```sh
+$ docker container run -d -p 12345:12345 -p 52345:52345 --name tsurugi ghcr.io/project-tsurugi/tsurugidb
+```

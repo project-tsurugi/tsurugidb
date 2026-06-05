@@ -122,6 +122,7 @@ section|parameter|default value
 `datastore`|`log_location`|`/opt/tsurugi/var/data/log`
 `stream_endpoint`|`enabled`|`true`
 `stream_endpoint`|`allow_blob_privileged`|`true`
+`grpc_server`|`enabled`|`true`
 
 ## Various ways to run Tsurugi Docker containers
 
@@ -145,3 +146,12 @@ $ docker container run -d -v $HOME/tsurugi-conf:/usr/lib/tsurugi/var/etc --name 
 > [!IMPORTANT]
 > As described in Tsurugi Docker Container Configuration section, several default values in the Tsurugi Docker container have been modified for container use.
 > When specifying a configuration file, make sure that appropriate values are set for these configuration parameters.
+
+### Using the BLOB Relay Service
+
+When using BLOB and CLOB types in the standard way, you need to use the BLOB relay service running on the Tsurugi server.
+By default, the BLOB relay service listens for TCP connections on port `52345`, so you need to map this port to the host when starting the Docker container.
+
+```sh
+$ docker container run -d -p 12345:12345 -p 52345:52345 --name tsurugi ghcr.io/project-tsurugi/tsurugidb
+```
