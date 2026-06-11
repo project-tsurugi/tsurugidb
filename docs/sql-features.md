@@ -1,7 +1,8 @@
 # Available SQL features in Tsurugi
 
-In the latest release, Tsurugi SQL features are very limited.
-See [planned features section](#planned-features) for the features we are planning to support in the future.
+Tsurugi is based on the ANSI SQL standard, though it does not cover the entire specification.
+The following sections outline the currently supported capabilities.
+For details on upcoming capabilities, please refer to the [planned features section](#planned-features) below.
 
 ## Definitions (DDL)
 
