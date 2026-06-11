@@ -78,7 +78,7 @@ DDL should be issued from single thread when there is no on-going DML processing
 * `<function>` - see [Functions](#functions)
   * The arguments must be empty here.
 * about `GENERATED ~ AS IDENTITY`:
-  * column type must be `INT` or`BIGINT`
+  * column type must be `INT` or `BIGINT`
   * individual `<sequence-value>` must be in range of the column type
   * `INCREMENT BY` must not be zero
   * `INCREMENT BY` is `1` by default
@@ -586,8 +586,11 @@ note:
 ----
 Limitation:
 
-* Correlated subqueries are currently not supported.
-  * That is, a subquery cannot refer to columns outside the subquery.
+* Correlated subqueries (referring to columns from the outer query) are available under the following restrictions:
+  * Correlated subqueries cannot contain any scalar subqueries, `EXISTS` predicates, or `IN` predicates with subqueries.
+  * Correlated subqueries cannot contain `FULL OUTER JOIN`.
+  * In correlated subqueries, `VALUES` clause can only have a single row (e.g., `VALUES (1)` is allowed, but `VALUES (1), (2)` is not allowed).
+  * `EXISTS` clauses with correlated subqueries can only be used as a filter that can be separated from the rest of the expression (i.e., it can only be used as an operand of `WHERE` or `HAVING` clause, or combined with other filters using `AND` in those clauses).
 * Subqueries cannot be used in join conditions (`JOIN ... ON ...`).
   * For `INNER JOIN`, this can be worked around by moving the condition into the `WHERE` clause.
 
@@ -949,8 +952,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 ## Planned features
 
-* Queries
-  * Correlated subqueries
 * Expressions
   * Full support for `IN` / `NOT IN` with subqueries
 * Types
