@@ -589,7 +589,6 @@ Limitation:
 
 * Correlated subqueries (referring to columns from the outer query) are available under the following restrictions:
   * Within a correlated subquery, nested scalar subqueries, `EXISTS` predicates, and `IN` predicates with subqueries are not supported.
-  * Correlated subqueries cannot contain scalar aggregations (aggregations without `GROUP BY`).
   * Correlated subqueries cannot contain `FULL OUTER JOIN`.
   * In correlated subqueries, the `VALUES` clause can only have a single row (e.g., `VALUES (1)` is allowed, but `VALUES (1), (2)` is not).
   * `EXISTS` with a correlated subquery can only be used as an independent filter in `WHERE` or `HAVING`, or combined with other filters using `AND` in those clauses.
