@@ -1,7 +1,8 @@
 # Available SQL features in Tsurugi
 
-In the latest release, Tsurugi SQL features are very limited.
-See [planned features section](#planned-features) for the features we are planning to support in the future.
+Tsurugi is based on the ANSI SQL standard, though it does not cover the entire specification.
+The following sections outline the currently supported capabilities.
+For details on upcoming capabilities, please refer to the [planned features section](#planned-features) below.
 
 ## Definitions (DDL)
 
@@ -78,7 +79,7 @@ DDL should be issued from single thread when there is no on-going DML processing
 * `<function>` - see [Functions](#functions)
   * The arguments must be empty here.
 * about `GENERATED ~ AS IDENTITY`:
-  * column type must be `INT` or`BIGINT`
+  * column type must be `INT` or `BIGINT`
   * individual `<sequence-value>` must be in range of the column type
   * `INCREMENT BY` must not be zero
   * `INCREMENT BY` is `1` by default
@@ -586,8 +587,11 @@ note:
 ----
 Limitation:
 
-* Correlated subqueries are currently not supported.
-  * That is, a subquery cannot refer to columns outside the subquery.
+* Correlated subqueries (referring to columns from the outer query) are available under the following restrictions:
+  * Within a correlated subquery, nested scalar subqueries, `EXISTS` predicates, and `IN` predicates with subqueries are not supported.
+  * Correlated subqueries cannot contain `FULL OUTER JOIN`.
+  * In correlated subqueries, the `VALUES` clause can only have a single row (e.g., `VALUES (1)` is allowed, but `VALUES (1), (2)` is not).
+  * `EXISTS` with a correlated subquery can only be used as an independent filter in `WHERE` or `HAVING`, or combined with other filters using `AND` in those clauses.
 * Subqueries cannot be used in join conditions (`JOIN ... ON ...`).
   * For `INNER JOIN`, this can be worked around by moving the condition into the `WHERE` clause.
 
@@ -949,8 +953,6 @@ Note that delimited identifiers may not refer the some built-in functions, like 
 
 ## Planned features
 
-* Queries
-  * Correlated subqueries
 * Expressions
   * Full support for `IN` / `NOT IN` with subqueries
 * Types
