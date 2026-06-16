@@ -50,6 +50,11 @@ tgsql --script -c tcp://localhost:12345 /path/to/script.sql
 * `-c, --connection <connection-uri>` : 接続先TsurugiサーバーのURI
   * 例: `ipc:tsurugi`, `tcp://localhost:12345`
 * `--connection-label <label>` : セッションラベル
+* `--lob-transfer-type` : LOB転送タイプ
+  * `DEFAULT` - BLOB中継サービスを使用する（BLOB中継サービスが使用できない場合もセッションは接続される）（デフォルト）
+  * `NOT_USE` - LOB転送を使用しない
+  * `PRIVILEGED` - 特権モードを使用する（特権モードが使用できない場合はセッション接続が失敗する）
+  * `RELAY` - BLOB中継サービスを使用する（BLOB中継サービスが使用できない場合はセッション接続が失敗する）
 * `--shutdown-type` : コネクションクローズ時のシャットダウン方法
   * `NOTHING` - シャットダウンを行わない
   * `GRACEFUL` - GRACEFULシャットダウンを行う（デフォルト）

@@ -117,7 +117,7 @@ Target component
 
 | Parameter name | Type | Value | Remarks |
 |---:| :---: | :--- |---|
-| `enabled` | Boolean(true/false) | Whether to enable the gRPC server. The default value is `true`. |
+| `enabled` | Boolean(true/false) | Whether to enable the gRPC server. The default value is `false`. |
 | `listen_address` | String | The address and port the server listens on. The default value is `0.0.0.0:52345` |
 | `endpoint` | String | Remote View of gRPC Server Endpoint URI. The default value is `dns:///localhost:52345` |
 | `secure` | Boolean (true/false) | Whether to enable secure ports for the gRPC server. The default value is false. |
@@ -136,10 +136,8 @@ Target component
 |---:| :---: | :--- |---|
 | `enabled` | Boolean(true/false) | Whether to enable the BLOB relay service. The default value is `true` |
 | `session_store` | String | Session storage root directory. The default value is `var/blob/sessions` (relative path from $TSURUGI_HOME) |
-| `session_quota_size` | Integer | Session storage quota size. If not specified, unlimited. The default value is ` `, means not specified |
-| `local_enabled` | Boolean(true/false) | Whether to enable data transfer using the file system. The default value is `true`. |
-| `local_upload_copy_file` | Boolean(true/false)  | Whether to copy the original file when uploading using the file system. The default value is `false`. |
-| `stream_chunk_size` | Integer | Chunk size (in bytes) when transferring data in chunks during download in gRPC streaming. The default value is `1048576`. |
+| `session_quota_size` | Integer | Session storage quota size (in bytes). If not specified, unlimited. The default value is ` `, means not specified | If uploading a blob causes the session_store usage to exceed the `session_quota_size`, a RESOURCE_EXHAUSTED error is returned.
+| `stream_chunk_size` | Integer | Chunk size (in bytes) when transferring data in chunks  used for both downloads and uploads in gRPC streaming. The default value is `1048576`. |
 
 ## `glog` section
 
@@ -168,6 +166,7 @@ Target component
 |`endpoint` | String | gRPC server endpoint URI for UDF execution. The default value is `dns:///localhost:50051`.|Specifies the default destination gRPC endpoint that the SQL service connects to when invoking UDFs.|
 |`secure`| Boolean (true/false) | Whether to use a secure communication channel for gRPC by default. The default value is `false`. | |
 | `plugin_directory` |String| Directory path where UDF plugins are located. The default value is `$TSURUGI_HOME/var/plugins/`. | This directory is scanned at startup to load available UDF plugins.|
+| `timeout` | Integer | UDF RPC call timeout in seconds. If this parameter is not specified, no timeout is set. If set to `0`, timeout is disabled. | |
 
 
 ## specifying relative path for directory parameters
