@@ -277,7 +277,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 
 ```txt
 <update-statement>:
-  UPDATE <table-name> SET <set-clause> [, ...] [WHERE <value-expression>]
+  UPDATE <table-name> [ [AS] <alias-name> ] SET <set-clause> [, ...] [WHERE <value-expression>]
 
 <set-clause>:
   <column-name> = <value-expression>
@@ -287,7 +287,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 
 ```txt
 <delete-statement>:
-  DELETE FROM <table-name> [WHERE <value-expression>]
+  DELETE FROM <table-name> [ [AS] <alias-name> ] [WHERE <value-expression>]
 ```
 
 ## Queries
