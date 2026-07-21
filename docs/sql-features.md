@@ -10,6 +10,7 @@ For details on upcoming capabilities, please refer to the [planned features sect
 * [CREATE INDEX](#create-index)
 * [DROP TABLE](#drop-table)
 * [DROP INDEX](#drop-index)
+* [TRUNCATE TABLE](#truncate-table)
 * [GRANT PRIVILEGE](#grant-privilege)
 * [REVOKE PRIVILEGE](#revoke-privilege)
 
@@ -19,6 +20,7 @@ For details on upcoming capabilities, please refer to the [planned features sect
   <index-definition>
   <drop-table>
   <drop-index>
+  <truncate-table>
   <grant-privilege>
   <revoke-privilege>
 ```
@@ -145,6 +147,17 @@ Limitation: index name must be specified, and it must not be empty.
 
 <drop-index-behavior>:
   RESTRICT
+```
+
+### TRUNCATE TABLE
+
+```txt
+<truncate-table>:
+  TRUNCATE TABLE <table-name> [<column-identity-restart-option>]
+
+<column-identity-restart-option>:
+  RESTART IDENTITY
+  CONTINUE IDENTITY
 ```
 
 ### GRANT PRIVILEGE
@@ -1002,7 +1015,7 @@ The below reserved words are not allowed to use as regular identifiers.
 * `S`
   * `SAVEPOINT`, `SCOPE`, `SEARCH`, `SECOND`, `SELECT`, `SESSION_USER`, `SET`, `SIMILAR`, `SMALLINT`, `SOME`, `SPECIFIC`, `SQL`, `SQLEXCEPTION`, `SQLSTATE`, `SQLWARNING`, `START`, `STATIC`, `SUBLIST`, `SUBSTRING`, `SUM`, `SYMMETRIC`, `SYSTEM_USER`
 * `T`
-  * `TABLE`, `TEMPORARY`, `THEN`, `TIME`, `TIMESTAMP`, `TIMEZONE_HOUR`, `TIMEZONE_MINUTE`, `TINYINT`, `TO`, `TRAILING`, `TRANSLATE`, `TRANSLATION`, `TREAT`, `TRIGGER`, `TRIM`, `TRUE`
+  * `TABLE`, `TEMPORARY`, `THEN`, `TIME`, `TIMESTAMP`, `TIMEZONE_HOUR`, `TIMEZONE_MINUTE`, `TINYINT`, `TO`, `TRAILING`, `TRANSLATE`, `TRANSLATION`, `TREAT`, `TRIGGER`, `TRIM`, `TRUE`, `TRUNCATE`
 * `U`
   * `UNION`, `UNIQUE`, `UNKNOWN`, `UNNEST`, `UPDATE`, `UPPER`, `USER`, `USING`
 * `V`
