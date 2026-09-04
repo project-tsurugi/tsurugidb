@@ -8,6 +8,8 @@ For details on upcoming capabilities, please refer to the [planned features sect
 
 * [CREATE TABLE](#create-table)
 * [CREATE INDEX](#create-index)
+* [ALTER TABLE](#alter-table)
+* [ALTER INDEX](#alter-index)
 * [DROP TABLE](#drop-table)
 * [DROP INDEX](#drop-index)
 * [GRANT PRIVILEGE](#grant-privilege)
@@ -17,6 +19,8 @@ For details on upcoming capabilities, please refer to the [planned features sect
 <ddl-statement>:
   <table-definition>
   <index-definition>
+  <alter-table>
+  <alter-index>
   <drop-table>
   <drop-index>
   <grant-privilege>
@@ -120,6 +124,25 @@ note:
 Limitation: the target table must not contain any rows when index is created on it.
 
 Limitation: index name must be specified, and it must not be empty.
+
+### ALTER TABLE
+
+```txt
+<alter-table>:
+    ALTER TABLE [ IF EXISTS ] <table-name> RENAME TO <table-name>
+    ALTER TABLE [ IF EXISTS ] <table-name> RENAME COLUMN [ IF EXISTS ] <column-name> TO <column-name>
+```
+
+* In `ALTER TABLE ... RENAME TO ...`, the target table name must not include the schema name.
+
+### ALTER INDEX
+
+```txt
+<alter-index>:
+    ALTER INDEX [ IF EXISTS ] <index-name> RENAME TO <index-name>
+```
+
+* In `ALTER INDEX ... RENAME TO ...`, the target index name must not include the schema name.
 
 ### DROP TABLE
 
