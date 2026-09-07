@@ -10,6 +10,7 @@ For details on upcoming capabilities, please refer to the [planned features sect
 * [CREATE INDEX](#create-index)
 * [DROP TABLE](#drop-table)
 * [DROP INDEX](#drop-index)
+* [TRUNCATE TABLE](#truncate-table)
 * [GRANT PRIVILEGE](#grant-privilege)
 * [REVOKE PRIVILEGE](#revoke-privilege)
 
@@ -19,6 +20,7 @@ For details on upcoming capabilities, please refer to the [planned features sect
   <index-definition>
   <drop-table>
   <drop-index>
+  <truncate-table>
   <grant-privilege>
   <revoke-privilege>
 ```
@@ -145,6 +147,17 @@ Limitation: index name must be specified, and it must not be empty.
 
 <drop-index-behavior>:
   RESTRICT
+```
+
+### TRUNCATE TABLE
+
+```txt
+<truncate-table>:
+  TRUNCATE TABLE <table-name> [<column-identity-restart-option>]
+
+<column-identity-restart-option>:
+  RESTART IDENTITY
+  CONTINUE IDENTITY
 ```
 
 ### GRANT PRIVILEGE
@@ -528,6 +541,8 @@ Limitation:
   CURRENT_TIMESTAMP
   DECODE(<value-expression> , 'Base64')
   ENCODE(<value-expression> , 'Base64')
+  EXTRACT(<temporal-field> FROM <value-expression>)
+  EXTRACT(<temporal-field-range> FROM <value-expression>)
   FLOOR(<value-expression>)
   LOCALTIME
   LOCALTIMESTAMP
@@ -542,9 +557,53 @@ Limitation:
 
 <user-defined-function>:
   <function-name> ( [<value-expression> [, ...]] )
+
+<temporal-field>:
+  YEAR
+  MONTH
+  DAY
+  HOUR
+  MINUTE
+  SECOND [ ( <second-precision> ) ]
+  TIMEZONE_HOUR
+  TIMEZONE_MINUTE
+
+<temporal-field-range>:
+  DATE
+  YEAR TO MONTH
+  YEAR TO DAY
+  YEAR TO HOUR
+  YEAR TO MINUTE
+  YEAR TO SECOND [ ( <second-precision> ) ]
+
+<second-precision>:
+  *
+  <integer>
 ```
 
 * `<function-name>` - see [Names](#names)
+* For the `EXTRACT` function, the possible combinations of temporal fields and operand data types are as follows:
+
+  | Field | `TIMESTAMP` | `TIMESTAMP WITH TIME ZONE` | `DATE` | `TIME` |
+  | ----- | :-: | :-: | :-: | :-: |
+  | `YEAR` | o | o | o | x |
+  | `MONTH` | o | o | o | x |
+  | `DAY` | o | o | o | x |
+  | `HOUR` | o | o | x | o |
+  | `MINUTE` | o | o | x | o |
+  | `SECOND(n)` | o | o | x | o |
+  | `TIMEZONE_HOUR` | x | o | x | x |
+  | `TIMEZONE_MINUTE` | x | o | x | x |
+  | `DATE` | o | o | o | x |
+  | `YEAR TO MONTH` | o | o | o | x |
+  | `YEAR TO DAY` | o | o | o | x |
+  | `YEAR TO HOUR` | o | o | x | x |
+  | `YEAR TO MINUTE` | o | o | x | x |
+  | `YEAR TO SECOND(n)` | o | o | x | x |
+
+  Note that `EXTRACT(DATE FROM ...)` is a synonym for `EXTRACT(YEAR TO DAY FROM ...)`.
+
+* In `EXTRACT` function, the `SECOND(n)` means the second field with a precision of `n` digits after the decimal point, where `n` can be any integer from 0 to 9, or `*` for maximum precision. If `n` is omitted, it defaults to `*` (the maximum precision).
 
 ### Aggregation functions
 
@@ -968,7 +1027,7 @@ The below reserved words are not allowed to use as regular identifiers.
 * `A`
   * `ABS`, `ABSOLUTE`, `ACTION`, `ADD`, `ADMIN`, `AFTER`, `ALIAS`, `ALL`, `ALTER`, `ALWAYS`, `AND`, `ANY`, `APPLY`, `ARE`, `ARRAY`, `AS`, `ASSERTION`, `ASYMMETRIC`, `AT`, `AUTHORIZATION`, `AVG`
 * `B`
-  * `BEFORE`, `BEGIN`, `BETWEEN`, `BIGINT`, `BINARY`, `BIT`, `BIT_AND`, `BIT_LENGTH`, `BIT_OR`, `BITVAR`, `BLOB`, `BOOL_AND`, `BOOL_OR`, `BOOLEAN`, `BOTH`, `BY`
+  * `BEFORE`, `BEGIN`, `BETWEEN`, `BIGINT`, `BINARY`, `BIT_AND`, `BIT_OR`, `BLOB`, `BOOL_AND`, `BOOL_OR`, `BOOLEAN`, `BOTH`, `BY`
 * `C`
   * `CALL`, `CARDINALITY`, `CASCADE`, `CASCADED`, `CASE`, `CAST`, `CEIL`, `CHAR`, `CHAR_LENGTH`, `CHARACTER`, `CHARACTER_LENGTH`, `CHECK`, `CLASS`, `CLOB`, `CLOSE`, `COALESCE`, `COLLATE`, `COLUMN`, `COMMIT`, `CONNECT`, `CONSTRAINT`, `CONSTRAINTS`, `CONVERT`, `CORRESPONDING`, `COUNT`, `CREATE`, `CROSS`, `CUBE`, `CURRENT`, `CURRENT_DATE`, `CURRENT_PATH`, `CURRENT_ROLE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`, `CURRENT_USER`, `CURSOR`, `CYCLE`
 * `D`
@@ -1002,11 +1061,11 @@ The below reserved words are not allowed to use as regular identifiers.
 * `S`
   * `SAVEPOINT`, `SCOPE`, `SEARCH`, `SECOND`, `SELECT`, `SESSION_USER`, `SET`, `SIMILAR`, `SMALLINT`, `SOME`, `SPECIFIC`, `SQL`, `SQLEXCEPTION`, `SQLSTATE`, `SQLWARNING`, `START`, `STATIC`, `SUBLIST`, `SUBSTRING`, `SUM`, `SYMMETRIC`, `SYSTEM_USER`
 * `T`
-  * `TABLE`, `TEMPORARY`, `THEN`, `TIME`, `TIMESTAMP`, `TIMEZONE_HOUR`, `TIMEZONE_MINUTE`, `TINYINT`, `TO`, `TRAILING`, `TRANSLATE`, `TRANSLATION`, `TREAT`, `TRIGGER`, `TRIM`, `TRUE`
+  * `TABLE`, `TEMPORARY`, `THEN`, `TIME`, `TIMESTAMP`, `TIMEZONE_HOUR`, `TIMEZONE_MINUTE`, `TINYINT`, `TO`, `TRAILING`, `TRANSLATE`, `TRANSLATION`, `TREAT`, `TRIGGER`, `TRIM`, `TRUE`, `TRUNCATE`
 * `U`
   * `UNION`, `UNIQUE`, `UNKNOWN`, `UNNEST`, `UPDATE`, `UPPER`, `USER`, `USING`
 * `V`
-  * `VALUES`, `VARBINARY`, `VARBIT`, `VARCHAR`, `VARYING`, `VIEW`
+  * `VALUES`, `VARBINARY`, `VARCHAR`, `VARYING`, `VIEW`
 * `W`
   * `WHEN`, `WHENEVER`, `WHERE`, `WITH`, `WITHOUT`
 * `X`
