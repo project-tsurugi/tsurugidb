@@ -51,7 +51,7 @@ apt-get install -y -V \
 apt-get install -y -V '^libmpdec\+\+-dev$' || true
 apt-get install -y -V libmpdec-dev || true
 
-curl --retry 3 --retry-all-errors -OL https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb"
+curl --retry 3 --retry-all-errors -OL https://packages.apache.org/artifactory/arrow/"$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb"
 apt-get install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short).deb"
 apt-get update -y
 apt-get install -y -V libparquet-dev=24.0.0-1 libparquet2400=24.0.0-1 libarrow-dev=24.0.0-1 libarrow2400=24.0.0-1
