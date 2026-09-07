@@ -119,7 +119,7 @@ Target component
 |---:| :---: | :--- |---|
 | `enabled` | Boolean(true/false) | Whether to enable the gRPC server. The default value is `false`. |
 | `listen_address` | String | The address and port the server listens on. The default value is `0.0.0.0:52345` |
-| `endpoint` | String | Remote View of gRPC Server Endpoint URI. The default value is `dns:///localhost:52345` |
+| `endpoint` | String | Remote view of the gRPC server endpoint URI. When multiple UDF destinations are configured, multiple values can be specified using `\|` as a delimiter. A single value is applied to all UDF destinations; otherwise, the number of values must match `[udf] endpoint` and values are associated by position. The default value is `dns:///localhost:52345`. | If specified in the UDF plugin configuration file, the plugin setting takes precedence. |
 | `secure` | Boolean (true/false) | Whether to enable secure ports for the gRPC server. The default value is false. |
 | `fullchain_crt` | String | Path to the full chain certificate file. No default value, as this must be set when `secure` is true. | Use only when enabling secure ports for the gRPC server.
 | `server_key` | String | The path to the server key file. No default value, as this must be set when `secure` is true. | Use only when enabling secure ports for the gRPC server.
@@ -163,8 +163,8 @@ Target component
 
 | Parameter name | Type | Value | Remarks |
 |---:| :---: | :--- |---|
-|`endpoint` | String | gRPC server endpoint URI for UDF execution. The default value is `dns:///localhost:50051`.|Specifies the default destination gRPC endpoint that the SQL service connects to when invoking UDFs.|
-|`secure`| Boolean (true/false) | Whether to use a secure communication channel for gRPC by default. The default value is `false`. | |
+|`endpoint` | String | gRPC server endpoint URI for UDF execution. Multiple endpoints can be specified using `\|` as a delimiter. When multiple endpoints are specified, the destination is selected in round-robin order. The default value is `dns:///localhost:50051`.|Specifies the default destination gRPC endpoint that the SQL service connects to when invoking UDFs. If specified in the UDF plugin configuration file, the plugin setting takes precedence.|
+|`secure`| Boolean (true/false) | Whether to use a secure communication channel for gRPC by default. Multiple values can be specified using `\|` as a delimiter. A single value is applied to all `endpoint` entries; otherwise, the number of values must match the number of `endpoint` entries and values are associated by position. The default value is `false`. | If specified in the UDF plugin configuration file, the plugin setting takes precedence. |
 | `plugin_directory` |String| Directory path where UDF plugins are located. The default value is `$TSURUGI_HOME/var/plugins/`. | This directory is scanned at startup to load available UDF plugins.|
 | `timeout` | Integer | UDF RPC call timeout in seconds. If this parameter is not specified, no timeout is set. If set to `0`, timeout is disabled. | |
 
