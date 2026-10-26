@@ -310,7 +310,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   SELECT [<set-quantifier>] <select-element> [, ...]
       FROM <table-reference> [, ...]
       [WHERE <value-expression>]
-      [GROUP BY <column-name> [, ...]]
+      [GROUP BY <value-expression> [, ...]]
       [HAVING <value-expression>]
       [ORDER BY <order-by-element> [, ...]]
       [LIMIT <integer>]
@@ -386,6 +386,27 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
 * When multiple `JOIN` or `APPLY` operations are combined, parentheses (`(...)`) can be used to make the grouping explicit, for example:
   * `FROM t1 LEFT JOIN (t2 JOIN t3 ON ...) ON ...`
   * `FROM (t1 OUTER APPLY f(t1.c0) AS x) JOIN t2 ON ...`
+
+----
+Limitation:
+
+* A `GROUP BY` element cannot be any of the following:
+  * A literal (e.g., `1`, `'text'`, `TRUE`)
+    * Column positions are not supported, so `GROUP BY 1` is rejected as a literal
+  * A placeholder (e.g., `:something`, `?`)
+  * Literals and placeholders can still appear as part of an expression (e.g., `GROUP BY a + 1`)
+* A `GROUP BY` element cannot contain aggregate functions (e.g., `COUNT(*)`)
+* A `GROUP BY` element cannot be an expression of non-comparable types (e.g., `BLOB`, `CLOB`)
+* A `GROUP BY` element that is not a plain column reference can be referred to from `<select-element>`, `<order-by-element>`, and the `HAVING` condition, either as a whole or as a part of an expression
+  * e.g., `SELECT a + 1, (a + 1) * 2, COUNT(*) FROM t GROUP BY a + 1 HAVING a + 1 > 0`
+  * The expression must be written in the same form as in `GROUP BY`; for example, `1 + a` does not match `a + 1`, and `COUNT(*) + a + 1` must be written as `COUNT(*) + (a + 1)`
+  * A `GROUP BY` element that contains any of the following expressions cannot be referred to, even if it is written identically:
+    * subqueries (scalar subqueries, `EXISTS`, `IN` with subqueries, and quantified comparisons)
+    * `BETWEEN` predicates (e.g., `a BETWEEN 1 AND 2`)
+    * `IN` predicates with a value list (e.g., `a IN (1, 2, 3)`)
+    * simple `CASE` expressions (e.g., `CASE a WHEN 1 THEN ... END`)
+    * `NULLIF` (e.g., `NULLIF(a, 0)`)
+  * This can be worked around by computing the expression as a column of a derived table in the `FROM` clause (e.g., `SELECT g, COUNT(*) FROM (SELECT CASE a WHEN 1 THEN 'one' ELSE 'other' END AS g FROM t) AS q GROUP BY g`)
 
 ## Value expressions
 
