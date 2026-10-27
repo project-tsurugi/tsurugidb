@@ -3,7 +3,7 @@
 echo -e "\n[Install Tanzawa CLI]"
 
 cd ${TG_TSUBAKURO_DIR}
-./gradlew clean PublishToMavenLocal -PskipBuildNative -x javadoc
+./gradlew clean PublishToMavenLocal -PskipBuildNative -x javadoc -x :publishMavenPublicationToMavenLocal
 
 cd ${TG_TANZAWA_DIR}
 ./gradlew clean tgsql:cli:shadowDistTar tgdump:cli:shadowDistTar -PmavenLocal
