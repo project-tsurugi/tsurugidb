@@ -20,6 +20,8 @@ do
     _VERBOSE=ON
   elif [[ "$1" =~ "--replaceconfig=" ]]; then
     _REPLACE_CONFIG=${1#--replaceconfig=}
+  elif [[ "$1" =~ "--dirname=" ]]; then
+    _DIRNAME=${1#--dirname=}
   else
     echo "[ERROR] invalid option: $1" 1>&2
     exit 1
@@ -37,6 +39,25 @@ fi
 if [ ! -d "${_INSTALL_PREFIX}" ]; then
   echo "[ERROR] --prefix=${_INSTALL_PREFIX} is not exist" 1>&2
   exit 1
+fi
+
+if [ -v _DIRNAME ]; then
+  if [[ ! "${_DIRNAME}" =~ ^[A-Za-z0-9._][A-Za-z0-9._-]*$ ]] || [ "${_DIRNAME}" = "." ] || [ "${_DIRNAME}" = ".." ]; then
+    echo "[ERROR] --dirname=${_DIRNAME} is invalid. Use only letters, digits, '.', '_' and '-', and do not start with '-'." 1>&2
+    exit 1
+  fi
+  if [ "${_DIRNAME}" = "tsurugi" ]; then
+    echo "[ERROR] --dirname=tsurugi is reserved for the symbolic link created by --symbolic." 1>&2
+    exit 1
+  fi
+  if [ -L "${_INSTALL_PREFIX}/${_DIRNAME}" ]; then
+    echo "[ERROR] ${_INSTALL_PREFIX}/${_DIRNAME} is a symbolic link." 1>&2
+    exit 1
+  fi
+  if [ -e "${_INSTALL_PREFIX}/${_DIRNAME}" ] && [ ! -d "${_INSTALL_PREFIX}/${_DIRNAME}" ]; then
+    echo "[ERROR] ${_INSTALL_PREFIX}/${_DIRNAME} is not a directory." 1>&2
+    exit 1
+  fi
 fi
 
 if [ "${_BUILD_TYPE}" = "" ]; then
@@ -60,7 +81,16 @@ if [ "${TSURUGI_VERSION}" = "" ]; then
   TSURUGI_VERSION=$(grep -oP '(?<=^TSURUGI_VERSION:).*' ${TG_INSTALL_BASE_DIR}/BUILDINFO.md)
   export TSURUGI_VERSION
 fi
-export TG_INSTALL_DIR=${_INSTALL_PREFIX}/tsurugi-${TSURUGI_VERSION}
+if [ -v _DIRNAME ]; then
+  export TG_INSTALL_DIR=${_INSTALL_PREFIX}/${_DIRNAME}
+else
+  export TG_INSTALL_DIR=${_INSTALL_PREFIX}/tsurugi-${TSURUGI_VERSION}
+fi
+if [ -v _DIRNAME ] && [[ "${TSURUGI_VERSION}" == *-SNAPSHOT* ]]; then
+  _VAR_DEFAULT_DIRNAME=var_default_snapshot
+else
+  _VAR_DEFAULT_DIRNAME=var_default_${TSURUGI_VERSION}
+fi
 
 export TSURUGI_BASE=${TG_INSTALL_DIR}/var
 if [ -d "${TSURUGI_BASE}" ]; then
@@ -68,7 +98,7 @@ if [ -d "${TSURUGI_BASE}" ]; then
 
 [WARNING] The existing ${TG_INSTALL_DIR}/var was retained.
 Default configuration files were generated under:
-  ${TG_INSTALL_DIR}/var_default_${TSURUGI_VERSION}
+  ${TG_INSTALL_DIR}/${_VAR_DEFAULT_DIRNAME}
 
 Please migrate any required configuration files from the default directory
 to your existing ${TG_INSTALL_DIR}/var as needed.
@@ -76,7 +106,7 @@ to your existing ${TG_INSTALL_DIR}/var as needed.
 EOF
   )
   _INSTALL_WARNING_MESSAGES="${_INSTALL_WARNING_MESSAGES}${_WARNMSG}"
-  export TSURUGI_BASE=${TG_INSTALL_DIR}/var_default_${TSURUGI_VERSION}
+  export TSURUGI_BASE=${TG_INSTALL_DIR}/${_VAR_DEFAULT_DIRNAME}
 fi
 
 export TG_COMMON_CMAKE_BUILD_OPTIONS="${TG_COMMON_CMAKE_BUILD_OPTIONS}"
@@ -176,7 +206,7 @@ fi
 
 if [ "${_SYMBOLIC}" = "ON" ]; then
   cd "${_INSTALL_PREFIX}"
-  ln -nfs "tsurugi-${TSURUGI_VERSION}" "tsurugi"
+  ln -nfs "$(basename "${TG_INSTALL_DIR}")" "tsurugi"
   cd $OLDPWD
 fi
 
