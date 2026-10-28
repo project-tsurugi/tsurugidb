@@ -51,6 +51,7 @@ jobs:
           _DIRNAME_OPTION=""
           if [[ "${GITHUB_REF_TYPE}" != "tag" ]]; then
             _DIRNAME_OPTION="--dirname=tsurugi-snapshot"
+            export GRADLE_OPTS="${GRADLE_OPTS:+${GRADLE_OPTS} }-Dorg.gradle.caching=true -Dorg.gradle.parallel=true"
           fi
           CXXFLAGS="" ./install.sh --prefix=${GITHUB_WORKSPACE}/build-install-test --symbolic --skip=harinoki ${_DIRNAME_OPTION}
         env:
