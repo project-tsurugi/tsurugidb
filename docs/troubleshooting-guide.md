@@ -116,21 +116,15 @@ For more information of `tglogutil repair`, please see the following documentati
 ```sh
 
 $ $TSURUGI_HOME/bin/tgctl start
-E... sortdb_wrapper.h:86] /:limestone:api:sortdb_wrapper:put sortdb put error, status: IO error: While open a file for appending: /path/to/tsurugi/var/data/log/sorting/000082.sst: Too many open files
-I... dblog_scan.cpp:216] /:limestone catch runtime_error(error in sortdb put)
-I... datastore_snapshot.cpp:115] /:limestone:internal:create_sortdb_from_wals failed to scan pwal files: error in sortdb put
-E... datastore_snapshot.cpp:116] /:limestone recover process failed. (cause: corruption detected in transaction log data directory), see https://github.com/project-tsurugi/tsurugidb/blob/master/docs/troubleshooting-guide.md
-E... datastore_snapshot.cpp:118] /:limestone dblogdir (transaction log directory): "/path/to/tsurugi/var/data/log"
-E... transactional_kvs_resource.cpp:89] opening database failed
-E... server.cpp:98] Server application framework setup phase failed.
-E... backend.cpp:176] Starting server failed due to errors in setting up server application framework.
+E... log_entry_reader.cpp:130] /:limestone:internal:log_entry_reader:open_file I/O Error (Too many open files): cannot open file: /path/to/tsurugi/var/data/log/sorting-AbCdEf/sorted-82 (errno = 24)
+F... limestone_exception_helper.h:102] Fatal error in ready: I/O Error (Too many open files): cannot open file: /path/to/tsurugi/var/data/log/sorting-AbCdEf/sorted-82 (errno = 24) (at log_entry_reader.cpp:130)
 could not launch tsurugidb, as tsurugidb exited due to some error.
 
 ```
 
 #### Possible Cause or Solution
 
-When starting tsurugidb, a large number of files may be temporarily created if the transaction log is very large.
+When starting tsurugidb, the transaction log is sorted into temporary files under a `sorting-XXXXXX` directory in the log directory, and up to 128 of them are opened at once to be merged.
 If the maximum number of open files in the OS configuration is exceeded, the startup will fail with the error described above.
 
 To resolve this, set the maximum number of open files in the OS to an appropriate value. This can be set using the `ulimit` command, `limits.conf` or by changing the systemd configuration.
