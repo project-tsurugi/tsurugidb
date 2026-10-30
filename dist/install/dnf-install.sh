@@ -29,7 +29,6 @@ dnf install -y \
  numactl-devel \
  openssl \
  protobuf-devel \
- rocksdb-devel \
  tbb-devel \
  uuid-devel \
  which

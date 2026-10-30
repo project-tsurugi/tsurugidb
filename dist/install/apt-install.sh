@@ -30,12 +30,10 @@ apt-get install -y -V \
  libicu-dev \
  libjemalloc-dev \
  libjwt-dev \
- libleveldb-dev \
  libmsgpack-dev \
  libnuma-dev \
  libpq-dev \
  libprotobuf-dev \
- librocksdb-dev \
  libssl-dev \
  libtbb-dev \
  lsb-release \
