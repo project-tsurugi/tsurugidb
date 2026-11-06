@@ -83,7 +83,7 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose -j 16
+          ctest --no-tests=error --timeout 100 --verbose -j 16
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -138,7 +138,7 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose -j 16
+          ctest --no-tests=error --timeout 100 --verbose -j 16
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -192,7 +192,7 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose -j 16
+          ctest --no-tests=error --timeout 100 --verbose -j 16
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -240,7 +240,7 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose -j 16
+          ctest --no-tests=error --timeout 100 --verbose -j 16
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -288,7 +288,7 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose --timeout 100 -j 16
+          ctest --no-tests=error --verbose --timeout 100 -j 16
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -342,10 +342,10 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose --timeout 200 -j 16 -L CC
-          ctest --verbose --timeout 200 -j 16 -L LOGGING
-          SHIRAKAMI_ENABLE_WAITING_BYPASS=0 ctest --verbose --timeout 200 -j 16 -L WAITING_BYPASS
-          SHIRAKAMI_ENABLE_WAITING_BYPASS=1 ctest --verbose --timeout 200 -j 16 -L WAITING_BYPASS
+          ctest --no-tests=error --verbose --timeout 200 -j 16 -L CC
+          ctest --no-tests=error --verbose --timeout 200 -j 16 -L LOGGING
+          SHIRAKAMI_ENABLE_WAITING_BYPASS=0 ctest --no-tests=error --verbose --timeout 200 -j 16 -L WAITING_BYPASS
+          SHIRAKAMI_ENABLE_WAITING_BYPASS=1 ctest --no-tests=error --verbose --timeout 200 -j 16 -L WAITING_BYPASS
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -399,7 +399,7 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose --timeout 100 -j 16
+          ctest --no-tests=error --verbose --timeout 100 -j 16
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -453,7 +453,7 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose
+          ctest --no-tests=error --timeout 100 --verbose
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -508,7 +508,7 @@ jobs:
           ASAN_OPTIONS: detect_stack_use_after_return=true
         run: |
           cd build
-          ctest --verbose
+          ctest --no-tests=error --timeout 200 --verbose
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -563,7 +563,7 @@ jobs:
         run: |
           export LSAN_OPTIONS=suppressions=$(pwd)/etc/lsan/suppress.txt
           cd build
-          ctest --verbose --timeout 240 -j 16
+          ctest --no-tests=error --verbose --timeout 240 -j 16
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
@@ -618,7 +618,7 @@ jobs:
         run: |
           export PATH=$PATH:${GITHUB_WORKSPACE}/.local/bin
           cd build
-          ctest --verbose
+          ctest --no-tests=error --timeout 100 --verbose
 
       - name: Verify
         uses: project-tsurugi/tsurugi-annotations-action@v2
