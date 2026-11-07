@@ -163,6 +163,29 @@ sudo mkdir -p /opt/tsurugi/var/lock
 sudo chmod 1777 /opt/tsurugi/var/lock
 ```
 
+#### Installing into a fixed directory
+
+By default, `install.sh` installs Tsurugi into a directory named after the version, `<install_directory>/tsurugi-<tsurugi-version>`.
+If you specify `--dirname=<name>`, the script installs into `<install_directory>/<name>` instead, regardless of the version.
+This is useful when you reinstall Tsurugi repeatedly at the same path, such as when you build development versions.
+
+```sh
+$ ./install.sh --prefix=$HOME/opt --dirname=tsurugi-dev --symbolic
+...
+------------------------------------
+[Install Tsurugi successful]
+Install Directory: $HOME/opt/tsurugi-dev
+------------------------------------
+```
+
+`<name>` can contain letters, digits, `.`, `_` and `-`. However, `tsurugi` cannot be used because it conflicts with the name of the symbolic link created by `--symbolic`.
+
+When you install into a directory that already contains Tsurugi, note the following:
+
+- Stop the Tsurugi server (tsurugidb process) before installing.
+- Files of the previous installation are not removed. Files that exist only in the previous installation remain, so remove them manually if they are not needed. If the installation fails in the middle, the directory may contain a mix of old and new files. This option does not take into account any problems caused by files remaining from the previous installation.
+- The existing `var` directory is retained, and the default configuration files of the new version are generated under `var_default_<tsurugi-version>`.
+
 #### Installation Options for troubleshooting
 
 - `--parallel=<jobs>` Specifies the maximum number of parallel jobs for the build process to run during installation.

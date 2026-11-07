@@ -15,6 +15,13 @@ This is a generic guide for upgrading across versions of Tsurugi.
   - [Tsurugi Getting Started - Installation Instructions](https://github.com/project-tsurugi/tsurugidb/blob/master/docs/getting-started.md#installation-instructions)
   - The installer places Tsurugi into different directories for each version, so that previous versions will never be changed.
   - If `--symbolic` option is specified and a symbolic link for the old version already exists in that location, it will be changed to link to the new version.
+- If you install the new version into the same directory as the old version with the `--dirname` option, note the following. See [Tsurugi Getting Started - Installing into a fixed directory](https://github.com/project-tsurugi/tsurugidb/blob/master/docs/getting-started.md#installing-into-a-fixed-directory) for details.
+  - The old version is overwritten, and files that exist only in the old version are not removed.
+  - The old version cannot be restored after the installation. If you may need to go back to the old version, back up the installation directory (at least the `var` directory) before installing.
+  - The existing `var` directory is retained, so you do not need to copy the configuration file and the transaction log data directory from the old version in steps 4 and 5.
+  - The default configuration files of the new version are generated under `var_default_<tsurugi-version>`. Newer versions may have new items or changed default settings, so compare `var_default_<tsurugi-version>/etc/tsurugi.ini` with your `var/etc/tsurugi.ini` and apply the changes as needed.
+  - The new version uses the existing `var/data` directly. Log data migration possibly requires additional procedures, so check the release notes before installing.
+  - If the installation fails in the middle, the directory may contain a mix of old and new files. Run the installation again.
 
 ### 3. Update version of client library
 
