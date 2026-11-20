@@ -1005,7 +1005,7 @@ note:
 
 Identifiers cannot start with two consecutive underscores (`__`), they are reserved for system use.
 
-If `lowercase_regular_identifier=true` in `[sql]` section of `tsurugi.ini`, all regular identifiers becomes lowercase to achieve case-insensitive identifiers.
+If `lowercase_regular_identifiers=true` in `[sql]` section of `tsurugi.ini`, all regular identifiers becomes lowercase to achieve case-insensitive identifiers.
 If the above setting is enabled, existing tables and columns with capital names becomes be inaccessible with using regular identifiers.
 You can still access such the tables and columns to use delimited identifier with the capital name.
 
@@ -1027,7 +1027,7 @@ If you want to use a reserved word as an identifier, you can use delimited ident
 
 Identifiers cannot start with two consecutive underscores (`"__..."`), they are reserved for system use.
 
-The `sql.lowercase_regular_identifier` does not affect to delimited identifiers in contrast of regular identifiers.
+The `sql.lowercase_regular_identifiers` does not affect to delimited identifiers in contrast of regular identifiers.
 
 Note that delimited identifiers may not refer the some built-in functions, like `COUNT`.
 
