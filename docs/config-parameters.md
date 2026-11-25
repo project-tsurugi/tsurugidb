@@ -41,7 +41,7 @@ Target component
 |---:| :---: | :--- |---|
 | `epoch_duration` | Integer | Length of the epoch (us). The default is 3000. |
 | `waiting_resolver_threads` | Integer | Number of threads that process the waiting and pre-commit of the LTXs in the waiting list. Default is 2. |
-| `index_restore_threads` | Integer | Number of threads that process index recovery from datastore on startup. Default is 4. |
+| `index_restore_threads` | Integer | Number of threads that process index recovery from datastore on startup. The default value is the number of physical cores. If set to 0, index recovery is processed sequentially by a single thread. | Setting a value larger than the number of physical cores, such as the number of logical cores, makes the recovery slower. Each thread uses 32 MiB of read buffers. |
 
 ## `sql` section
 
