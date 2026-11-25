@@ -18,6 +18,7 @@ Target component
 | Parameter name | Type | Value | Remarks |
 |---:| :---: | :--- |---|
 | `log_location` | String | Path to the directory where the log is stored | This is a required parameter, and if it is not set, DB fails to start. |
+| `recover_max_parallelism` | Integer | Number of threads that sort log entries during datastore recovery on startup and during online compaction. The default is 8. | Each thread uses up to 256 MiB of memory for its sort buffer, so the default setting uses about 2 GiB of memory, both on startup and while online compaction is running. Lower the value on a machine with little memory. A value less than 1 causes DB startup to fail. |
 
 ## `authentication` section
 
