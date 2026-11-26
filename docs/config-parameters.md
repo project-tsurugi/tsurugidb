@@ -18,6 +18,7 @@ Target component
 | Parameter name | Type | Value | Remarks |
 |---:| :---: | :--- |---|
 | `log_location` | String | Path to the directory where the log is stored | This is a required parameter, and if it is not set, DB fails to start. |
+| `recover_max_parallelism` | Integer | Number of threads that sort log entries during datastore recovery on startup and during online compaction. The default is 8. | Each thread uses up to 256 MiB of memory for its sort buffer, so the default setting uses about 2 GiB of memory, both on startup and while online compaction is running. Lower the value on a machine with little memory. A value less than 1 causes DB startup to fail. |
 
 ## `authentication` section
 
@@ -40,7 +41,7 @@ Target component
 |---:| :---: | :--- |---|
 | `epoch_duration` | Integer | Length of the epoch (us). The default is 3000. |
 | `waiting_resolver_threads` | Integer | Number of threads that process the waiting and pre-commit of the LTXs in the waiting list. Default is 2. |
-| `index_restore_threads` | Integer | Number of threads that process index recovery from datastore on startup. Default is 4. |
+| `index_restore_threads` | Integer | Number of threads that process index recovery from datastore on startup. The default value is the number of physical cores. If set to 0, index recovery is processed sequentially by a single thread. | Setting a value larger than the number of physical cores, such as the number of logical cores, makes the recovery slower. Each thread uses 32 MiB of read buffers. |
 
 ## `sql` section
 

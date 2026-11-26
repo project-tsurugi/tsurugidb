@@ -321,6 +321,7 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
   <query-expression> UNION [<set-quantifier>] <query-expression>
   <query-expression> EXCEPT [DISTINCT] <query-expression>
   <query-expression> INTERSECT [DISTINCT] <query-expression>
+  ( <query-expression> )
 
 <set-quantifier>:
   ALL
@@ -381,8 +382,6 @@ CC_EXCEPTION (SQL-04000: serialization failed transaction:TID-000000000000003b s
       * This is equivalent to standard SQL `INNER JOIN LATERAL ... ON TRUE`
     * In the case of `OUTER APPLY`, if the table-valued function returns an empty result, each row from the left-hand side is preserved, and the columns from the function result are set to `NULL`
       * This is equivalent to standard SQL `LEFT OUTER JOIN LATERAL ... ON TRUE`
-* When binary query operations such as `UNION`, `EXCEPT`, or `INTERSECT` are used, parentheses (`(...)`) can be used to make the grouping explicit, for example:
-  * `(SELECT ... UNION ALL SELECT ...) INTERSECT SELECT ...`
 * When multiple `JOIN` or `APPLY` operations are combined, parentheses (`(...)`) can be used to make the grouping explicit, for example:
   * `FROM t1 LEFT JOIN (t2 JOIN t3 ON ...) ON ...`
   * `FROM (t1 OUTER APPLY f(t1.c0) AS x) JOIN t2 ON ...`
@@ -407,6 +406,7 @@ Limitation:
     * simple `CASE` expressions (e.g., `CASE a WHEN 1 THEN ... END`)
     * `NULLIF` (e.g., `NULLIF(a, 0)`)
   * This can be worked around by computing the expression as a column of a derived table in the `FROM` clause (e.g., `SELECT g, COUNT(*) FROM (SELECT CASE a WHEN 1 THEN 'one' ELSE 'other' END AS g FROM t) AS q GROUP BY g`)
+* A `<query-expression>` with `WITH` cannot be an operand of `UNION`, `EXCEPT`, or `INTERSECT`, even if it is enclosed in parentheses
 
 ## Value expressions
 
@@ -492,6 +492,8 @@ Limitation:
 ```
 
 * `LIKE` - if `ESCAPE` is not specified, no escape character is available
+* If the parenthesized operand of `IN` can be read as both `( <query-expression> )` and `( <value-expression> [, ...] )`, it is treated as the former
+  * e.g., `a IN ((SELECT ...))` is treated as a table subquery, not as a list of one scalar subquery
 
 ----
 Limitation:
